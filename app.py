@@ -1,38 +1,14 @@
-from flask import Flask, request, jsonify
-from models import db, Proveedor
-from __init__ import create_app
+from flask import Flask
+from models import db
+from routes.proveedores import proveedores_bp
 
-app = create_app()
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tienda.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@app.route('/proveedores', methods=['POST'])
-def crear_proveedor():
-    data = request.json
-    nuevo_proveedor = Proveedor(nombre=data['nombre'], contacto=data.get('contacto', ''))
-    db.session.add(nuevo_proveedor)
-    db.session.commit()
-    return jsonify({'mensaje': 'Proveedor creado con éxito'}), 201
+db.init_app(app)
 
-@app.route('/proveedores', methods=['GET'])
-def listar_proveedores():
-    proveedores = Proveedor.query.all()
-    resultado = [{'id': p.id, 'nombre': p.nombre, 'contacto': p.contacto} for p in proveedores]
-    return jsonify(resultado)
-
-@app.route('/proveedores/<int:id>', methods=['PUT'])
-def actualizar_proveedor(id):
-    data = request.get_json()
-    proveedor = Proveedor.query.get_or_404(id)
-    proveedor.nombre = data.get('nombre', proveedor.nombre)
-    proveedor.contacto = data.get('contacto', proveedor.contacto)
-    db.session.commit()
-    return jsonify({"mensaje": "Proveedor actualizado con éxito"})
-
-@app.route('/proveedores/<int:id>', methods=['DELETE'])
-def eliminar_proveedor(id):
-    proveedor = Proveedor.query.get_or_404(id)
-    db.session.delete(proveedor)
-    db.session.commit()
-    return jsonify({"mensaje": "Proveedor eliminado con éxito"})
+app.register_blueprint(proveedores_bp, url_prefix='/proveedores')
 
 if __name__ == '__main__':
     app.run(debug=True)
