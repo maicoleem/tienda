@@ -1,11 +1,12 @@
-from __init__ import db
+from flask_sqlalchemy import SQLAlchemy
 
 # Definición de modelos
+db = SQLAlchemy()
 class Proveedor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     contacto = db.Column(db.String(100), nullable=True)
-    telefono = db.Column(db.String(15), nullable=False)
+    telefono = db.Column(db.String(15), nullable=True)
 
 class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
