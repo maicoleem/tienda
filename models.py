@@ -22,10 +22,12 @@ class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     precio = db.Column(db.Float, nullable=False)
-    cantidad = db.Column(db.Integer, default=0)
+    stock = db.Column(db.Integer, nullable=False)
+    bodega_id = db.Column(db.Integer, db.ForeignKey('bodega.id'), nullable=False)
 
 class Bodega(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ubicacion = db.Column(db.String(200), nullable=False)
-    capacidad_maxima = db.Column(db.Integer, nullable=False)
+    nombre = db.Column(db.String(100), nullable=False)
+    ubicacion = db.Column(db.String(150), nullable=False)
+    productos = db.relationship('Producto', backref='bodega', lazy=True)
 
