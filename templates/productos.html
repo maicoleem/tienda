@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Productos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Bodega</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-productos">
+            <!-- Aquí se llenará con JavaScript -->
+        </tbody>
+    </table>
+    <script src="{{ url_for('static', filename='productos.js') }}"></script>
+</body>
+</html>
