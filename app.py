@@ -15,7 +15,7 @@ with app.app_context():
     db.create_all()
 
 app.register_blueprint(proveedores_bp, url_prefix='/proveedores')
-app.register_blueprint(clientes_bp, url_prefix='/clientes')
+app.register_blueprint(clientes_bp, url_prefix='/api/clientes')
 app.register_blueprint(empleados_bp, url_prefix='/empleados')
 app.register_blueprint(productos_bp, url_prefix='/api')
 
@@ -23,7 +23,16 @@ app.register_blueprint(productos_bp, url_prefix='/api')
 def index():
     return render_template('index.html')
 
+@app.route('/clientes')
+@app.route('/clientes/')
+def clientes():
+    return render_template('clientes.html')
+
+#print(app.url_map)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
 

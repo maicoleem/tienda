@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Clientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Gestión de Clientes</h1>
+    <section>
+        <h2>Crear Cliente</h2>
+        <form id="crear-cliente-form">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="phone">Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <button type="submit">Crear</button>
+            
+        </form>
+    </section>
+
+    <section>
+        <h2>Lista de Clientes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Telefono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-clientes">
+                <!-- Las filas se llenarán dinámicamente con JS -->
+            </tbody>
+        </table>
+    </section>
+
+    <script src="{{ url_for('static', filename='clientes.js') }}"></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models import db, Cliente
 
-clientes_bp = Blueprint('clientes', __name__)
+clientes_bp = Blueprint('/clientes', __name__)
 
 # Listar todos los clientes
 @clientes_bp.route('/', methods=['GET'])
