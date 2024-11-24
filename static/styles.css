@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px;
+    gap: 20px;
+}
+
+.lista-clientes, .formulario-clientes {
+    width: 45%;
+}
+
+.lista-clientes h2 {
+    text-align: center;
+}
+
+.lista-clientes input {
+    display: block;
+    width: 90%;
+    margin: 5px auto;
+    padding: 5px;
+}
+
+#clientes-lista {
+    list-style-type: none;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+}
+
+#clientes-lista li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+#clientes-lista li:hover {
+    background-color: #f0f0f0;
+}
+
+.formulario-clientes .botones {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+}
+
+form input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}

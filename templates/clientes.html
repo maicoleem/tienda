@@ -3,43 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Clientes</title>
+    <title>Clientes</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='clientes.js') }}" defer></script>
 </head>
 <body>
     <h1>Gestión de Clientes</h1>
-    <section>
-        <h2>Crear Cliente</h2>
-        <form id="crear-cliente-form">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="phone">Number:</label>
-            <input type="tel" id="phone" name="phone" required>
-            <button type="submit">Crear</button>
-            
-        </form>
-    </section>
+    <div class="container">
+        <!-- Sección de lista -->
+        <div class="lista-clientes">
+            <h2>Lista de Clientes</h2>
+            <input type="text" id="filtro-nombre" placeholder="Filtrar por nombre">
+            <input type="text" id="filtro-correo" placeholder="Filtrar por correo">
+            <input type="text" id="filtro-telefono" placeholder="Filtrar por teléfono">
+            <ul id="clientes-lista"></ul>
+        </div>
 
-    <section>
-        <h2>Lista de Clientes</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Correo</th>
-                    <th>Telefono</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-clientes">
-                <!-- Las filas se llenarán dinámicamente con JS -->
-            </tbody>
-        </table>
-    </section>
+        <!-- Sección de formulario -->
+        <div class="formulario-clientes">
+            <div class="botones">
+                <button id="btn-crear">Crear</button>
+                <button id="btn-actualizar" disabled>Actualizar</button>
+                <button id="btn-eliminar" disabled>Eliminar</button>
+            </div>
+            <form id="form-cliente">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
 
-    <script src="{{ url_for('static', filename='clientes.js') }}"></script>
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" required>
+
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required>
+            </form>
+            <div class="botnes_crear">
+                <button id="btn-guardar" disabled>Guardar</button>
+            </div>
+        </div>
+    </div>
+    <a href="/" style="display: block; margin-bottom: 20px;">Volver a la página principal</a>
 </body>
 </html>
