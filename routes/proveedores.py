@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models import db, Proveedor
 
-proveedores_bp = Blueprint('proveedores', __name__)
+proveedores_bp = Blueprint('/proveedores', __name__)
 
 @proveedores_bp.route('/', methods=['GET'])
 def listar_proveedores():

@@ -51,6 +51,7 @@ btnCrear.addEventListener('click', () =>{
     btnEliminar.disabled = true;
     limpiarFormulario()
 });
+
 btnGuardar.addEventListener('click', () => {
     const nombre = formCliente.nombre.value;
     const correo = formCliente.correo.value;
@@ -74,7 +75,6 @@ btnGuardar.addEventListener('click', () => {
 // Actualizar cliente
 btnActualizar.addEventListener('click', () => {
     if (!clienteSeleccionado) return;
-
     const clienteActualizado = {
         nombre: formCliente.nombre.value,
         correo: formCliente.correo.value,

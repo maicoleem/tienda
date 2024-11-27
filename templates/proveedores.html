@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proveedores</title>
+    <script src="{{ url_for('static', filename='proveedores.js') }}" defer></script>
+</head>
+<body>
+    <div id="lista-proveedores">
+        <h2>Lista de Proveedores</h2>
+        <input type="text" id="filtro_nombre" placeholder="Filtrar por nombre...">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-proveedores">
+                <!-- Las filas se llenarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+    <!-- seccion de formulario-->
+    <div class="formulario-proveedores">
+        <h2>Detalles del Proveedor</h2>
+    <div class="botones_proveedor">
+        <button id="crear">Crear</button>
+        <button id="actualizar" class="boton-deshabilitado" disabled>Actualizar</button>
+        <button id="eliminar" class="boton-deshabilitado" disabled>Eliminar</button>
+    </div>
+    <form id="form_proveedor">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="contacto">Contacto:</label>
+        <input type="text" id="contacto" name="contacto" required>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required>
+    </form>
+    <div class="botones_proveedor">
+        <button id="guardar" disabled>Guardar</button>
+    </div>
+    </div>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+</body>
+</html>
