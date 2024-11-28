@@ -16,7 +16,7 @@ with app.app_context():
 
 app.register_blueprint(proveedores_bp, url_prefix='/api/proveedores')
 app.register_blueprint(clientes_bp, url_prefix='/api/clientes')
-app.register_blueprint(empleados_bp, url_prefix='/empleados')
+app.register_blueprint(empleados_bp, url_prefix='/api/empleados')
 app.register_blueprint(productos_bp, url_prefix='/api')
 
 @app.route('/')
@@ -32,6 +32,10 @@ def clientes():
 @app.route('/proveedores/')
 def proveedores():
     return render_template('proveedores.html')
+@app.route('/empleados')
+@app.route('/empleados/')
+def empleados():
+    return render_template('empleados.html')
 
 #print(app.url_map)
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proveedores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='empleados.js') }}" defer></script>
+</head>
+<body>
+    <h1>Gestión de Empleados</h1>
+    <div class="container">
+        <div id="lista-clientes">
+            <h2>Lista de Empleados</h2>
+            <input type="text" id="filtro-nombre-empleado" placeholder="Filtrar por nombre...">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-empleados">
+                    <!-- Las filas se llenarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+        <!-- seccion de formulario-->
+        <div class="formulario-clientes">
+            <h2>Detalles del Empleados</h2>
+        <div class="botones-empleados">
+            <button id="crear-empleado">Crear</button>
+            <button id="actualizar-empleado" class="boton-deshabilitado" disabled>Actualizar</button>
+            <button id="eliminar-empleado" class="boton-deshabilitado" disabled>Eliminar</button>
+        </div>
+        <form id="formulario-empleado">
+            
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+    
+            <label for="cargo">Cargo:</label>
+            <input type="text" id="cargo" name="cargo" required>
+    
+        </form>
+        <div class="botones-empleados">
+            <button id="guardar-empleado" disabled>Guardar</button>
+        </div>
+        </div>
+    </div>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+</body>
+</html>
