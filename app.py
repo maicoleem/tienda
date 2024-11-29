@@ -5,6 +5,10 @@ from routes.proveedores import proveedores_bp
 from routes.clientes import clientes_bp
 from routes.empleados import empleados_bp
 from routes.productos import productos_bp
+from routes.bodegas import bodegas_bp
+from routes.almacenamiento import almacenamiento_bp
+from routes.libro_registro import libro_registro_bp
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tienda.db'
@@ -17,7 +21,10 @@ with app.app_context():
 app.register_blueprint(proveedores_bp, url_prefix='/api/proveedores')
 app.register_blueprint(clientes_bp, url_prefix='/api/clientes')
 app.register_blueprint(empleados_bp, url_prefix='/api/empleados')
-app.register_blueprint(productos_bp, url_prefix='/api')
+app.register_blueprint(productos_bp, url_prefix='/api/productos')
+app.register_blueprint(bodegas_bp, url_prefix='/api/bodegas')
+app.register_blueprint(almacenamiento_bp, url_prefix='/api/almacenamiento')
+app.register_blueprint(libro_registro_bp, url_prefix='/api/libro_registro')
 
 @app.route('/')
 def index():

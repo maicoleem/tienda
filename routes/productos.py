@@ -1,83 +1,70 @@
-from flask import Blueprint, jsonify, request
-from models import db, Producto, Bodega
+from flask import Blueprint, request, jsonify
+from models import db, Producto
 
 productos_bp = Blueprint('productos', __name__)
 
-# --- Rutas para Productos ---
-
 # Listar todos los productos
-@productos_bp.route('/productos', methods=['GET'])
+@productos_bp.route('/api/productos', methods=['GET'])
 def listar_productos():
     productos = Producto.query.all()
-    resultado = [{"id": p.id, "nombre": p.nombre, "precio": p.precio, "stock": p.stock, "bodega_id": p.bodega_id} for p in productos]
-    return jsonify(resultado)
+    return jsonify([{
+        "id": p.id,
+        "referencia": p.referencia,
+        "nombre": p.nombre,
+        "tipo": p.tipo
+    } for p in productos])
 
-# Crear un producto
-@productos_bp.route('/productos', methods=['POST'])
+# Obtener un producto por ID
+@productos_bp.route('/api/productos/<int:id>', methods=['GET'])
+def obtener_producto(id):
+    producto = Producto.query.get(id)
+    if not producto:
+        return jsonify({"error": "Producto no encontrado"}), 404
+    return jsonify({
+        "id": producto.id,
+        "referencia": producto.referencia,
+        "nombre": producto.nombre,
+        "tipo": producto.tipo
+    })
+
+# Crear un nuevo producto
+@productos_bp.route('/api/productos', methods=['POST'])
 def crear_producto():
-    data = request.get_json()
+    data = request.json
+    if not data.get('referencia') or not data.get('nombre') or not data.get('tipo'):
+        return jsonify({"error": "Todos los campos son obligatorios"}), 400
+    
     nuevo_producto = Producto(
+        referencia=data['referencia'],
         nombre=data['nombre'],
-        precio=data['precio'],
-        stock=data['stock'],
-        bodega_id=data['bodega_id']
+        tipo=data['tipo']
     )
     db.session.add(nuevo_producto)
     db.session.commit()
-    return jsonify({"mensaje": "Producto creado con éxito"})
+    return jsonify({"mensaje": "Producto creado exitosamente"}), 201
 
 # Actualizar un producto
-@productos_bp.route('/productos/<int:id>', methods=['PUT'])
+@productos_bp.route('/api/productos/<int:id>', methods=['PUT'])
 def actualizar_producto(id):
-    producto = Producto.query.get_or_404(id)
-    data = request.get_json()
+    producto = Producto.query.get(id)
+    if not producto:
+        return jsonify({"error": "Producto no encontrado"}), 404
+    
+    data = request.json
+    producto.referencia = data.get('referencia', producto.referencia)
     producto.nombre = data.get('nombre', producto.nombre)
-    producto.precio = data.get('precio', producto.precio)
-    producto.stock = data.get('stock', producto.stock)
-    producto.bodega_id = data.get('bodega_id', producto.bodega_id)
+    producto.tipo = data.get('tipo', producto.tipo)
+    
     db.session.commit()
-    return jsonify({"mensaje": "Producto actualizado con éxito"})
+    return jsonify({"mensaje": "Producto actualizado exitosamente"})
 
 # Eliminar un producto
-@productos_bp.route('/productos/<int:id>', methods=['DELETE'])
+@productos_bp.route('/api/productos/<int:id>', methods=['DELETE'])
 def eliminar_producto(id):
-    producto = Producto.query.get_or_404(id)
+    producto = Producto.query.get(id)
+    if not producto:
+        return jsonify({"error": "Producto no encontrado"}), 404
+    
     db.session.delete(producto)
     db.session.commit()
-    return jsonify({"mensaje": "Producto eliminado con éxito"})
-
-# --- Rutas para Bodegas ---
-
-# Listar todas las bodegas
-@productos_bp.route('/bodegas', methods=['GET'])
-def listar_bodegas():
-    bodegas = Bodega.query.all()
-    resultado = [{"id": b.id, "nombre": b.nombre, "ubicacion": b.ubicacion} for b in bodegas]
-    return jsonify(resultado)
-
-# Crear una bodega
-@productos_bp.route('/bodegas', methods=['POST'])
-def crear_bodega():
-    data = request.get_json()
-    nueva_bodega = Bodega(nombre=data['nombre'], ubicacion=data['ubicacion'])
-    db.session.add(nueva_bodega)
-    db.session.commit()
-    return jsonify({"mensaje": "Bodega creada con éxito"})
-
-# Actualizar una bodega
-@productos_bp.route('/bodegas/<int:id>', methods=['PUT'])
-def actualizar_bodega(id):
-    bodega = Bodega.query.get_or_404(id)
-    data = request.get_json()
-    bodega.nombre = data.get('nombre', bodega.nombre)
-    bodega.ubicacion = data.get('ubicacion', bodega.ubicacion)
-    db.session.commit()
-    return jsonify({"mensaje": "Bodega actualizada con éxito"})
-
-# Eliminar una bodega
-@productos_bp.route('/bodegas/<int:id>', methods=['DELETE'])
-def eliminar_bodega(id):
-    bodega = Bodega.query.get_or_404(id)
-    db.session.delete(bodega)
-    db.session.commit()
-    return jsonify({"mensaje": "Bodega eliminada con éxito"})
+    return jsonify({"mensaje": "Producto eliminado exitosamente"})

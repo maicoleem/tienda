@@ -26,10 +26,18 @@ class Producto(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)
 
-# Modelo de Bodega
+#Modelo Bodega
 class Bodega(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    referencia = db.Column(db.String(100), unique=True, nullable=False)
+    codigo = db.Column(db.String(6), unique=True, nullable=False)
+    nombre = db.Column(db.String(20), nullable=False)
+    descripcion = db.Column(db.String(100), nullable=False)
+
+# Modelo de Almacenamiento de productos en bodega
+class Almacenamiento(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    bodega = db.Column(db.String(100), nullable=False)
+    referencia = db.Column(db.String(100), nullable=False)
     nombre = db.Column(db.String(100), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
