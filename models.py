@@ -19,16 +19,31 @@ class Empleado(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     cargo = db.Column(db.String(100), nullable=False)
 
+# Modelo de Producto
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    referencia = db.Column(db.String(100), unique=True, nullable=False)
     nombre = db.Column(db.String(100), nullable=False)
-    precio = db.Column(db.Float, nullable=False)
-    stock = db.Column(db.Integer, nullable=False)
-    bodega_id = db.Column(db.Integer, db.ForeignKey('bodega.id'), nullable=False)
+    tipo = db.Column(db.String(50), nullable=False)
 
+# Modelo de Bodega
 class Bodega(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    referencia = db.Column(db.String(100), unique=True, nullable=False)
     nombre = db.Column(db.String(100), nullable=False)
-    ubicacion = db.Column(db.String(150), nullable=False)
-    productos = db.relationship('Producto', backref='bodega', lazy=True)
+    tipo = db.Column(db.String(50), nullable=False)
+    cantidad = db.Column(db.Integer, nullable=False)
+    precio_compra = db.Column(db.Float, nullable=False)
+    precio_venta = db.Column(db.Float, nullable=False)
 
+# Modelo de Libro de Registro
+class LibroRegistro(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fecha = db.Column(db.DateTime, nullable=False)
+    referencia = db.Column(db.String(100), nullable=False)
+    nombre = db.Column(db.String(100), nullable=False)
+    movimiento = db.Column(db.String(50), nullable=False)  # Entrada o Salida
+    cantidad = db.Column(db.Integer, nullable=False)
+    valor = db.Column(db.Float, nullable=False)
+    ganancia = db.Column(db.Float, nullable=False) # 0 para compras
+    observaciones = db.Column(db.Text, nullable=True)
