@@ -5,7 +5,7 @@ const btnEliminarProveedor = document.getElementById('eliminar')
 const btnGuardarProveedor = document.getElementById('guardar')
 
 //formulario
-const formProveedor = document.getElementById('formulario-proveedores');
+const formProveedor = document.getElementById('form_proveedor');
 
 //listas
 const listaProveedores= document.getElementById('lista-proveedores');
@@ -53,12 +53,7 @@ btnCrearProveedor.addEventListener('click', () =>{
     btnGuardarProveedor.disabled = false;
     limpiarFormulario()
 });
-//limpiar formulario
-function limpiarFormulario(){
-    formProveedor.nombre.value = '';
-    formProveedor.contacto.value = '';
-    formProveedor.telefono.value = '';
-}
+
 //guardar proveedor
 btnGuardarProveedor.addEventListener('click', () => {
     const nombre = formProveedor.nombre.value;
@@ -72,8 +67,8 @@ btnGuardarProveedor.addEventListener('click', () => {
         .then(response => {
             if (response.ok) {
                 alert('Proveedor creado con éxito');
-                limpiarFormulario()
                 cargarProveedores()
+                limpiarFormulario()
             } else {
                 alert('Error al crear proveedor');
             }
@@ -114,6 +109,12 @@ function filtrarListaProveedores() {
                 ? ''
                 : 'none';
     });
+}
+//limpiar formulario
+function limpiarFormulario(){
+    formProveedor.nombre.value = '';
+    formProveedor.contacto.value = '';
+    formProveedor.telefono.value = '';
 }
 
 filtroNombreProveedores.addEventListener('input', filtrarListaProveedores)

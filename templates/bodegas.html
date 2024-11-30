@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodegas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bodegas.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h2>Lista de Bodegas</h2>
+            <input type="text" id="filterCodigo" placeholder="Filtrar por Código">
+            <input type="text" id="filterNombre" placeholder="Filtrar por Nombre">
+            <ul id="bodegaList"></ul>
+        </div>
+        <div class="right-panel">
+            <h2>Gestión de Bodegas</h2>
+            <button id="crearBtn">Crear</button>
+            <button id="guardarBtn" disabled>Guardar</button>
+            <button id="actualizarBtn" disabled>Actualizar</button>
+            <button id="eliminarBtn" disabled>Eliminar</button>
+            <div>
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigo">
+            </div>
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre">
+            </div>
+            <div>
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion"></textarea>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='bodegas.js') }}"></script>
+</body>
+</html>

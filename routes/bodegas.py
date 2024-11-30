@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
 from models import db, Bodega
 
-bodegas_bp = Blueprint('bodegas', __name__)
+bodegas_bp = Blueprint('/bodegas', __name__)
 
 # Listar todas las bodegas
-@bodegas_bp.route('/api/bodegas', methods=['GET'])
+@bodegas_bp.route('/', methods=['GET'])
 def listar_bodegas():
     bodegas = Bodega.query.all()
     return jsonify([{
@@ -15,7 +15,7 @@ def listar_bodegas():
     } for b in bodegas])
 
 # Obtener una bodega por ID
-@bodegas_bp.route('/api/bodegas/<int:id>', methods=['GET'])
+@bodegas_bp.route('/<int:id>', methods=['GET'])
 def obtener_bodega(id):
     bodega = Bodega.query.get(id)
     if not bodega:
@@ -28,7 +28,7 @@ def obtener_bodega(id):
     })
 
 # Crear una nueva bodega
-@bodegas_bp.route('/api/bodegas', methods=['POST'])
+@bodegas_bp.route('/', methods=['POST'])
 def crear_bodega():
     data = request.json
     if not data.get('codigo') or not data.get('nombre') or not data.get('descripcion'):
@@ -44,7 +44,7 @@ def crear_bodega():
     return jsonify({"mensaje": "Bodega creada exitosamente"}), 201
 
 # Actualizar una bodega
-@bodegas_bp.route('/api/bodegas/<int:id>', methods=['PUT'])
+@bodegas_bp.route('/<int:id>', methods=['PUT'])
 def actualizar_bodega(id):
     bodega = Bodega.query.get(id)
     if not bodega:
@@ -59,7 +59,7 @@ def actualizar_bodega(id):
     return jsonify({"mensaje": "Bodega actualizada exitosamente"})
 
 # Eliminar una bodega
-@bodegas_bp.route('/api/bodegas/<int:id>', methods=['DELETE'])
+@bodegas_bp.route('/<int:id>', methods=['DELETE'])
 def eliminar_bodega(id):
     bodega = Bodega.query.get(id)
     if not bodega:

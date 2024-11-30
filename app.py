@@ -39,10 +39,16 @@ def clientes():
 @app.route('/proveedores/')
 def proveedores():
     return render_template('proveedores.html')
+
 @app.route('/empleados')
 @app.route('/empleados/')
 def empleados():
     return render_template('empleados.html')
+
+@app.route('/bodegas')
+@app.route('/bodegas/')
+def bodegas():
+    return render_template('bodegas.html')
 
 #print(app.url_map)
 

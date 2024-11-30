@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    height: 90vh;
+    border: 1px solid #ccc;
+}
+
+.left-panel, .right-panel {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.left-panel {
+    border-right: 1px solid #ccc;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    margin: 5px 0;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 15px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+ul li:hover {
+    background-color: #f0f0f0;
+}
