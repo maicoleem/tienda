@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models import db, Empleado
 
-empleados_bp = Blueprint('empleados', __name__)
+empleados_bp = Blueprint('/empleados', __name__)
 
 # Listar todos los empleados
 @empleados_bp.route('/', methods=['GET'])

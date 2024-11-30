@@ -8,7 +8,7 @@ const btnGuardarEmpleado = document.getElementById('guardar-empleado');
 const formEmpleados = document.getElementById('formulario-empleado');
 
 //listas
-const listaEmpleados = document.getElementById('lista-empleados');
+const listaEmpleados = document.getElementById('tabla-empleados');
 
 //filtros
 const filtroNombreEmpleados = document.getElementById('filtro-nombre-empleado');
