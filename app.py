@@ -50,6 +50,11 @@ def empleados():
 def bodegas():
     return render_template('bodegas.html')
 
+@app.route('/productos')
+@app.route('/productos/')
+def productos():
+    return render_template('productos.html')
+
 #print(app.url_map)
 
 if __name__ == '__main__':

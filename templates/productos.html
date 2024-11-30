@@ -1,28 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Productos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='productos.css') }}">
+    <script defer src="{{ url_for('static', filename='productos.js') }}"></script>
 </head>
 <body>
-    <h1>Productos</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Bodega</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="tabla-productos">
-            <!-- Aquí se llenará con JavaScript -->
-        </tbody>
-    </table>
-    <script src="{{ url_for('static', filename='productos.js') }}"></script>
+    <h1>Gestión de Productos</h1>
+    <div class="container">
+        <div class="listado">
+            <h2>Lista de Productos</h2>
+            <input type="text" id="filterReferencia" placeholder="Filtrar por Referencia">
+            <input type="text" id="filterNombre" placeholder="Filtrar por Nombre">
+            <ul id="productosList"></ul>
+        </div>
+        <div class="formulario">
+            <h2>Detalles del Producto</h2>
+            <button id="crearBtn">Crear</button>
+            <button id="actualizarBtn" disabled>Actualizar</button>
+            <button id="eliminarBtn" disabled>Eliminar</button>
+            <form id="productoForm">
+                <label for="referencia">Referencia:</label>
+                <input type="text" id="referencia" name="referencia">
+                
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre">
+                
+                <label for="tipo">Tipo:</label>
+                <input type="text" id="tipo" name="tipo">
+                
+                <button type="button" id="guardarBtn" disabled>Guardar</button>
+            </form>
+        </div>
+    </div>
+    <a href="/" style="display: block; margin-bottom: 20px;">Volver a la página principal</a>
 </body>
 </html>
