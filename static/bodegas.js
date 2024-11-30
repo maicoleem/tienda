@@ -11,7 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('guardarBtn').addEventListener('click', () => {
         const nuevaBodega = getFormData();
-        crearBodega(nuevaBodega);
+        if (validateForm(nuevaBodega)) {
+            crearBodega(nuevaBodega);
+            resetForm();
+        } else {
+            alert('Por favor, complete todos los campos.');
+        }
     });
 
     document.getElementById('actualizarBtn').addEventListener('click', () => {
@@ -26,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('eliminarBtn').addEventListener('click', () => {
         if (confirm('¿Estás seguro de eliminar esta bodega?')) {
             eliminarBodega(selectedBodegaId);
+            resetForm();
         }
     });
 
@@ -110,4 +116,8 @@ function filterBodegas() {
         const visible = codigo.includes(filterCodigo) && nombre.includes(filterNombre);
         bodega.style.display = visible ? '' : 'none';
     });
+}
+
+function validateForm(bodega) {
+    return bodega.codigo && bodega.nombre && bodega.descripcion;
 }
