@@ -48,10 +48,16 @@ class Almacenamiento(db.Model):
 class LibroRegistro(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fecha = db.Column(db.DateTime, nullable=False)
+    empleado = db.Column(db.String(100), nullable=True)
+    proveedor = db.Column(db.String(100), nullable=True)
+    cliente = db.Column(db.String(100), nullable=True)
+    movimiento = db.Column(db.String(50), nullable=False)  # Entrada o Salida
     referencia = db.Column(db.String(100), nullable=False)
     nombre = db.Column(db.String(100), nullable=False)
-    movimiento = db.Column(db.String(50), nullable=False)  # Entrada o Salida
+    tipo = db.Column(db.String(50), nullable=False)
+    bodega = db.Column(db.String(100), nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
-    valor = db.Column(db.Float, nullable=False)
+    precio_compra = db.Column(db.Float, nullable=False)
+    precio_venta = db.Column(db.Float, nullable=False)
     ganancia = db.Column(db.Float, nullable=False) # 0 para compras
     observaciones = db.Column(db.Text, nullable=True)

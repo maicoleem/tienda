@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Compras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='compras.css') }}">
+    <script src="{{ url_for('static', filename='compras.js') }}"></script>
+
+</head>
+<body>
+    <div class="container">
+        <!-- Bloque 1: Búsqueda de productos y bodegas -->
+        <div class="search-section">
+            <h2>Buscar Productos y Bodegas</h2>
+            <div class="search-box">
+                <label for="producto-busqueda">Producto:</label>
+                <input type="text" id="producto-busqueda" placeholder="Buscar producto...">
+                <ul id="producto-lista"></ul>
+            </div>
+            <div class="search-box">
+                <label for="bodega-busqueda">Bodega:</label>
+                <input type="text" id="bodega-busqueda" placeholder="Buscar bodega...">
+                <ul id="bodega-lista"></ul>
+            </div>
+        </div>
+
+        <!-- Bloque 2: Formulario para nuevo registro -->
+        <div class="form-section">
+            <h2>Nuevo Registro</h2>
+            <form id="registro-form">
+                <label for="fecha">Fecha:</label>
+                <input type="datetime-local" id="fecha" name="fecha" required>
+
+                <label for="empleado">Empleado:</label>
+                <select id="empleado" name="empleado" class="select-busqueda" required>
+                    <option value="">Seleccione un empleado...</option>
+                </select>
+
+                <label for="proveedor">Proveedor:</label>
+                <select id="proveedor" name="proveedor" class="select-busqueda">
+                    <option value="">Seleccione un proveedor...</option>
+                </select>
+
+                <label for="cliente">Cliente:</label>
+                <select id="cliente" name="cliente" class="select-busqueda">
+                    <option value="">Seleccione un cliente...</option>
+                </select>
+
+
+                <label for="movimiento">Movimiento:</label>
+                <select id="movimiento" name="movimiento" required>
+                    <option value="Entrada">Entrada</option>
+                    <option value="Salida">Salida</option>
+                </select>
+
+                <label for="referencia">Referencia del Producto:</label>
+                <input type="text" id="referencia" name="referencia" required>
+                <button type="button" id="validar-referencia-btn">Validar</button>
+                <label><input type="checkbox" id="nuevo-producto-checkbox"> Nuevo Producto</label>
+
+                <label for="nombre">Nombre del Producto:</label>
+                <input type="text" id="nombre" name="nombre" required disabled>
+
+                <label for="tipo">Tipo:</label>
+                <input type="text" id="tipo" name="tipo" required disabled>
+
+                <label for="bodega">Bodega:</label>
+                <input type="text" id="bodega" name="bodega" required>
+                <button type="button" id="validar-bodega-btn">Validar</button>
+
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad" required min="1">
+
+                <label for="precio-compra">Precio de Compra:</label>
+                <input type="number" id="precio-compra" name="precio-compra" step="0.01" required min="0">
+
+                <label for="precio-venta">Precio de Venta:</label>
+                <input type="number" id="precio-venta" name="precio-venta" step="0.01" required min="0">
+
+                <label for="ganancia">Ganancia:</label>
+                <input type="number" id="ganancia" name="ganancia" step="0.01" required min="0" value="0">
+
+                <label for="observaciones">Observaciones:</label>
+                <textarea id="observaciones" name="observaciones"></textarea>
+
+                <button type="submit" id="guardar-registro-btn">Guardar</button>
+            </form>
+        </div>
+
+        <!-- Bloque 3: Historial de registros -->
+        <div class="history-section">
+            <h2>Historial de Registros</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th><input type="text" id="filtro-fecha" placeholder="Fecha"></th>
+                        <th><input type="text" id="filtro-empleado" placeholder="Empleado"></th>
+                        <th><input type="text" id="filtro-proveedor" placeholder="Proveedor"></th>
+                        <th><input type="text" id="filtro-cliente" placeholder="Cliente"></th>
+                        <th>
+                            <select id="filtro-movimiento">
+                                <option value="">Movimiento</option>
+                                <option value="Entrada">Entrada</option>
+                                <option value="Salida">Salida</option>
+                            </select>
+                        </th>
+                        <th><input type="text" id="filtro-referencia" placeholder="Referencia"></th>
+                        <th><input type="text" id="filtro-nombre" placeholder="Nombre"></th>
+                        <th><input type="text" id="filtro-bodega" placeholder="Bodega"></th>
+                        <th><input type="text" id="filtro-cantidad" placeholder="Cantidad"></th>
+                        <th><input type="text" id="filtro-valor" placeholder="Valor"></th>
+                        <th><input type="text" id="filtro-ganancia" placeholder="Ganancia"></th>
+                    </tr>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Empleado</th>
+                        <th>Proveedor</th>
+                        <th>Cliente</th>
+                        <th>Movimiento</th>
+                        <th>Referencia</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Bodega</th>
+                        <th>Cantidad</th>
+                        <th>Precio Compra</th>
+                        <th>Precio Venta</th>
+                        <th>Ganancia</th>
+                        <th>Observaciones</th>
+                    </tr>        
+                </thead>
+                <tbody id="historial-lista">
+                    <!-- Filas generadas dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

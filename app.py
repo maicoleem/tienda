@@ -8,7 +8,7 @@ from routes.productos import productos_bp
 from routes.bodegas import bodegas_bp
 from routes.almacenamiento import almacenamiento_bp
 from routes.libro_registro import libro_registro_bp
-
+from routes.compras import compras_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tienda.db'
@@ -25,10 +25,15 @@ app.register_blueprint(productos_bp, url_prefix='/api/productos')
 app.register_blueprint(bodegas_bp, url_prefix='/api/bodegas')
 app.register_blueprint(almacenamiento_bp, url_prefix='/api/almacenamiento')
 app.register_blueprint(libro_registro_bp, url_prefix='/api/libro_registro')
+app.register_blueprint(compras_bp)
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/compras')
+def compras():
+    return render_template('compras.html')
 
 @app.route('/clientes')
 @app.route('/clientes/')
