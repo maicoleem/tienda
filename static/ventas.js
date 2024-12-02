@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('bodega').value = almacenamiento.bodega;
                 document.getElementById('precio-compra').value = almacenamiento.precio_compra;
                 document.getElementById('precio-venta').value = almacenamiento.precio_venta;
+                document.getElementById('ganancia').value = almacenamiento.id;               
             });
         });
     };
@@ -177,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return {
                 fecha: columnas[0].textContent,
                 empleado: columnas[1].textContent,
+                proveedor: columnas[2].textContent,
                 cliente: columnas[3].textContent,
                 movimiento: columnas[4].textContent,
                 referencia: columnas[5].textContent,
@@ -184,7 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 tipo: columnas[7].textContent,
                 bodega: columnas[8].textContent,
                 cantidad: columnas[9].textContent,
+                precio_compra: columnas[10].textContent,
                 precio_venta: columnas[11].textContent,
+                ganancia: columnas[12].textContent,
                 observaciones: columnas[13].textContent || ""
             };
         });
@@ -221,6 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Hubo un problema al realizar la venta. Consulte la consola para más detalles.');
         }
     };
+    // Función para establecer la fecha y hora actual
+    const establecerFechaActual = () => {
+        const campoFecha = document.getElementById('fecha');
+        const ahora = new Date();
+        const fechaISO = ahora.toISOString().slice(0, 16); // Formato "YYYY-MM-DDTHH:MM"
+        campoFecha.value = fechaISO;
+    };
 
     // Evento para el botón de realizar venta
     botonGuardar.addEventListener('click', realizarVenta);
@@ -243,8 +254,10 @@ document.addEventListener('DOMContentLoaded', () => {
     configurarBusquedaSelect('proveedor');
     configurarBusquedaSelect('cliente');
 
+    // Establecer fecha actual al cargar la página
+    establecerFechaActual();
+
     document.getElementById('almacenamiento-busqueda').addEventListener('input', (e) => {
         buscarAlmacenamiento(e.target.value)
     })
-
 });

@@ -51,10 +51,14 @@ def realizar_venta():
             cantidad_venta = registro.get('cantidad')
 
             # Validar que el producto exista en almacenamiento
-            almacenamiento = Almacenamiento.query.filter_by(referencia=referencia, bodega=registro.get('bodega')).first()
+            almacenamiento_id = registro.get('ganancia')
+            if not almacenamiento_id:
+                return jsonify({"error": "El ID del almacenamiento no fue proporcionado"}), 400
+            
+            almacenamiento = Almacenamiento.query.get(almacenamiento_id)#Almacenamiento.query.filter_by(id=registro.get('id')).first()
             if not almacenamiento:
                 return jsonify({"error": f"Producto con referencia {referencia} no encontrado en la bodega especificada"}), 404
-
+            
             # Verificar que haya suficiente cantidad
             if almacenamiento.cantidad < int(cantidad_venta):
                 return jsonify({"error": f"No hay suficiente cantidad para la referencia {referencia}"}), 400

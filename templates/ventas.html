@@ -22,7 +22,7 @@
          <h2>Nuevo Registro</h2>
          <form id="registro-form">
             <label for="fecha">Fecha:</label>
-            <input type="datetime-local" id="fecha" name="fecha" required>
+            <input type="datetime-local" id="fecha" name="fecha" required disabled>
 
             <label for="empleado">Empleado:</label>
             <select id="empleado" name="empleado" class="select-busqueda" required>
@@ -45,7 +45,7 @@
             </select>
 
             <label for="referencia">Referencia del Producto:</label>
-            <input type="text" id="referencia" name="referencia" required>
+            <input type="text" id="referencia" name="referencia" required disabled>
             
             <label for="nombre">Nombre del Producto:</label>
             <input type="text" id="nombre" name="nombre" required disabled>
@@ -54,22 +54,22 @@
             <input type="text" id="tipo" name="tipo" required disabled>
 
             <label for="bodega">Bodega:</label>
-            <input type="text" id="bodega" name="bodega" required>
+            <input type="text" id="bodega" name="bodega" required disabled>
 
             <label for="cantidad">Cantidad disponible:</label>
-            <input type="number" id="cantidad-disponible" name="cantidad" required min="1">
+            <input type="number" id="cantidad-disponible" name="cantidad" required min="1" disabled>
             
             <label for="cantidad">Cantidad venta:</label>
             <input type="number" id="cantidad" name="cantidad" required min="1">
 
             <label for="precio-compra">Precio de Compra:</label>
-            <input type="number" id="precio-compra" name="precio-compra" step="0.01" required min="0">
+            <input type="number" id="precio-compra" name="precio-compra" step="0.01" required min="0" disabled>
 
             <label for="precio-venta">Precio de Venta:</label>
             <input type="number" id="precio-venta" name="precio-venta" step="0.01" required min="0">
 
-            <label for="ganancia">Ganancia:</label>
-            <input type="number" id="ganancia" name="ganancia" step="0.01" required min="0" value="0">
+            <label for="ganancia">id almacenamiento:</label>
+            <input type="number" id="ganancia" name="ganancia" step="0.01" required min="0" value="0" disabled>
 
             <label for="observaciones">Observaciones:</label>
             <textarea id="observaciones" name="observaciones"></textarea>
@@ -99,9 +99,9 @@
                     <th><input type="text" id="filtro-tipo" placeholder="Tipo"></th>
                     <th><input type="text" id="filtro-bodega" placeholder="Bodega"></th>
                     <th><input type="text" id="filtro-cantidad" placeholder="Cantidad"></th>
-                    <th><input type="text" id="filtro-compra" placeholder="precio-compra"></th>
-                    <th><input type="text" id="filtro-venta" placeholder="precio-venta"></th>
-                    <th><input type="text" id="filtro-ganancia" placeholder="Ganancia"></th>
+                    <th><input type="text" id="filtro-compra" placeholder="precio compra"></th>
+                    <th><input type="text" id="filtro-venta" placeholder="precio venta"></th>
+                    <th><input type="text" id="filtro-ganancia" placeholder="id almacenamiento"></th>
                     <th><input type="text" id="filtro-observaciones" placeholder="Observaciones"></th>
                 </tr>
                 <tr>
@@ -117,7 +117,7 @@
                     <th>Cantidad</th>
                     <th>Precio Compra</th>
                     <th>Precio Venta</th>
-                    <th>Ganancia</th>
+                    <th>ID alamacenamiento</th>
                     <th>Observaciones</th>
                 </tr>        
             </thead>
