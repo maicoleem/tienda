@@ -12,13 +12,39 @@ body {
     padding: 20px;
 }
 
+.search-section{
+    max-width: 200px;
+}
+.encabezado{
+    display: flex;
+    max-width: 190px;
+    align-items: center;
+    gap: 10px;
+}
+.producto-formulario, .datos-compra{
+    display: flex;
+    min-width: 1000px;
+    min-height: 40px;
+    gap: 10px;
+    align-items: center;    
+}
+#validar-referencia-btn{
+    max-width: 80px;
+    max-height: 40px;
+}
+
+#observaciones{
+    display: flex;
+    min-width: 500px;
+    min-height: 50px;
+}
+
 .search-section, .form-section, .history-section {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex: 1 1 30%;
-    min-width: 280px;
 }
 
 .search-section h2, .form-section h2, .history-section h2 {
@@ -69,13 +95,13 @@ input, textarea, button {
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #767ef3;
+    color: rgb(22, 21, 21);
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #c560f3;
 }
 
 table {

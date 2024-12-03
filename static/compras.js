@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const campoTipo = document.getElementById('tipo');
     const botonGuardar = document.getElementById('guardar-registro-btn');
     const botonValidarReferencia = document.getElementById('validar-referencia-btn');
+    // Obtener los inputs
+    const cantidadInput = document.getElementById('cantidad');
+    const precioCompraInput = document.getElementById('precio-compra');
+    const precioVentaInput = document.getElementById('precio-venta');
+    const gananciaInput = document.getElementById('ganancia');
 
     // Habilitar/deshabilitar campos al cambiar el estado del checkbox
     checkboxNuevoProducto.addEventListener('change', () => {
@@ -264,12 +269,31 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Hubo un problema al cargar los registros. Consulte la consola para más detalles.');
         }
     };
+    // Función para calcular la ganancia
+    function calcularGanancia() {
+        const cantidad = parseFloat(cantidadInput.value) || 0;
+        const precioCompra = parseFloat(precioCompraInput.value) || 0;
+        const precioVenta = parseFloat(precioVentaInput.value) || 0;
+
+        // Evitar división por 0 y verificar valores
+        if (cantidad > 0) {
+            const ganancia = (precioVenta - precioCompra) / cantidad;
+            gananciaInput.value = ganancia.toFixed(2);
+        } else {
+            gananciaInput.value = '0.00';
+        }
+    }
 
     // Cargar registros al cargar la página
     cargarRegistros();
 
     // Configurar evento de guardar
     document.getElementById('guardar-registro-btn').addEventListener('click', guardarRegistro);
+    
+    // Agregar eventos para actualizar la ganancia automáticamente
+    cantidadInput.addEventListener('input', calcularGanancia);
+    precioCompraInput.addEventListener('input', calcularGanancia);
+    precioVentaInput.addEventListener('input', calcularGanancia);
 
 
     // Establecer fecha actual al cargar la página
