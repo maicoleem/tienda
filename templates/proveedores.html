@@ -5,24 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proveedores</title>
     <script src="{{ url_for('static', filename='proveedores.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='proveedor.css') }}">
 </head>
 <body>
-    <div id="lista-proveedores">
-        <h2>Lista de Proveedores</h2>
-        <input type="text" id="filtro_nombre" placeholder="Filtrar por nombre...">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Contacto</th>
-                    <th>Teléfono</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-proveedores">
-                <!-- Las filas se llenarán dinámicamente -->
-            </tbody>
-        </table>
-    </div>
     <!-- seccion de formulario-->
     <div class="formulario-proveedores">
         <h2>Detalles del Proveedor</h2>
@@ -44,6 +29,22 @@
     <div class="botones_proveedor">
         <button id="guardar" disabled>Guardar</button>
     </div>
+    </div>
+    <div id="lista-proveedores">
+        <h3>Lista de Proveedores</h2>
+        <input type="text" id="filtro_nombre" placeholder="Filtrar por nombre...">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-proveedores">
+                <!-- Las filas se llenarán dinámicamente -->
+            </tbody>
+        </table>
     </div>
     <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
 </body>

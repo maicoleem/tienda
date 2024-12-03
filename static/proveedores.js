@@ -8,7 +8,7 @@ const btnGuardarProveedor = document.getElementById('guardar')
 const formProveedor = document.getElementById('form_proveedor');
 
 //listas
-const listaProveedores= document.getElementById('lista-proveedores');
+const listaProveedores= document.getElementById('tabla-proveedores');
 
 //filtros
 const filtroNombreProveedores = document.getElementById('filtro_nombre');
@@ -24,14 +24,18 @@ function cargarProveedores(){
     fetch(apiURL)
     .then(response => response.json())
     .then(proveedores =>{
+        const tbody = document.getElementById('tabla-proveedores');
         listaProveedores.innerHTML = '';
         proveedores.forEach(proveedor =>{
-            const li = document.createElement('li');
-            li.textContent = `${proveedor.nombre} - ${proveedor.contacto} - ${proveedor.telefono}`;
+            const li = document.createElement('tr');
+            li.innerHTML =`
+            <td>${proveedor.nombre}</td>
+            <td>${proveedor.contacto}</td>
+            <td>${proveedor.telefono}</td>
+            `
             li.dataset.id = proveedor.id;
             li.addEventListener('click', () => seleccionarProveedor(proveedor));
-            listaProveedores.appendChild(li)
-
+            listaProveedores.appendChild(li);
         });
     });
 }

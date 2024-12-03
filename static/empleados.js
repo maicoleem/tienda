@@ -24,14 +24,17 @@ function cargarEmpleados(){
     fetch(apiURL)
     .then(response => response.json())
     .then(empleados =>{
-        listaEmpleados.innerHTML = '';
         empleados.forEach(empleado =>{
-            const li = document.createElement('li');
-            li.textContent = `${empleado.nombre} - ${empleado.cargo}`;
+            //const li = document.createElement('li');
+            //li.textContent = `${empleado.nombre} - ${empleado.cargo}`;
+            const li = document.createElement('tr');
+            li.innerHTML =`
+            <td>${empleado.nombre}</td>
+            <td>${empleado.cargo}</td>
+            `
             li.dataset.id = empleado.id;
             li.addEventListener('click', () => seleccionarEmpleado(empleado));
             listaEmpleados.appendChild(li)
-
         });
     });
 }

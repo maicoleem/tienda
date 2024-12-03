@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='clientes.css') }}">
     <script src="{{ url_for('static', filename='clientes.js') }}" defer></script>
 </head>
 <body>
+    
     <h1>Gestión de Clientes</h1>
+    
     <div class="container">
         <!-- Sección de lista -->
         <div class="lista-clientes">
@@ -41,6 +43,8 @@
             </div>
         </div>
     </div>
-    <a href="/" style="display: block; margin-bottom: 20px;">Volver a la página principal</a>
+    <div class="link-back">
+        <a href="/" style="display: block; margin-bottom: 20px;">Volver a la página principal</a>
+    </div>
 </body>
 </html>

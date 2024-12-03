@@ -1,9 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 .container {
@@ -34,11 +33,6 @@ input[type="text"], textarea {
     box-sizing: border-box;
 }
 
-button {
-    margin: 5px;
-    padding: 10px 15px;
-}
-
 ul {
     list-style: none;
     padding: 0;
@@ -52,4 +46,21 @@ ul li {
 
 ul li:hover {
     background-color: #f0f0f0;
+}
+button {
+    background-color: #a4a9f5;
+    border-radius: 10px;
+    color: rgb(22, 21, 21);
+    cursor: pointer;
+    margin: 10px;
+    min-width: 90px;
+    min-height: 30px;
+}
+button:hover {
+    background-color: #c560f3;
+}
+.link-back{
+    display: flex;
+    margin: 10px;
+    justify-content: right;
 }
