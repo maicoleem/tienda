@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
 from models import db, Almacenamiento
 
-almacenamiento_bp = Blueprint('almacenamiento', __name__)
+almacenamiento_bp = Blueprint('/almacenamiento', __name__)
 
 # Listar todos los registros de almacenamiento
-@almacenamiento_bp.route('/api/almacenamiento', methods=['GET'])
+@almacenamiento_bp.route('/', methods=['GET'])
 def listar_almacenamiento():
     registros = Almacenamiento.query.all()
     return jsonify([{
@@ -19,7 +19,7 @@ def listar_almacenamiento():
     } for r in registros])
 
 # Obtener un registro de almacenamiento por ID
-@almacenamiento_bp.route('/api/almacenamiento/<int:id>', methods=['GET'])
+@almacenamiento_bp.route('/<int:id>', methods=['GET'])
 def obtener_registro(id):
     registro = Almacenamiento.query.get(id)
     if not registro:
@@ -36,7 +36,7 @@ def obtener_registro(id):
     })
 
 # Crear un nuevo registro de almacenamiento
-@almacenamiento_bp.route('/api/almacenamiento', methods=['POST'])
+@almacenamiento_bp.route('/', methods=['POST'])
 def crear_registro():
     data = request.json
     if not all(key in data for key in ["bodega", "referencia", "nombre", "tipo", "cantidad", "precio_compra", "precio_venta"]):
@@ -56,7 +56,7 @@ def crear_registro():
     return jsonify({"mensaje": "Registro creado exitosamente"}), 201
 
 # Actualizar un registro de almacenamiento
-@almacenamiento_bp.route('/api/almacenamiento/<int:id>', methods=['PUT'])
+@almacenamiento_bp.route('/<int:id>', methods=['PUT'])
 def actualizar_registro(id):
     registro = Almacenamiento.query.get(id)
     if not registro:
@@ -75,7 +75,7 @@ def actualizar_registro(id):
     return jsonify({"mensaje": "Registro actualizado exitosamente"})
 
 # Eliminar un registro de almacenamiento
-@almacenamiento_bp.route('/api/almacenamiento/<int:id>', methods=['DELETE'])
+@almacenamiento_bp.route('/<int:id>', methods=['DELETE'])
 def eliminar_registro(id):
     registro = Almacenamiento.query.get(id)
     if not registro:

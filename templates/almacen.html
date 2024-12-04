@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almacen</title>
+    <script src="{{ url_for('static', filename='almacenamiento.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='almacenamiento.css') }}">
+</head>
+<body>
+    <div class="link-back">
+        <a href="/" style="display: block; margin-bottom: 20px;">Volver a la página principal</a>
+    </div>
+    <div id="lista-almacenamiento">
+        <h3>Alamcenamiento</h2>
+        <div class="filtros">
+            <input type="text" id="filtro-bodega" placeholder="Filtrar por bodega...">
+            <input type="text" id="filtro-producto" placeholder="Filtrar por producto...">
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bodega</th>
+                    <th>Referencia</th>
+                    <th>Producto</th>
+                    <th>Tipo</th>
+                    <th>Existencia</th>
+                    <th>Precio de compra</th>
+                    <th>Precio de venta</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-almacenamiento">
+                <!-- Las filas se llenarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+</html>

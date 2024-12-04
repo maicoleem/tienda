@@ -66,6 +66,11 @@ def bodegas():
 def productos():
     return render_template('productos.html')
 
+@app.route('/almacen')
+@app.route('/almacen/')
+def almacen():
+    return render_template('almacen.html')
+
 #print(app.url_map)
 
 if __name__ == '__main__':

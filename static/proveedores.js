@@ -24,7 +24,6 @@ function cargarProveedores(){
     fetch(apiURL)
     .then(response => response.json())
     .then(proveedores =>{
-        const tbody = document.getElementById('tabla-proveedores');
         listaProveedores.innerHTML = '';
         proveedores.forEach(proveedor =>{
             const li = document.createElement('tr');
