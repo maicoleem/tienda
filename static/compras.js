@@ -283,10 +283,44 @@ document.addEventListener('DOMContentLoaded', () => {
             gananciaInput.value = '0.00';
         }
     }
-
+    //filtrat tabla compras
+    function filtrarTablaCompras() {
+        const filtros = {
+            fecha: document.getElementById('filtro-fecha').value.toLowerCase(),
+            empleado: document.getElementById('filtro-empleado').value.toLowerCase(),
+            proveedor: document.getElementById('filtro-proveedor').value.toLowerCase(),
+            cliente: document.getElementById('filtro-cliente').value.toLowerCase(),
+            movimiento: document.getElementById('filtro-movimiento').value.toLowerCase(),
+            referencia: document.getElementById('filtro-referencia').value.toLowerCase(),
+            nombre: document.getElementById('filtro-nombre').value.toLowerCase(),
+            tipo: document.getElementById('filtro-tipo').value.toLowerCase(),
+            bodega: document.getElementById('filtro-bodega').value.toLowerCase(),
+            cantidad: document.getElementById('filtro-cantidad').value.toLowerCase(),
+            precio_compra: document.getElementById('filtro-precio-compra').value.toLowerCase(),
+            precio_venta: document.getElementById('filtro-precio-venta').value.toLowerCase(),
+            ganancia: document.getElementById('filtro-ganancia').value.toLowerCase(),
+            observaciones: document.getElementById('filtro-Observaciones').value.toLowerCase(),
+        };
+    
+        Array.from(document.getElementById('historial-lista').children).forEach(fila => {
+            const celdas = Array.from(fila.getElementsByTagName('td')).map(celda => celda.textContent.toLowerCase());
+            
+            const coincide = Object.keys(filtros).every((key, index) => {
+                return filtros[key] === '' || celdas[index].includes(filtros[key]);
+            });
+    
+            fila.style.display = coincide ? '' : 'none';
+        });
+    }
+    
     // Cargar registros al cargar la página
     cargarRegistros();
 
+    //filtros
+    document.querySelectorAll('input[id^="filtro-"], select[id^="filtro-"]').forEach(filtro => {
+        filtro.addEventListener('input', filtrarTablaCompras);
+    });
+    
     // Configurar evento de guardar
     document.getElementById('guardar-registro-btn').addEventListener('click', guardarRegistro);
     
