@@ -1,0 +1,18 @@
+Descomprimir
+tar -xzvf tienda.tar.gz
+
+Instalar:
+cd tienda
+./install.sh
+
+Iniciar:
+./run.sh
+
+Acceder a la Aplicación: Abrir el navegador y acceder a http://127.0.0.1:5000/
+
+[Desktop Entry]
+Name=Tienda
+Exec=/ruta/completa/tienda/run.sh
+Type=Application
+Terminal=true
+Icon=/ruta/a/un/icono.png
