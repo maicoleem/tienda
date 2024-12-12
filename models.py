@@ -61,3 +61,41 @@ class LibroRegistro(db.Model):
     precio_venta = db.Column(db.Float, nullable=False)
     ganancia = db.Column(db.Float, nullable=False) # 0 para compras
     observaciones = db.Column(db.Text, nullable=True)
+
+#Modelo cuenta contable
+class CuentaContable(db.Model):
+    __tablename__ = 'cuentas_contables'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # SERIAL en PostgreSQL
+    codigo = db.Column(db.String(10), nullable=False, unique=True)   # Código de la cuenta
+    nombre = db.Column(db.String(100), nullable=False)               # Nombre de la cuenta
+    tipo = db.Column(
+        db.Enum('Activo', 'Pasivo', 'Patrimonio', 'Ingreso', 'Gasto', 'Costo', name='tipo_enum'),
+        nullable=False
+    )  # Clasificación
+    descripcion = db.Column(db.Text)                                 # Descripción adicional
+
+# Modelo de Libro Contable
+class LibroRegistro(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fecha = db.Column(db.DateTime, nullable=False)
+    referencia = db.Column(db.String(100), nullable=True)
+    detalle = db.Column(db.String(100), nullable=True)
+    codigo_cuenta = db.Column(db.String(10), nullable=True)
+    cuenta = db.Column(db.String(100), nullable=True)
+    descripcion_cuenta = db.Column(db.String(100), nullable=False)
+    debe = db.Column(db.Integer, nullable=False)
+    haber = db.Column(db.Integer, nullable=False)
+
+#Modelo Socios
+class Socios(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    contacto = db.Column(db.String(100), nullable=False)
+
+#Modelo Servicios
+class Servicios(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    referencia = db.Column(db.String(100), unique=True, nullable=False)
+    servicio = db.Column(db.String(100), nullable=False)
+    tipo = db.Column(db.String(50), nullable=False)
