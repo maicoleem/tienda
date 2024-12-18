@@ -65,7 +65,6 @@ class LibroRegistro(db.Model):
 #Modelo cuenta contable
 class CuentaContable(db.Model):
     __tablename__ = 'cuentas_contables'
-
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # SERIAL en PostgreSQL
     codigo = db.Column(db.String(10), nullable=False, unique=True)   # Código de la cuenta
     nombre = db.Column(db.String(100), nullable=False)               # Nombre de la cuenta
@@ -76,7 +75,7 @@ class CuentaContable(db.Model):
     descripcion = db.Column(db.Text)                                 # Descripción adicional
 
 # Modelo de Libro Contable
-class LibroRegistro(db.Model):
+class LibroContable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fecha = db.Column(db.DateTime, nullable=False)
     referencia = db.Column(db.String(100), nullable=True)

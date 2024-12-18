@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cuentas.css') }}">
+    <script src="{{ url_for('static', filename='cuentas.js') }}" defer></script>
+</head>
+<body>
+    <!-- seccion de formulario-->
+    <div class="formulario_crud">
+        <h2>Gestion de cuentas contables</h2>
+    <div class="botones_crud">
+        <button id="crear">Crear</button>
+        <button id="actualizar" class="boton-deshabilitado" disabled>Actualizar</button>
+        <button id="eliminar" class="boton-deshabilitado" disabled>Eliminar</button>
+    </div>
+    <form id="formulario_campos">
+        <label for="codigo">Codigo:</label>
+        <input type="text" id="codigo" name="codigo" required>
+
+        <label for="nombre">Cuenta:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" name="tipo" required>
+            <option value="">Selecciona un tipo</option>
+            <option value="Activo">Activo</option>
+            <option value="Pasivo">Pasivo</option>
+            <option value="Patrimonio">Patrimonio</option>
+            <option value="Ingreso">Ingreso</option>
+            <option value="Gasto">Gasto</option>
+            <option value="Costo">Costo</option>
+        </select>
+        
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required>
+    </form>
+    <div class="botones_crud">
+        <button id="guardar" disabled>Guardar</button>
+    </div>
+    </div>
+    <div id="lista_elementos">
+        <h3>Listado de cuentas contables</h2>
+        <input type="text" id="filtro_nombre" placeholder="Filtrar por nombre...">
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody id="tabla">
+                <!-- Las filas se llenarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+</body>
+</html>
