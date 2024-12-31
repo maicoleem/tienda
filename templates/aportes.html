@@ -3,11 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
+    <title>Aportes Sociales</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='aportes.css') }}">
     <script src="{{ url_for('static', filename='aportes.js') }}" defer></script>
 </head>
 <body>
-    
+    <header>
+        <h1>Aportes Sociales</h1>
+    </header>
+    <main>
+        <!-- Sección de Socios -->
+        <section id="crud-socios">
+            <h2>Gestión de Socios</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Identificación</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-socios">
+                    <!-- Se llenará dinámicamente -->
+                </tbody>
+            </table>
+            <form id="formulario-socios">
+                <label for="nombre-socio">Nombre:</label>
+                <input type="text" id="nombre-socio" required>
+                <label for="identificacion-socio">Identificación:</label>
+                <input type="text" id="identificacion-socio" required>
+                <label for="telefono-socio">Teléfono:</label>
+                <input type="text" id="telefono-socio" required>
+                <button type="button" id="crear-socio">Crear</button>
+                <button type="button" id="actualizar-socio" disabled>Actualizar</button>
+                <button type="button" id="eliminar-socio" disabled>Eliminar</button>
+            </form>
+        </section>
+
+        <!-- Sección de Aportes -->
+        <section id="registro-aportes">
+            <h2>Registrar Aporte</h2>
+            <form id="formulario-aportes">
+                <label for="referencia-aporte">Referencia:</label>
+                <input type="text" id="referencia-aporte" required>
+                <label for="nombre-aporte">Nombre:</label>
+                <input type="text" id="nombre-aporte" required>
+                <label for="valor-aporte">Valor:</label>
+                <input type="number" id="valor-aporte" required>
+                <label for="observaciones-aporte">Observaciones:</label>
+                <textarea id="observaciones-aporte"></textarea>
+                <button type="button" id="registrar-aporte">Registrar</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <a href="/">Volver al inicio</a>
+    </footer>
 </body>
 </html>
