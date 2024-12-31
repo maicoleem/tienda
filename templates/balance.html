@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance General</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='balance.css') }}">
+    <script src="{{ url_for('static', filename='balance.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Balance General</h1>
+    </header>
+    <main>
+        <!-- Resumen del Balance -->
+        <section id="resumen-balance">
+            <h2>Resumen</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Activos</td>
+                        <td id="total-activos"></td>
+                    </tr>
+                    <tr>
+                        <td>Pasivos</td>
+                        <td id="total-pasivos"></td>
+                    </tr>
+                    <tr>
+                        <td>Patrimonio</td>
+                        <td id="total-patrimonio"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Detalle del Balance -->
+        <section id="detalle-balance">
+            <h2>Detalle de Cuentas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Total Débitos</th>
+                        <th>Total Créditos</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-detalle-cuentas">
+                    <!-- Se llenará dinámicamente -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <a href="/">Volver al inicio</a>
+    </footer>
+</body>
+</html>
