@@ -1,6 +1,6 @@
 # routes/compras.py
 from flask import Blueprint, request, jsonify, render_template
-from models import db, Producto, Bodega, Almacenamiento, LibroRegistro, Empleado, Proveedor, Cliente
+from models import db, Producto, Bodega, Almacenamiento, LibroRegistro, Empleado, Proveedor, LibroContable
 from datetime import datetime
 
 compras_bp = Blueprint('/compras', __name__)
@@ -12,6 +12,7 @@ def compras():
 
 # Listar todos los registros del LibroRegistro
 @compras_bp.route('/api/libro-registro', methods=['GET'])
+
 def listar_registros():
     try:
         registros = LibroRegistro.query.all()
@@ -37,7 +38,6 @@ def listar_registros():
         ]), 200
     except Exception as e:
         return jsonify({"error": "Error al listar registros", "detalle": str(e)}), 500
-
 
 # Agregar una compra (entrada)
 @compras_bp.route('/api/libro-registro', methods=['POST'])
@@ -84,6 +84,65 @@ def agregar_registro():
     )
 
     db.session.add(nuevo_registro)
+
+    # Registrar en libro contable
+    registro_mercancias = LibroContable(
+        fecha = datetime.now(),
+        referencia = data['referencia'],
+        detalle = data.get('observaciones', 'compras'),
+        codigo_cuenta = '143505',
+        cuenta = 'Mercancias no fabricadas por la empresa',
+        debe = float(data['precio_compra']),
+        haber = float(0)
+    )
+    db.session.add(registro_mercancias)
+
+    if(data['valor-iva'] != 0):
+        registro_iva = LibroContable(
+            fecha = datetime.now(),
+            referencia = data['referencia'],
+            detalle = data.get('observaciones', 'compras'),
+            codigo_cuenta = '240805',
+            cuenta = 'IVA descontable',
+            debe = float(data['valor-iva']),
+            haber = float(0)
+        )
+        db.session.add(registro_iva)
+
+    registro_proveedor = LibroContable(
+        fecha = datetime.now(),
+            referencia = data['referencia'],
+            detalle = data.get('observaciones', 'compras'),
+            codigo_cuenta = '220505',
+            cuenta = 'Proveedores nacionales',
+            debe = float(0),
+            haber = float(data['valor-iva'] + data['precio_compra']),
+    )
+    db.session.add(registro_proveedor)
+
+    if(data['medio_pago'] == 'banco'):
+        registro_pago = LibroContable(
+            fecha = datetime.now(),
+            referencia = data['referencia'],
+            detalle = data.get('observaciones', 'compras'),
+            codigo_cuenta = '111005',
+            cuenta = 'Banco',
+            debe = float(0),
+            haber = float(data['valor-iva']) + float(data['precio_compra'])
+        )
+        db.session.add(registro_pago)
+    else:
+        registro_iva = LibroContable(
+            fecha = datetime.now(),
+            referencia = data['referencia'],
+            detalle = data.get('observaciones', 'compras'),
+            codigo_cuenta = '110505',
+            cuenta = 'Caja',
+            debe = float(0),
+            haber = float(data['valor-iva']) + float(data['precio_compra'])
+        )
+        db.session.add(registro_pago)
+
 
     db.session.commit()
     return jsonify({"mensaje": "Compra registrada exitosamente"}), 201

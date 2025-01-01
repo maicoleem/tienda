@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const precioCompraInput = document.getElementById('precio-compra');
     const precioVentaInput = document.getElementById('precio-venta');
     const gananciaInput = document.getElementById('ganancia');
+    const precioTotalInput = document.getElementById('precio-total');
+    const bancoInput = document.getElementById('banco');
+    const efectivoInput = document.getElementById('efectivo');
+    const creditoInput = document.getElementById('credito')
 
     // Habilitar/deshabilitar campos al cambiar el estado del checkbox
     checkboxNuevoProducto.addEventListener('change', () => {
@@ -177,7 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'cantidad', nombre: 'Cantidad' },
             { id: 'precio-compra', nombre: 'Precio de Compra' },
             { id: 'precio-venta', nombre: 'Precio de Venta' },
-            { id: 'ganancia', nombre: 'Ganancia' }
+            { id: 'ganancia', nombre: 'Ganancia' },
+            { id: 'banco', nombre: 'banco' },
+            { id: 'efectivo', nombre: 'efectivo' },
+            { id: 'credito', nombre: 'credito' },
+            { id: 'iva', nombre: 'IVA' }
         ];
 
         let formularioValido = true;
@@ -193,6 +201,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!formularioValido) {
             alert(`Por favor complete los siguientes campos:\n${mensajeError}`);
+        }
+
+        disponibleBanco = document.getElementById('disponible-banco').value;
+        disponibleEfectivo = document.getElementById('disponible-efectivo').value;
+
+        if(disponibleBanco < bancoInput.value){
+            formularioValido = false
+            alert(`No tiene saldo disponible en banco`);
+        }
+        if(disponibleEfectivo < efectivoInput.value){
+            formularioValido = false
+            alert(`No tiene saldo disponible en caja`);
+        }
+
+        pagoTotal = disponibleBanco + disponibleEfectivo
+        if(pagoTotal > precioTotalInput.value){
+            formularioValido = false
+            alert(`Ingreso una cantidad superior al valor de la factura`);
         }
 
         return formularioValido;
@@ -215,7 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 precio_compra: document.getElementById('precio-compra').value,
                 precio_venta: document.getElementById('precio-venta').value,
                 ganancia: document.getElementById('ganancia').value,
-                observaciones: document.getElementById('observaciones').value
+                observaciones: document.getElementById('observaciones').value,
+                banco: document.getElementById('banco').value,
+                efectivo: document.getElementById('efectivo').value,
+                iva: document.getElementById('valor-iva').value
             };
 
             const response = await fetch('/api/libro-registro', {
@@ -269,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Hubo un problema al cargar los registros. Consulte la consola para más detalles.');
         }
     };
-    // Función para calcular la ganancia
+    // Función para calcular la ganancia y el total
     function calcularGanancia() {
         const cantidad = parseFloat(cantidadInput.value) || 0;
         const precioCompra = parseFloat(precioCompraInput.value) || 0;
@@ -279,6 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cantidad > 0) {
             const ganancia = (precioVenta - precioCompra) / cantidad;
             gananciaInput.value = ganancia.toFixed(2);
+            precioTotalInput.value  = cantidad * precioCompra
         } else {
             gananciaInput.value = '0.00';
         }
@@ -313,6 +343,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    function calcularCredito(){
+        creditoInput.value = precioTotalInput.value - bancoInput.value - efectivoInput.value
+
+        if(0 > creditoInput){
+            alert('esta ingresando una cantidad superior a la de la factura')
+        }
+    }
     // Cargar registros al cargar la página
     cargarRegistros();
 
@@ -328,7 +365,8 @@ document.addEventListener('DOMContentLoaded', () => {
     cantidadInput.addEventListener('input', calcularGanancia);
     precioCompraInput.addEventListener('input', calcularGanancia);
     precioVentaInput.addEventListener('input', calcularGanancia);
-
+    bancoInput.addEventListener('input', calcularCredito);
+    efectivoInput.addEventListener('input', calcularCredito)
 
     // Establecer fecha actual al cargar la página
     establecerFechaActual();
@@ -355,4 +393,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('bodega-busqueda').addEventListener('input', (e) => {
         buscarBodegas(e.target.value);
     });
+
+    document.getElementById('iva').addEventListener('click', function () {
+        const selectedValue = this.value;
+        const valorIva = document.getElementById('valor-iva')
+        console.log(selectedValue)
+        if (selectedValue === 'NO') {
+            valorIva.value = 0
+            
+        } else if (selectedValue === 'SI') {
+            const valor = precioTotalInput.value * 0.19
+            valorIva.value = valor
+        }
+    });
+
 });

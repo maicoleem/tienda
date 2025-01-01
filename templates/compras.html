@@ -29,6 +29,14 @@
         <div class="form-section">
             <h2>Nuevo Registro</h2>
             <form id="registro-form">
+                <div class="datos-compra">
+                    <h4>Disponible</h4>
+                    <label for="disponible-banco">Banco:</label>
+                    <input type="number" id="disponible-banco" name="disponible-banco" step="0.01" required min="0" value="0" disabled>
+
+                    <label for="disponible-efectivo">Efectivo:</label>
+                    <input type="number" id="disponible-efectivo" name="disponible-efectivo" step="0.01" required min="0" value="0" disabled>
+                </div>
 
                 <div class="encabezado">
                     <label for="fecha">Fecha:</label>
@@ -48,7 +56,6 @@
                     <select id="cliente" name="cliente" class="select-busqueda">
                         <option value="">Seleccione un cliente...</option>
                     </select>
-
 
                     <label for="movimiento">Movimiento:</label>
                     <select id="movimiento" name="movimiento" required>
@@ -75,15 +82,38 @@
                     <label for="cantidad">Cantidad:</label>
                     <input type="number" id="cantidad" name="cantidad" required min="1">
 
-                    <label for="precio-compra">Pre. Compra:</label>
+                    <label for="precio-compra">Pre. UND:</label>
                     <input type="number" id="precio-compra" name="precio-compra" step="0.01" required min="0">
+                    
+                    <label for="precio-total">Pre. Total:</label>
+                    <input type="number" id="precio-total" name="precio-total" step="0.01" required min="0" disabled>
 
-                    <label for="precio-venta">Pre. Venta:</label>
+                    <label for="precio-venta">Venta UND:</label>
                     <input type="number" id="precio-venta" name="precio-venta" step="0.01" required min="0">
 
                     <label for="ganancia">Ganancia:</label>
                     <input type="number" id="ganancia" name="ganancia" step="0.01" required min="0" value="0" disabled>
                 </div>
+                <div class="datos-compra">    
+                    <label for="banco">Banco:</label>
+                    <input type="number" id="banco" name="banco" step="0.01" required min="0" value="0">
+
+                    <label for="efectivo">Efectivo:</label>
+                    <input type="number" id="efectivo" name="efectivo" step="0.01" required min="0" value="0">
+
+                    <label for="iva">IVA:</label>
+                    <select id="iva" name="iva" class="iva">
+                        <option value="NO">NO</option>
+                        <option value="SI">SI</option>
+                    </select>
+                    <label for="valor-iva">IVA:</label>
+                    <input type="number" id="valor-iva" name="valor-iva" step="0.01" required min="0" value="0" disabled="true">
+
+                    <label for="credito">Credito:</label>
+                    <input type="number" id="credito" name="credito" step="0.01" required min="0" value="0" disabled>
+                </div>
+
+
                 <label for="observaciones">Observaciones:</label>
                 <textarea id="observaciones" name="observaciones"></textarea>
                 <button type="submit" id="guardar-registro-btn">Guardar</button>
