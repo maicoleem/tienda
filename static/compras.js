@@ -158,8 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     };
-     // Función para establecer la fecha y hora actual
-     const establecerFechaActual = () => {
+    
+    // Función para establecer la fecha y hora actual
+    const establecerFechaActual = () => {
         const campoFecha = document.getElementById('fecha');
         const ahora = new Date();
         const fechaISO = ahora.toISOString().slice(0, 16); // Formato "YYYY-MM-DDTHH:MM"
@@ -167,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
      // Validar formulario
-     const validarFormulario = () => {
+    const validarFormulario = () => {
         const campos = [
             { id: 'fecha', nombre: 'Fecha' },
             { id: 'empleado', nombre: 'Empleado' },

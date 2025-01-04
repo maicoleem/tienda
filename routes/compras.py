@@ -12,7 +12,6 @@ def compras():
 
 # Listar todos los registros del LibroRegistro
 @compras_bp.route('/api/libro-registro', methods=['GET'])
-
 def listar_registros():
     try:
         registros = LibroRegistro.query.all()
@@ -86,28 +85,27 @@ def agregar_registro():
     db.session.add(nuevo_registro)
 
     # Registrar en libro contable
+    costo_total = float(data.get('precio_compra', 0) * data.get('cantidad', 0))
+    pago_total = float(data['banco'])  + float(data['efectivo'])
+    credito = float(data.get('credito', 0))
+    debe_220505 = max(credito, 0)
+    iva_por_pagar = float(data.get['valor-iva'])
+    iva_descontable_pagado = iva_por_pagar
+
+    if(pago_total > costo_total):
+        debe_220505 = costo_total
+        iva_descontable_pagado = pago_total - costo_total
+
     registro_mercancias = LibroContable(
         fecha = datetime.now(),
         referencia = data['referencia'],
         detalle = data.get('observaciones', 'compras'),
         codigo_cuenta = '143505',
         cuenta = 'Mercancias no fabricadas por la empresa',
-        debe = float(data['precio_compra']),
+        debe = float(costo_total),
         haber = float(0)
     )
     db.session.add(registro_mercancias)
-
-    if(data['valor-iva'] != 0):
-        registro_iva = LibroContable(
-            fecha = datetime.now(),
-            referencia = data['referencia'],
-            detalle = data.get('observaciones', 'compras'),
-            codigo_cuenta = '240805',
-            cuenta = 'IVA descontable',
-            debe = float(data['valor-iva']),
-            haber = float(0)
-        )
-        db.session.add(registro_iva)
 
     registro_proveedor = LibroContable(
         fecha = datetime.now(),
@@ -115,33 +113,45 @@ def agregar_registro():
             detalle = data.get('observaciones', 'compras'),
             codigo_cuenta = '220505',
             cuenta = 'Proveedores nacionales',
-            debe = float(0),
-            haber = float(data['valor-iva'] + data['precio_compra']),
+            debe = float(debe_220505),
+            haber = costo_total,
     )
     db.session.add(registro_proveedor)
 
-    if(data['medio_pago'] == 'banco'):
-        registro_pago = LibroContable(
-            fecha = datetime.now(),
-            referencia = data['referencia'],
-            detalle = data.get('observaciones', 'compras'),
-            codigo_cuenta = '111005',
-            cuenta = 'Banco',
-            debe = float(0),
-            haber = float(data['valor-iva']) + float(data['precio_compra'])
-        )
-        db.session.add(registro_pago)
-    else:
+    #la cuenta del iva por pagar en el balance general se trata como activo
+    if(data['valor-iva'] != 0):
         registro_iva = LibroContable(
             fecha = datetime.now(),
             referencia = data['referencia'],
             detalle = data.get('observaciones', 'compras'),
-            codigo_cuenta = '110505',
-            cuenta = 'Caja',
-            debe = float(0),
-            haber = float(data['valor-iva']) + float(data['precio_compra'])
+            codigo_cuenta = '240805',
+            cuenta = 'IVA descontable',
+            debe = float(iva_por_pagar),
+            haber = float(iva_descontable_pagado)
         )
-        db.session.add(registro_pago)
+        db.session.add(registro_iva)
+    
+    registro_banco = LibroContable(
+        fecha = datetime.now(),
+        referencia = data['referencia'],
+        detalle = data.get('observaciones', 'compras'),
+        codigo_cuenta = '111005',
+        cuenta = 'Banco',
+        debe = float(0),
+        haber = float(data['banco'])
+    )
+    db.session.add(registro_banco)
+    
+    registro_caja = LibroContable(
+        fecha = datetime.now(),
+        referencia = data['referencia'],
+        detalle = data.get('observaciones', 'compras'),
+        codigo_cuenta = '110505',
+        cuenta = 'Caja',
+        debe = float(0),
+        haber = float(data['efectivo'])
+    )
+    db.session.add(registro_caja)
 
 
     db.session.commit()

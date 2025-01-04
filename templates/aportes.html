@@ -39,23 +39,27 @@
                 <button type="button" id="eliminar-socio" disabled>Eliminar</button>
             </form>
         </section>
-
         <!-- Sección de Aportes -->
-        <section id="registro-aportes">
-            <h2>Registrar Aporte</h2>
+        <section class="registro-aportes">
+            <h2>Registrar Aporte en Dinero</h2>
             <form id="formulario-aportes">
-                <label for="referencia-aporte">Referencia:</label>
-                <input type="text" id="referencia-aporte" required>
-                <label for="nombre-aporte">Nombre:</label>
-                <input type="text" id="nombre-aporte" required>
-                <label for="valor-aporte">Valor:</label>
-                <input type="number" id="valor-aporte" required>
+                <label for="fecha">Fecha:</label>
+                <input type="text" id="fecha" required>
+                
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required disabled>
+                
+                <label for="efectivo">Efectivo:</label>
+                <input type="number" id="efectivo" required value="0">
+                
+                <label for="banco">Banco:</label>
+                <input type="number" id="banco" required value="0">
+                
                 <label for="observaciones-aporte">Observaciones:</label>
-                <textarea id="observaciones-aporte"></textarea>
-                <button type="button" id="registrar-aporte">Registrar</button>
+                <textarea id="observaciones-dinero"></textarea>
+                <button type="button" id="registrar-dinero">Registrar</button>
             </form>
-        </section>
-    </main>
+        </section>            
     <footer>
         <a href="/">Volver al inicio</a>
     </footer>

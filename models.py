@@ -79,7 +79,7 @@ class LibroContable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fecha = db.Column(db.DateTime, nullable=False)
     referencia = db.Column(db.String(100), nullable=True) #referencia (codigo) del producto
-    detalle = db.Column(db.String(100), nullable=True)
+    detalle = db.Column(db.String(100), nullable=True) #alguna observación
     codigo_cuenta = db.Column(db.String(10), nullable=True)
     cuenta = db.Column(db.String(100), nullable=True)
     debe = db.Column(db.Float, nullable=False)
