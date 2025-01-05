@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template
-from models import db, Producto, Bodega, Almacenamiento, LibroRegistro, Empleado, Proveedor, Cliente
+from models import db, Producto, Bodega, Almacenamiento, LibroRegistro, Empleado, Proveedor, Cliente, LibroContable
 from datetime import datetime
 
 ventas_bp = Blueprint('/ventas', __name__)
@@ -45,8 +45,18 @@ def realizar_venta():
         datos = request.json  # Recibe una lista de registros
         if not datos:
             return jsonify({"error": "No se enviaron datos para procesar"}), 400
+        
+        # Extraer registros y datos adicionales
+        registros = datos.get('registros', [])
+        libro_contable = datos.get('contable', [])
+         
+         # Validar registros
+        if not registros:
+            return jsonify({"error": "No se enviaron registros para procesar"}), 400
+        if not libro_contable:
+            return jsonify({"error": "No se enviaron registros para procesar"}), 400
 
-        for registro in datos:
+        for registro in registros:
             referencia = registro.get('referencia')
             cantidad_venta = registro.get('cantidad')
 
@@ -87,6 +97,84 @@ def realizar_venta():
             )
 
             db.session.add(nuevo_registro)
+
+        #movimientos contables
+        registro_banco = LibroContable(
+            fecha = datetime.now(),
+            referencia = libro_contable['referencia'],
+            detalle = libro_contable.get('observaciones', 'compras'),
+            codigo_cuenta = '111005',
+            cuenta = 'Banco',
+            debe = float(libro_contable['banco']),
+            haber = float(0)
+        )
+        db.session.add(registro_banco)
+    
+        registro_caja = LibroContable(
+            fecha = datetime.now(),
+            referencia = libro_contable['referencia'],
+            detalle = libro_contable.get('observaciones', 'compras'),
+            codigo_cuenta = '110505',
+            cuenta = 'Caja',
+            debe = float(libro_contable['efectivo']),
+            haber = float(0)
+        )
+        db.session.add(registro_caja)
+
+        registro_comercio = LibroContable(
+            fecha = datetime.now(),
+            referencia = libro_contable['referencia'],
+            detalle = libro_contable.get('observaciones', 'compras'),
+            codigo_cuenta = '413505',
+            cuenta = 'Comercio de mercancias',
+            debe = float(0),
+            haber = float(libro_contable['subtotal'])
+        )
+        db.session.add(registro_comercio)
+        
+        registro_iva = LibroContable(
+            fecha = datetime.now(),
+            referencia = libro_contable['referencia'],
+            detalle = libro_contable.get('observaciones', 'compras'),
+            codigo_cuenta = '240805',
+            cuenta = 'IVA por pagar',
+            debe = float(0),
+            haber = float(libro_contable['iva'])
+        )
+        db.session.add(registro_iva)
+
+        registro_credito = LibroContable(
+            fecha = datetime.now(),
+            referencia = libro_contable['referencia'],
+            detalle = libro_contable.get('observaciones', 'compras'),
+            codigo_cuenta = '130505',
+            cuenta = 'Deudores clientes',
+            debe = float(libro_contable['acredito']),
+            haber = float(0)
+        )
+        db.session.add(registro_credito)
+
+        registro_costo = LibroContable(
+            fecha = datetime.now(),
+            referencia = libro_contable['referencia'],
+            detalle = libro_contable.get('observaciones', 'compras'),
+            codigo_cuenta = '613505',
+            cuenta = 'Costo de mercancia vendida',
+            debe = float(libro_contable['costo_mercancia']),
+            haber = float(0)
+        )
+        db.session.add(registro_costo)
+        
+        registro_mercancias = LibroContable(
+            fecha = datetime.now(),
+            referencia = libro_contable['referencia'],
+            detalle = libro_contable.get('observaciones', 'compras'),
+            codigo_cuenta = '143505',
+            cuenta = 'Mercancias no fabricadas por la empresa',
+            debe = float(0),
+            haber = float(libro_contable['costo_mercancia'])
+        )
+        db.session.add(registro_mercancias)
 
         # Confirmar cambios
         db.session.commit()

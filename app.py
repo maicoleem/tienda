@@ -105,6 +105,12 @@ def crear_cuentas_iniciales():
             "tipo": "Pasivo",
             "descripcion": "Pago de aportes sociales"
         },
+        {
+            "codigo": "130505",
+            "nombre": "Deudores clientes",
+            "tipo": "Activo",
+            "descripcion": "Cuentas por cobrar"
+        },
         # Agrega más cuentas iniciales si lo deseas
     ]
 

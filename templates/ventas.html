@@ -130,8 +130,25 @@
                     <!-- Filas generadas dinámicamente -->
                 </tbody>
             </table>
-
             <div class="venta-btn">
+                <label for="subtotal">Subtotal:</label>
+                <input type="number" id="subtotal" name="subtotal" required readonly value="100">
+                <label for="iva">IVA</label>
+                <label><input type="checkbox" id="iva-checkbox"></label>
+                <input type="number" id="iva-venta" name="iva-venta" readonly value="0">
+                <label for="total">Total:</label>
+                <input type="number" id="total" name="total" readonly value="0">
+            </div>
+            <div class="venta-btn">
+                <label for="banco">Banco:</label>
+                <input type="text" id="banco" name="banco" required value="0">
+                <label for="efectivo">Efectivo:</label>
+                <input type="text" id="efectivo" name="efectivo" required value="0">
+                <label for="acredita">Acredita:</label>
+                <input type="number" id="acredita" name="acredita" readonly value="0">
+            </div>
+            <div class="venta-btn">
+                <label><input type="checkbox" id="credito-checkbox">venta a credito</label>
                 <button type="guardar" id="guardar-registros-btn" disabled>Realizar venta</button>
                 <button type="cotizar" id="cotizar-registros-btn" disabled>Cotización</button>
                 <button type="eliminar" id="eliminar-registro-btn" disabled>Eliminar</button>

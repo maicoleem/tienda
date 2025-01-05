@@ -6,6 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const botonEliminar = document.getElementById('eliminar-registro-btn');
     const botonCancelar = document.getElementById('cancelar-registros-btn');
     const botonGuardar = document.getElementById('guardar-registros-btn');
+    const inputSubtotal = document.getElementById('subtotal');
+    const inputTotal = document.getElementById('total');
+    const inputAcredita = document.getElementById('acredita');
+    const checkBoxIva = document.getElementById('iva-checkbox');
+    const checkBoxAcredito = document.getElementById('acredito-checkbox');
+    const ivaVenta = document.getElementById('iva-venta');
+    const inputBanco = document.getElementById('banco');
+    const inputEfectivo = document.getElementById('efectivo');
+
     const botones = {
         guardar: document.getElementById('guardar-registros-btn'),
         eliminar: document.getElementById('eliminar-registro-btn'),
@@ -145,6 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
             // Limpiar formulario
             document.getElementById('registro-form').reset();
+            
+            calcularTotal();
     };
 
     // Eliminar elemento seleccionado
@@ -152,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const seleccionado = document.querySelector('.seleccionado');
         if (seleccionado) {
             tablaRegistros.removeChild(seleccionado);
-
+            calcularTotal();
             // Si ya no hay filas, deshabilitar botones
             if (!tablaRegistros.children.length) {
                 Object.values(botones).forEach(boton => (boton.disabled = true));
@@ -166,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Cancelar todos los registros (vaciar tabla)
     const cancelarRegistros = () => {
         tablaRegistros.innerHTML = ''; // Vaciar tabla
+        calcularTotal();
         // Deshabilitar botones
         Object.values(botones).forEach(boton => (boton.disabled = true));
     };
@@ -203,12 +215,37 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("No hay registros para realizar la venta.");
             return;
         }
-
+        const habilitado = checkBoxAcredito.checked;
+        if(!habilitado){
+            alert("Para hacer venta a credito habilitarla.");
+            return;
+        }
+        costoMercancia = calcularCostoMercancia;
+        if(costoMercancia <= 0){
+            alert("Error al calcular el costo de la mercancua.");
+            return;
+        }
         try {
+            
+            const contable ={
+                banco: inputBanco.value,
+                efectivo: inputEfectivo.value,
+                iva: ivaVenta.value,
+                acredita: inputAcredita.value,
+                subtotal: inputSubtotal.value,
+                total: inputTotal.value,
+                costo_mercancia: costoMercancia
+            };
+        
+            const playload = {
+                registros,
+                contable
+            };
+
             const response = await fetch('/api/realizar-venta', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(registros)
+                body: JSON.stringify(playload)
             });
 
             const resultado = await response.json();
@@ -225,6 +262,43 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Hubo un problema al realizar la venta. Consulte la consola para más detalles.');
         }
     };
+
+    //Calcular el total
+    const calcularTotal = () => {
+        const registros = obtenerRegistrosTabla();
+         // Calcular el total de venta
+        const total = registros.reduce((acumulador, registro) => {
+            // Convertir 'cantidad' y 'precio_venta' a números
+            const cantidad = parseFloat(registro.cantidad) || 0;
+            const precioVenta = parseFloat(registro.precio_venta) || 0;
+
+            // Sumar al acumulador el producto de cantidad y precio_venta
+            return acumulador + (cantidad * precioVenta);
+        }, 0); // Iniciar el acumulador en 0
+        inputSubtotal.value = total;
+        inputAcredita.value = total;
+        inputTotal.value = total;
+        return total;
+    };
+    //Calcular el total
+    const calcularCostoMercancia = () => {
+        const registros = obtenerRegistrosTabla();
+         // Calcular el total de venta
+        const total = registros.reduce((acumulador, registro) => {
+            // Convertir 'cantidad' y 'precio_venta' a números
+            const cantidad = parseFloat(registro.cantidad) || 0;
+            const precioVenta = parseFloat(registro.precio_compra) || 0;
+
+            // Sumar al acumulador el producto de cantidad y precio_venta
+            return acumulador + (cantidad * precioVenta);
+        }, 0); // Iniciar el acumulador en 0
+        inputSubtotal.value = total;
+        inputAcredita.value = total;
+        inputTotal.value = total;
+        return total;
+    };
+
+
     // Función para establecer la fecha y hora actual
     const establecerFechaActual = () => {
         const campoFecha = document.getElementById('fecha');
@@ -232,9 +306,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const fechaISO = ahora.toISOString().slice(0, 16); // Formato "YYYY-MM-DDTHH:MM"
         campoFecha.value = fechaISO;
     };
+    
+    //acredita
+    function calcularAcredita(){
+        pagoTotal = parseFloat(inputBanco.value) +
+        parseFloat(inputEfectivo.value);
+        inputAcredita.value =  parseFloat(inputTotal.value) - pagoTotal;
+    }
 
     // Evento para el botón de realizar venta
     botonGuardar.addEventListener('click', realizarVenta);
+
+    // Habilitar/deshabilitar campos al cambiar el estado del checkbox
+    checkBoxIva.addEventListener('change', () => {
+        const habilitado = checkBoxIva.checked;
+        if (habilitado) {
+            // Limpiar los campos si se habilitan
+            ivaVenta.value = parseFloat(inputSubtotal.value) * 0.19;
+            inputTotal.value = parseFloat(inputSubtotal.value) + parseFloat(ivaVenta.value);
+            inputAcredita.value = parseFloat(inputSubtotal.value) + parseFloat(ivaVenta.value);
+        }else{
+            ivaVenta.value = 0;
+            inputTotal.value = parseFloat(inputSubtotal.value);
+            inputAcredita.value = parseFloat(inputSubtotal.value);
+        }
+    });
+
+    //input banco y efectivo
+    inputBanco.addEventListener('input', calcularAcredita);
+    inputEfectivo.addEventListener('input', calcularAcredita);
 
     // Evento para agregar registros
     botonAgregar.addEventListener('click', (e) => {
