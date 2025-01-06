@@ -12,6 +12,8 @@ const btnServicio = document.getElementById('guardar-servicios-btn');
 const btnAlquiler = document.getElementById('guardar-alquiler-btn');
 const efectivoDisponible = document.getElementById('efectivo');
 const bancoDisponible = document.getElementById('banco');
+const checkBoxAlquiler = document.getElementById('credito-checkbox-alquiler');
+const checkBoxServicio = document.getElementById('credito-checkbox-servicios')
 
 // Función para obtener los totales de debe y haber por código de cuenta
 const obtenerTotalesPorCodigo = async (codigoCuenta) => {
@@ -124,6 +126,14 @@ function calcularDeuda() {
         alert(`Ingreso una cantidad superior al valor de la factura`);
     }
 
+    const habilitado = checkBoxServicio.checked;
+    if(parseFloat(inputCreditoServicio.value)>0){
+        if(!habilitado){
+            alert('Si el pago es a credito habilitar')
+            formularioValido = false
+        }
+    }
+
     return formularioValido;
 };
 //Validar formulario alquiler
@@ -170,6 +180,13 @@ const validarFormularioAlquiler = () => {
         alert(`Ingreso una cantidad superior al valor de la factura`);
     }
 
+    const habilitado = checkBoxAlquiler.checked;
+    if(parseFloat(inputCreditoAlquiler.value)>0){
+        if(!habilitado){
+            alert('Si el pago es a credito habilitar')
+            formularioValido = false
+        }
+    }
     return formularioValido;
 };
 

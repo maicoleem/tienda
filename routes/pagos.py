@@ -1,0 +1,159 @@
+from flask import Blueprint, request, jsonify
+from models import db, LibroContable, LibroRegistro
+from datetime import datetime
+
+pagos_db = Blueprint('/pagos', __name__)
+
+#Realizar pago de servicios
+@pagos_db.route('/api/pago-servicio', methods = ['POST'])
+def pagar_servicios():
+    try:
+        data = request.json
+        #registro
+        # Registrar en el LibroRegistro
+        nuevo_registro = LibroRegistro(
+            fecha=datetime.now(),
+            empleado=data.get('empleado', ''),
+            proveedor=data.get('observaciones', ''),
+            cliente=data.get('cliente', ''),
+            movimiento='Pagos',
+            referencia=data.get('referencia', ''),
+            factura=data['factura'],
+            nombre=data.get('nombre', ''),
+            tipo=data.get('tipo', ''),
+            bodega=data.get('bodega', ''),
+            cantidad=int(1),
+            precio_compra=float(data['valor']),  # precio de compra
+            precio_venta=float(0),  # Inicialmente 0 para entradas
+            ganancia=float(0),
+            observaciones=data.get('observaciones', '')
+        )
+        db.session.add(nuevo_registro)
+
+        #cuenta debito servicios publicos
+        registro_servicios = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '513535',
+            cuenta = 'Servicios publicos',
+            debe = float(data['valor']),
+            haber = float(0)
+        )
+        db.session.add(registro_servicios)
+        #Pago a credito de servicios
+        registro_credito = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '220505',
+            cuenta = 'Proveedores nacionales',
+            debe = float(0),
+            haber = float(data['credito'])
+        )
+        db.session.add(registro_credito)
+        #cuenta credito caja
+        registro_caja = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '110505',
+            cuenta = 'Caja',
+            debe = float(0),
+            haber = float(data['caja'])
+        )
+        db.session.add(registro_caja)
+
+        #cuenta credito banco
+        registro_banco = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '111005',
+            cuenta = 'Banco',
+            debe = float(0),
+            haber = float(data['banco'])
+        )
+        db.session.add(registro_banco)
+
+        db.session.commit()
+        return jsonify({"mensaje": "Pago registrado exitosamente"}), 201
+    except Exception as e:
+        return jsonify({"error": "Error al pagar servicios", "detalle": str(e)}), 500
+    
+#Realizar pago de alquiler
+@pagos_db.route('/api/pago-alquiler', methods = ['POST'])
+def pagar_alquiler():
+    try:
+        data = request.json
+        #registro
+        # Registrar en el LibroRegistro
+        nuevo_registro = LibroRegistro(
+            fecha=datetime.now(),
+            empleado=data.get('empleado', ''),
+            proveedor=data.get('observaciones', ''),
+            cliente=data.get('cliente', ''),
+            movimiento='Pagos',
+            referencia=data.get('referencia', ''),
+            factura=data['factura'],
+            nombre=data.get('nombre', ''),
+            tipo=data.get('tipo', ''),
+            bodega=data.get('bodega', ''),
+            cantidad=int(1),
+            precio_compra=float(data['valor']),  # precio de compra
+            precio_venta=float(0),  # Inicialmente 0 para entradas
+            ganancia=float(0),
+            observaciones=data.get('observaciones', '')
+        )
+        db.session.add(nuevo_registro)
+
+        #cuenta debito alquiler
+        registro_servicios = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'alquiler'),
+            codigo_cuenta = '513540',
+            cuenta = 'Arrendamientos',
+            debe = float(data['valor']),
+            haber = float(0)
+        )
+        db.session.add(registro_servicios)
+        #Pago a credito de alquiler
+        registro_credito = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'alquiler'),
+            codigo_cuenta = '220505',
+            cuenta = 'Proveedores nacionales',
+            debe = float(0),
+            haber = float(data['credito'])
+        )
+        db.session.add(registro_credito)
+        #cuenta credito caja
+        registro_caja = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'alquiler'),
+            codigo_cuenta = '110505',
+            cuenta = 'Caja',
+            debe = float(0),
+            haber = float(data['caja'])
+        )
+        db.session.add(registro_caja)
+
+        #cuenta credito banco
+        registro_banco = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'alquiler'),
+            codigo_cuenta = '111005',
+            cuenta = 'Banco',
+            debe = float(0),
+            haber = float(data['banco'])
+        )
+        db.session.add(registro_banco)
+
+        db.session.commit()
+        return jsonify({"mensaje": "Pago registrado exitosamente"}), 201
+    except Exception as e:
+        return jsonify({"error": "Error al pagar alquiler", "detalle": str(e)}), 500
