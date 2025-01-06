@@ -135,16 +135,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
      // Función para llenar una lista desplegable
      const cargarOpciones = async (url, selectId) => {
-        const response = await fetch(url);
-        const datos = await response.json();
-        const select = document.getElementById(selectId);
-        select.innerHTML = `<option value="">Seleccione...</option>`;
-        datos.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.nombre;
-            option.textContent = item.nombre;
-            select.appendChild(option);
-        });
+        try{
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Error al obtener registros: ${response.statusText}`);
+            }
+            const datos = await response.json();
+            const select = document.getElementById(selectId);
+            select.innerHTML = `<option value="">Seleccione...</option>`;
+            datos.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.nombre;
+                option.textContent = item.nombre;
+                select.appendChild(option);
+            });    
+        }catch (error){
+            console.error(error);
+        }            
     };
 
     // Listeners para búsqueda dinámica en listas desplegables
@@ -162,9 +169,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para establecer la fecha y hora actual
     const establecerFechaActual = () => {
         const campoFecha = document.getElementById('fecha');
+    
+        // Crear un objeto Date con la hora local del navegador
         const ahora = new Date();
-        const fechaISO = ahora.toISOString().slice(0, 16); // Formato "YYYY-MM-DDTHH:MM"
-        campoFecha.value = fechaISO;
+    
+        // Configuración para el formato "MIE 01 ENE 24 13:30"
+        const options = { 
+            timeZone: 'America/Bogota', 
+            weekday: 'short',    // Día de la semana (MIE, JUE, ...)
+            day: '2-digit',      // Día con dos dígitos (01, 02, ...)
+            month: 'short',      // Mes en formato corto (ENE, FEB, ...)
+            year: '2-digit',     // Año con dos dígitos (24, 25, ...)
+            hour: '2-digit',     // Hora con dos dígitos (13, 14, ...)
+            minute: '2-digit',   // Minutos con dos dígitos (30, 45, ...)
+            hour12: false        // Usar formato de 24 horas
+        };
+    
+        // Formatear la fecha según la zona horaria de Bogotá
+        const formatoBogota = new Intl.DateTimeFormat('es-CO', options).format(ahora);
+    
+        // Establecer la fecha en el input
+        campoFecha.value = formatoBogota;
     };
 
      // Validar formulario
@@ -186,7 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'banco', nombre: 'banco' },
             { id: 'efectivo', nombre: 'efectivo' },
             { id: 'credito', nombre: 'credito' },
-            { id: 'iva', nombre: 'IVA' }
+            { id: 'iva', nombre: 'IVA' },
+            { id: 'factura', nombre: 'Factura' }
         ];
 
         let formularioValido = true;
@@ -245,7 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 observaciones: document.getElementById('observaciones').value,
                 banco: document.getElementById('banco').value,
                 efectivo: document.getElementById('efectivo').value,
-                iva: document.getElementById('valor-iva').value
+                iva: document.getElementById('valor-iva').value,
+                factura : document.getElementById('factura').value,
+                credito: creditoInput.value
             };
 
             const response = await fetch('/api/libro-registro', {
@@ -278,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
                     <td>${registro.fecha}</td>
-                    <td>${registro.empleado || '-'}</td>
+                    <td>${registro.factura || '-'}</td>
                     <td>${registro.proveedor || '-'}</td>
                     <td>${registro.cliente || '-'}</td>
                     <td>${registro.movimiento}</td>
@@ -367,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
     precioCompraInput.addEventListener('input', calcularGanancia);
     precioVentaInput.addEventListener('input', calcularGanancia);
     bancoInput.addEventListener('input', calcularCredito);
-    efectivoInput.addEventListener('input', calcularCredito)
+    efectivoInput.addEventListener('input', calcularCredito);
 
     // Establecer fecha actual al cargar la página
     establecerFechaActual();

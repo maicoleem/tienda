@@ -24,6 +24,7 @@ def listar_registros():
                 "cliente": registro.cliente,
                 "movimiento": registro.movimiento,
                 "referencia": registro.referencia,
+                "factura": registro.factura,
                 "nombre": registro.nombre,
                 "tipo": registro.tipo,
                 "bodega": registro.bodega,            
@@ -72,6 +73,7 @@ def agregar_registro():
         cliente=data.get('cliente', ''),
         movimiento='Entrada',
         referencia=data['referencia'],
+        factura=data['factura'],
         nombre=data['nombre'],
         tipo=data['tipo'],
         bodega=data['bodega'],
@@ -98,7 +100,7 @@ def agregar_registro():
 
     registro_mercancias = LibroContable(
         fecha = datetime.now(),
-        referencia = data['referencia'],
+        factura=data['factura'],
         detalle = data.get('observaciones', 'compras'),
         codigo_cuenta = '143505',
         cuenta = 'Mercancias no fabricadas por la empresa',
@@ -109,7 +111,7 @@ def agregar_registro():
 
     registro_proveedor = LibroContable(
         fecha = datetime.now(),
-            referencia = data['referencia'],
+            factura=data['factura'],
             detalle = data.get('observaciones', 'compras'),
             codigo_cuenta = '220505',
             cuenta = 'Proveedores nacionales',
@@ -122,7 +124,7 @@ def agregar_registro():
     if(data['valor-iva'] != 0):
         registro_iva = LibroContable(
             fecha = datetime.now(),
-            referencia = data['referencia'],
+            factura=data['factura'],
             detalle = data.get('observaciones', 'compras'),
             codigo_cuenta = '240805',
             cuenta = 'IVA descontable',
@@ -133,7 +135,7 @@ def agregar_registro():
     
     registro_banco = LibroContable(
         fecha = datetime.now(),
-        referencia = data['referencia'],
+        factura=data['factura'],
         detalle = data.get('observaciones', 'compras'),
         codigo_cuenta = '111005',
         cuenta = 'Banco',
@@ -144,7 +146,7 @@ def agregar_registro():
     
     registro_caja = LibroContable(
         fecha = datetime.now(),
-        referencia = data['referencia'],
+        factura=data['factura'],
         detalle = data.get('observaciones', 'compras'),
         codigo_cuenta = '110505',
         cuenta = 'Caja',

@@ -22,9 +22,9 @@
             <!-- Bloque 2: Formulario para venta-->
             <h2>Nuevo Registro</h2>
             <form id="registro-form">
-                <div class="encabezado">
+                <div class="producto-formulario">
                     <label for="fecha">Fecha:</label>
-                    <input type="datetime-local" id="fecha" name="fecha" required disabled>
+                    <input type="text" id="fecha" name="fecha" required readonly>
 
                     <label for="empleado">Empleado:</label>
                     <select id="empleado" name="empleado" class="select-busqueda" required>
@@ -72,14 +72,18 @@
                     <label for="precio-venta">Pre. Venta:</label>
                     <input type="number" id="precio-venta" name="precio-venta" step="0.01" required min="0">
 
-                    <label for="ganancia">id :</label>
+                    <label for="ganancia"> id :</label>
                     <input type="number" id="ganancia" name="ganancia" step="0.01" required min="0" value="0" disabled>
                 </div>
                 
-                <label for="observaciones">Observaciones:</label>
-                <textarea id="observaciones" name="observaciones"></textarea>
+                <div class="datos-venta">
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea id="observaciones" name="observaciones"></textarea>
 
-                <button type="submit" id="agregar-registro-btn">Agregar</button>
+                    <button type="submit" id="agregar-registro-btn">Agregar</button>
+
+                </div>
+                
             </form>
         </div>
         <!-- Bloque 3: Registros agregados-->
@@ -131,6 +135,9 @@
                 </tbody>
             </table>
             <div class="venta-btn">
+
+                <label for="factura">Factura:</label>
+                <input type="text" id="factura" name="factura" required readonly>
                 <label for="subtotal">Subtotal:</label>
                 <input type="number" id="subtotal" name="subtotal" required readonly value="100">
                 <label for="iva">IVA</label>
@@ -140,6 +147,8 @@
                 <input type="number" id="total" name="total" readonly value="0">
             </div>
             <div class="venta-btn">
+                <label for="observaciones-venta">Observaciones:</label>
+                <input type="text" id="observaciones-venta" name="observaciones-venta" required>
                 <label for="banco">Banco:</label>
                 <input type="text" id="banco" name="banco" required value="0">
                 <label for="efectivo">Efectivo:</label>

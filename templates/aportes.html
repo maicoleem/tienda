@@ -44,10 +44,13 @@
             <h2>Registrar Aporte en Dinero</h2>
             <form id="formulario-aportes">
                 <label for="fecha">Fecha:</label>
-                <input type="text" id="fecha" required>
+                <input type="text" id="fecha" required readonly>
+
+                <label for="factura">Factura:</label>
+                <input type="text" id="factura" required readonly>
                 
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" required disabled>
+                <input type="text" id="nombre" required readonly>
                 
                 <label for="efectivo">Efectivo:</label>
                 <input type="number" id="efectivo" required value="0">

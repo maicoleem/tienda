@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width", initial-scale="1.0">
+        <title>Pagos</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='pagos.css') }}">
+        <script src="{{ url_for('static', filename='pagos.js') }}"></script>
+    </head>
+    <body>
+        <h1>Pagos</h1>
+        <div class="pagos" name="disponible">
+            <label for="banco">banco:</label>
+            <input type="number" id="banco" placeholder="banco" value="0" readonly>
+            <label for="efectivo">Caja:</label>
+            <input type="number" id="efectivo" placeholder="efectivo" value="0" readonly>
+        </div>
+        <div class="pagos" name="servicios">
+            <div class="detalles">
+                <label for="facutra-servicios">Factura:</label>
+                <input type="text" id="facutra-servicios" placeholder="facutra-servicios">
+
+                <label for="nombre-servicios">Servicio:</label>
+                <input type="text" id="nombre-servicios" placeholder="nombre-servicios">
+
+                <label for="valor-servicio">Valor:</label>
+                <input type="text" id="valor-servicio" placeholder="valor-servicio" value="0">
+            </div>
+            <div class="pago">
+                <label for="pago-banco-servicio">Banco:</label>
+                <input type="number" id="pago-banco-servicios" value="0">
+
+                <label for="pago-caja-servicio">Efectivo:</label>
+                <input type="number" id="pago-caja-servicios" value="0">
+                
+                <label><input type="checkbox" id="credito-checkbox-servicios">Crédito:</label>
+                <input type="number" id="pago-credito-servicios" value="0" readonly>
+
+                <button type="guardar" id="guardar-servicios-btn">PAGAR</button>
+            </div>
+            
+        </div>
+        <div class="pagos" name="alquiler">
+            <div class="detalles">
+                <label for="facutra-alquiler">Factura:</label>
+                <input type="text" id="facutra-alquiler" placeholder="facutra-alquiler">
+
+                <label for="nombre-alquiler">Alquiler:</label>
+                <input type="text" id="nombre-alquiler" placeholder="nombre-alquiler">
+
+                <label for="valor-alquiler">Valor:</label>
+                <input type="text" id="valor-alquiler" value="0">
+            </div>
+            <div class="pago">
+                <label for="pago-banco-alquile">Banco:</label>
+                <input type="number" id="pago-banco-alquiler" value="0">
+
+                <label for="pago-caja-alquile">Efectivo:</label>
+                <input type="number" id="pago-caja-alquiler" value="0">
+                
+                <label><input type="checkbox" id="credito-checkbox-alquiler">Crédito:</label>
+                <input type="number" id="pago-credito-alquiler" placeholder="pago-credito-alquiler" value="0" readonly>
+
+                <button type="guardar" id="guardar-alquiler-btn">PAGAR</button>
+            </div>
+        </div>
+
+    </body>
+
+</html>

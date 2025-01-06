@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ivaVenta = document.getElementById('iva-venta');
     const inputBanco = document.getElementById('banco');
     const inputEfectivo = document.getElementById('efectivo');
+    const inputFactura = document.getElementById('factura');
+    const inputObservacionesVenta = document.getElementById('observaciones-venta');
 
     const botones = {
         guardar: document.getElementById('guardar-registros-btn'),
@@ -222,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         costoMercancia = calcularCostoMercancia;
         if(costoMercancia <= 0){
-            alert("Error al calcular el costo de la mercancua.");
+            alert("Error al calcular el costo de la mercancia.");
             return;
         }
         try {
@@ -234,7 +236,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 acredita: inputAcredita.value,
                 subtotal: inputSubtotal.value,
                 total: inputTotal.value,
-                costo_mercancia: costoMercancia
+                costo_mercancia: costoMercancia,
+                factura: inputFactura.value,
+                observaciones: inputObservacionesVenta
             };
         
             const playload = {
@@ -287,14 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const total = registros.reduce((acumulador, registro) => {
             // Convertir 'cantidad' y 'precio_venta' a números
             const cantidad = parseFloat(registro.cantidad) || 0;
-            const precioVenta = parseFloat(registro.precio_compra) || 0;
+            const precioCompraProducto = parseFloat(registro.precio_compra) || 0;
 
             // Sumar al acumulador el producto de cantidad y precio_venta
-            return acumulador + (cantidad * precioVenta);
+            return acumulador + (cantidad * precioCompraProducto);
         }, 0); // Iniciar el acumulador en 0
-        inputSubtotal.value = total;
-        inputAcredita.value = total;
-        inputTotal.value = total;
         return total;
     };
 
@@ -302,9 +303,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para establecer la fecha y hora actual
     const establecerFechaActual = () => {
         const campoFecha = document.getElementById('fecha');
+    
+        // Crear un objeto Date con la hora local del navegador
         const ahora = new Date();
-        const fechaISO = ahora.toISOString().slice(0, 16); // Formato "YYYY-MM-DDTHH:MM"
-        campoFecha.value = fechaISO;
+    
+        // Configuración para el formato "MIE 01 ENE 24 13:30"
+        const options = { 
+            timeZone: 'America/Bogota', 
+            weekday: 'short',    // Día de la semana (MIE, JUE, ...)
+            day: '2-digit',      // Día con dos dígitos (01, 02, ...)
+            month: 'short',      // Mes en formato corto (ENE, FEB, ...)
+            year: '2-digit',     // Año con dos dígitos (24, 25, ...)
+            hour: '2-digit',     // Hora con dos dígitos (13, 14, ...)
+            minute: '2-digit',   // Minutos con dos dígitos (30, 45, ...)
+            hour12: false        // Usar formato de 24 horas
+        };
+    
+        // Formatear la fecha según la zona horaria de Bogotá
+        const formatoBogota = new Intl.DateTimeFormat('es-CO', options).format(ahora);
+    
+        // Establecer la fecha en el input
+        campoFecha.value = formatoBogota;
     };
     
     //acredita
@@ -332,6 +351,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //Obtener nueva factura
+    const obtenerNuevaFactura = async () => {
+        try {
+            // Obtener el valor del prefijo ingresado en un input
+            const prefijo = "VENTA";
+    
+            if (!prefijo) {
+                alert("Por favor, ingrese un prefijo para buscar.");
+                return;
+            }
+    
+            // Hacer la solicitud al backend con el prefijo como parámetro
+            const response = await fetch(`/api/factura-max?prefijo=${encodeURIComponent(prefijo)}`);
+            const datos = await response.json();
+    
+            if (response.ok) {
+                // Mostrar el nuevo valor en el input de factura-nueva
+                inputFactura.value = datos.nueva_factura;
+            } else {
+                console.error("Error:", datos.error);
+                alert(`Error: ${datos.error}`);
+            }
+        } catch (error) {
+            console.error("Error al obtener la nueva factura:", error);
+            alert("Hubo un problema al obtener la nueva factura. Consulte la consola para más detalles.");
+        }
+    };
+
     //input banco y efectivo
     inputBanco.addEventListener('input', calcularAcredita);
     inputEfectivo.addEventListener('input', calcularAcredita);
@@ -356,6 +403,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Establecer fecha actual al cargar la página
     establecerFechaActual();
+    obtenerNuevaFactura();
+    
 
     document.getElementById('almacenamiento-busqueda').addEventListener('input', (e) => {
         buscarAlmacenamiento(e.target.value)

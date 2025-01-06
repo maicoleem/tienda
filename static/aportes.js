@@ -60,6 +60,7 @@ document.getElementById('registrar-dinero').addEventListener('click', async () =
         efectivo: parseFloat(document.getElementById('efectivo').value),
         banco: parseFloat(document.getElementById('banco').value),
         observaciones: document.getElementById('observaciones-dinero').value,
+        factura: document.getElementById('factura').value,
         codigo: '3115' // Código contable de aportes
     };
     await fetch('/api/aportes', {
@@ -73,10 +74,112 @@ document.getElementById('registrar-dinero').addEventListener('click', async () =
 // Función para establecer la fecha y hora actual
 const establecerFechaActual = () => {
     const campoFecha = document.getElementById('fecha');
+
+    // Crear un objeto Date con la hora local del navegador
     const ahora = new Date();
-    const fechaISO = ahora.toISOString().slice(0, 16); // Formato "YYYY-MM-DDTHH:MM"
-    campoFecha.value = fechaISO;
+
+    // Configuración para el formato "MIE 01 ENE 24 13:30"
+    const options = { 
+        timeZone: 'America/Bogota', 
+        weekday: 'short',    // Día de la semana (MIE, JUE, ...)
+        day: '2-digit',      // Día con dos dígitos (01, 02, ...)
+        month: 'short',      // Mes en formato corto (ENE, FEB, ...)
+        year: '2-digit',     // Año con dos dígitos (24, 25, ...)
+        hour: '2-digit',     // Hora con dos dígitos (13, 14, ...)
+        minute: '2-digit',   // Minutos con dos dígitos (30, 45, ...)
+        hour12: false        // Usar formato de 24 horas
+    };
+
+    // Formatear la fecha según la zona horaria de Bogotá
+    const formatoBogota = new Intl.DateTimeFormat('es-CO', options).format(ahora);
+
+    // Establecer la fecha en el input
+    campoFecha.value = formatoBogota;
+};
+
+
+
+const buscarFacturas = async () => {
+    try {
+        // Obtener el valor del input con id "factura"
+        const cadena = "APORTE";
+
+        // Realizar la solicitud GET con la cadena como parámetro
+        const response = await fetch(`/api/contable/buscar-facturas?cadena=${encodeURIComponent(cadena)}`);
+        const datos = await response.json();
+
+        if (response.ok) {
+            console.log("Facturas encontradas:", datos);
+            // Mostrar los resultados en la interfaz
+            mostrarFacturasEnTabla(datos);
+        } else {
+            console.error("Error:", datos.error);
+            alert(`Error: ${datos.error}`);
+        }
+    } catch (error) {
+        console.error("Error al buscar facturas:", error);
+        alert("Hubo un problema al buscar las facturas. Consulte la consola para más detalles.");
+    }
+};
+
+// Función para mostrar las facturas en una tabla HTML
+const mostrarFacturasEnTabla = (facturas) => {
+    const tabla = document.getElementById("tablaFacturas");
+    tabla.innerHTML = ""; // Vaciar la tabla
+
+    if (facturas.length === 0) {
+        tabla.innerHTML = "<tr><td colspan='7'>No se encontraron facturas</td></tr>";
+        return;
+    }
+
+    // Agregar filas con los resultados
+    facturas.forEach((factura) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+            <td>${factura.id}</td>
+            <td>${new Date(factura.fecha).toLocaleDateString()}</td>
+            <td>${factura.factura}</td>
+            <td>${factura.detalle}</td>
+            <td>${factura.codigo_cuenta}</td>
+            <td>${factura.cuenta}</td>
+            <td>${factura.debe}</td>
+            <td>${factura.haber}</td>
+        `;
+        tabla.appendChild(fila);
+    });
+
+
+};
+
+const obtenerNuevaFactura = async () => {
+    try {
+        // Obtener el valor del prefijo ingresado en un input
+        const prefijo = "APORTE";
+
+        if (!prefijo) {
+            alert("Por favor, ingrese un prefijo para buscar.");
+            return;
+        }
+
+        // Hacer la solicitud al backend con el prefijo como parámetro
+        const response = await fetch(`/api/factura-max?prefijo=${encodeURIComponent(prefijo)}`);
+        const datos = await response.json();
+
+        if (response.ok) {
+            // Mostrar el nuevo valor en el input de factura-nueva
+            document.getElementById("factura").value = datos.nueva_factura;
+        } else {
+            console.error("Error:", datos.error);
+            alert(`Error: ${datos.error}`);
+        }
+    } catch (error) {
+        console.error("Error al obtener la nueva factura:", error);
+        alert("Hubo un problema al obtener la nueva factura. Consulte la consola para más detalles.");
+    }
 };
 
 // Establecer fecha actual al cargar la página
 establecerFechaActual();
+
+//obtener factura nueva
+obtenerNuevaFactura();

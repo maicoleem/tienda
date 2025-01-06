@@ -6,7 +6,6 @@
     <title>Registro de Compras</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='compras.css') }}">
     <script src="{{ url_for('static', filename='compras.js') }}"></script>
-
 </head>
 <body>
     <div class="container">
@@ -38,10 +37,10 @@
                     <input type="number" id="disponible-efectivo" name="disponible-efectivo" step="0.01" required min="0" value="0" disabled>
                 </div>
 
-                <div class="encabezado">
+                <div class="producto-formulario">
                     <label for="fecha">Fecha:</label>
-                    <input type="datetime-local" id="fecha" name="fecha" required>
-
+                    <input type="text" id="fecha" name="fecha" required readonly>
+                    
                     <label for="empleado">Empleado:</label>
                     <select id="empleado" name="empleado" class="select-busqueda" required>
                         <option value="">Seleccione un empleado...</option>
@@ -112,11 +111,15 @@
                     <label for="credito">Credito:</label>
                     <input type="number" id="credito" name="credito" step="0.01" required min="0" value="0" disabled>
                 </div>
+                <div class="datos-compra">   
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea id="observaciones" name="observaciones"></textarea>
+                    
+                    <label for="factura">Factura:</label>
+                    <input type="text" id="factura" name="factura" required>
 
-
-                <label for="observaciones">Observaciones:</label>
-                <textarea id="observaciones" name="observaciones"></textarea>
-                <button type="submit" id="guardar-registro-btn">Guardar</button>
+                    <button type="submit" id="guardar-registro-btn">Guardar</button>
+                </div>
             </form>
         </div>
 
@@ -127,7 +130,7 @@
                 <thead>
                     <tr>
                         <th><input type="text" id="filtro-fecha" placeholder="Fecha"></th>
-                        <th><input type="text" id="filtro-empleado" placeholder="Empleado"></th>
+                        <th><input type="text" id="filtro-factura" placeholder="Factura"></th>
                         <th><input type="text" id="filtro-proveedor" placeholder="Proveedor"></th>
                         <th><input type="text" id="filtro-cliente" placeholder="Cliente"></th>
                         <th>
@@ -149,7 +152,7 @@
                     </tr>
                     <tr>
                         <th>Fecha</th>
-                        <th>Empleado</th>
+                        <th>Factura</th>
                         <th>Proveedor</th>
                         <th>Cliente</th>
                         <th>Movimiento</th>

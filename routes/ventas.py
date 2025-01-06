@@ -86,6 +86,7 @@ def realizar_venta():
                 cliente=registro.get('cliente'),
                 movimiento='Salida',
                 referencia=referencia,
+                factura=libro_contable['factura'],
                 nombre=registro.get('nombre'),
                 tipo=registro.get('tipo'),
                 bodega=registro.get('bodega'),
@@ -93,7 +94,7 @@ def realizar_venta():
                 precio_compra=almacenamiento.precio_compra,
                 precio_venta=float(registro.get('precio_venta')),
                 ganancia=ganancia,
-                observaciones=registro.get('observaciones', "")
+                observaciones=registro.get('observaciones', 'venta')
             )
 
             db.session.add(nuevo_registro)
@@ -101,8 +102,8 @@ def realizar_venta():
         #movimientos contables
         registro_banco = LibroContable(
             fecha = datetime.now(),
-            referencia = libro_contable['referencia'],
-            detalle = libro_contable.get('observaciones', 'compras'),
+            factura=libro_contable['factura'],
+            detalle = libro_contable.get('observaciones', 'venta'),
             codigo_cuenta = '111005',
             cuenta = 'Banco',
             debe = float(libro_contable['banco']),
@@ -112,8 +113,8 @@ def realizar_venta():
     
         registro_caja = LibroContable(
             fecha = datetime.now(),
-            referencia = libro_contable['referencia'],
-            detalle = libro_contable.get('observaciones', 'compras'),
+            factura=libro_contable['factura'],
+            detalle = libro_contable.get('observaciones', 'venta'),
             codigo_cuenta = '110505',
             cuenta = 'Caja',
             debe = float(libro_contable['efectivo']),
@@ -123,8 +124,8 @@ def realizar_venta():
 
         registro_comercio = LibroContable(
             fecha = datetime.now(),
-            referencia = libro_contable['referencia'],
-            detalle = libro_contable.get('observaciones', 'compras'),
+            factura=libro_contable['factura'],
+            detalle = libro_contable.get('observaciones', 'venta'),
             codigo_cuenta = '413505',
             cuenta = 'Comercio de mercancias',
             debe = float(0),
@@ -134,8 +135,8 @@ def realizar_venta():
         
         registro_iva = LibroContable(
             fecha = datetime.now(),
-            referencia = libro_contable['referencia'],
-            detalle = libro_contable.get('observaciones', 'compras'),
+            factura=libro_contable['factura'],
+            detalle = libro_contable.get('observaciones', 'venta'),
             codigo_cuenta = '240805',
             cuenta = 'IVA por pagar',
             debe = float(0),
@@ -145,8 +146,8 @@ def realizar_venta():
 
         registro_credito = LibroContable(
             fecha = datetime.now(),
-            referencia = libro_contable['referencia'],
-            detalle = libro_contable.get('observaciones', 'compras'),
+            factura=libro_contable['factura'],
+            detalle = libro_contable.get('observaciones', 'venta'),
             codigo_cuenta = '130505',
             cuenta = 'Deudores clientes',
             debe = float(libro_contable['acredito']),
@@ -156,8 +157,8 @@ def realizar_venta():
 
         registro_costo = LibroContable(
             fecha = datetime.now(),
-            referencia = libro_contable['referencia'],
-            detalle = libro_contable.get('observaciones', 'compras'),
+            factura=libro_contable['factura'],
+            detalle = libro_contable.get('observaciones', 'venta'),
             codigo_cuenta = '613505',
             cuenta = 'Costo de mercancia vendida',
             debe = float(libro_contable['costo_mercancia']),
@@ -167,8 +168,8 @@ def realizar_venta():
         
         registro_mercancias = LibroContable(
             fecha = datetime.now(),
-            referencia = libro_contable['referencia'],
-            detalle = libro_contable.get('observaciones', 'compras'),
+            factura=libro_contable['factura'],
+            detalle = libro_contable.get('observaciones', 'venta'),
             codigo_cuenta = '143505',
             cuenta = 'Mercancias no fabricadas por la empresa',
             debe = float(0),

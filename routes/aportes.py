@@ -67,6 +67,7 @@ def registrar_aporte():
         fecha=datetime.now(),
         movimiento='Entrada',
         referencia=data['identificacion'],
+        factura=data['factura'],
         nombre=data['nombre'],
         tipo='Aporte',
         bodega='N/A',
@@ -81,7 +82,7 @@ def registrar_aporte():
     # Registrar en LibroContable
     nuevo_aporte = LibroContable(
         fecha=datetime.now(),
-        referencia='NA',
+        factura=data['factura'],
         detalle=data['observaciones'],
         codigo_cuenta='311505',
         cuenta='Aportes sociales',
@@ -93,7 +94,7 @@ def registrar_aporte():
     if(banco>0):
         aporte_banco = LibroContable(
         fecha=datetime.now(),
-        referencia='NA',
+        factura=data['factura'],
         detalle=data['observaciones'],
         codigo_cuenta='111005',
         cuenta='Bancos nacionales',
@@ -105,7 +106,7 @@ def registrar_aporte():
     if(efectivo>0):
         aporte_efectivo = LibroContable(
         fecha=datetime.now(),
-        referencia='NA',
+        factura=data['factura'],
         detalle=data['observaciones'],
         codigo_cuenta='110505',
         cuenta='Caja',
@@ -113,7 +114,6 @@ def registrar_aporte():
         haber=0
         ) 
         db.session.add(aporte_efectivo)
-
-
+        
     db.session.commit()
     return jsonify({'mensaje': 'Aporte registrado exitosamente'}), 201

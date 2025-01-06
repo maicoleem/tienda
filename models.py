@@ -53,6 +53,7 @@ class LibroRegistro(db.Model):
     cliente = db.Column(db.String(100), nullable=True)
     movimiento = db.Column(db.String(50), nullable=False)  # Entrada o Salida
     referencia = db.Column(db.String(100), nullable=False)
+    factura = db.Column(db.String(50), nullable=False)
     nombre = db.Column(db.String(100), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)
     bodega = db.Column(db.String(100), nullable=False)
@@ -78,8 +79,8 @@ class CuentaContable(db.Model):
 class LibroContable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fecha = db.Column(db.DateTime, nullable=False)
-    referencia = db.Column(db.String(100), nullable=True) #referencia (codigo) del producto
-    detalle = db.Column(db.String(100), nullable=True) #alguna observación
+    factura = db.Column(db.String(100), nullable=True) #Factura
+    detalle = db.Column(db.String(100), nullable=True) #Observaciones de la factura
     codigo_cuenta = db.Column(db.String(10), nullable=True)
     cuenta = db.Column(db.String(100), nullable=True)
     debe = db.Column(db.Float, nullable=False)

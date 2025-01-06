@@ -14,6 +14,7 @@ from routes.cuentas import cuentas_bp
 from routes.balance import balance_bp
 from routes.resultados import resultados_bp
 from routes.aportes import aportes_bp
+from routes.libro_contable import libro_contable_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tienda.db'
@@ -141,6 +142,7 @@ app.register_blueprint(aportes_bp)
 app.register_blueprint(balance_bp)
 app.register_blueprint(resultados_bp)
 app.register_blueprint(cuentas_bp, url_prefix='/api/cuentas')
+app.register_blueprint(libro_contable_bp)
 
 @app.route('/')
 def index():
@@ -193,6 +195,11 @@ def cuentas():
 @app.route('/aportes/')
 def aportes():
     return render_template('aportes.html')
+
+@app.route('/pagos')
+@app.route('/pagos/')
+def pagos():
+    return render_template('pagos.html')
 
 #print(app.url_map)
 
