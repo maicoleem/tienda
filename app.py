@@ -200,6 +200,10 @@ def aportes():
 @app.route('/pagos/')
 def pagos():
     return render_template('pagos.html')
+@app.route('/nomina')
+@app.route('/nomina/')
+def nomina():
+    return render_template('nomina.html')
 
 #print(app.url_map)
 

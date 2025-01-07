@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salarios Empleados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nomina.css') }}">
+    <script src="{{ url_for('static', filename='nomina.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Nómina</h1>
+    </header>
+    <main>
+        <!-- Sección de empleados -->
+        <section id="empleados">
+            <h2>Lista de Empleados</h2>
+            <ul id="lista-empleados">
+                <!-- Los empleados se cargarán dinámicamente aquí -->
+            </ul>
+        </section>
+        <!-- Sección de cálculo -->
+        <section id="calculo-salario">
+            <h2>Calcular Nómina</h2>
+            <form id="form-nomina">
+                <label for="nombre-empleado">Empleado:</label>
+                <input type="text" id="nombre-empleado" name="nombre" readonly>
+
+                <label for="dias-trabajados">Días Trabajados (8 horas/día):</label>
+                <input type="number" id="dias-trabajados" name="dias_trabajados" min="1" max="30" required>
+
+                <label for="horas-extras">Horas Extras:</label>
+                <input type="number" id="horas-extras" name="horas_extras" min="0">
+
+                <h3>Parafiscales y Costos Asociados</h3>
+                <div id="detalles-costos">
+                    <!-- Los detalles de costos se mostrarán aquí -->
+                </div>
+
+                <label for="monto-caja">Monto (Caja):</label>
+                <input type="number" id="monto-caja" name="monto_caja" step="0.01">
+
+                <label for="monto-banco">Monto (Banco):</label>
+                <input type="number" id="monto-banco" name="monto_banco" step="0.01">
+
+                <button type="submit">Pagar</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -18,6 +18,7 @@ class Empleado(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     cargo = db.Column(db.String(100), nullable=False)
+    salario = db.Column(db.String(12), nullable=True)
 
 # Modelo de Producto
 class Producto(db.Model):
