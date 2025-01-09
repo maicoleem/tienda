@@ -2,26 +2,33 @@ document.addEventListener('DOMContentLoaded', cargarBalance);
 
 // Función para cargar los datos del balance general
 async function cargarBalance() {
-    const response = await fetch('/api/balance');
-    const balance = await response.json();
+    fetch('/api/balance')
+    .then(response => response.json())
+    .then(data => {
+        const { cuentas, totales } = data;
 
-    // Mostrar el resumen del balance
-    document.getElementById('total-activos').textContent = balance.resumen.activos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-    document.getElementById('total-pasivos').textContent = balance.resumen.pasivos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-    document.getElementById('total-patrimonio').textContent = balance.resumen.patrimonio.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+        // Populate the sections
+        const activosList = document.getElementById('lista-activos');
+        const pasivosList = document.getElementById('lista-pasivos');
+        const patrimonioList = document.getElementById('lista-patrimonio');
 
-    // Mostrar el detalle de las cuentas
-    const tbody = document.getElementById('tabla-detalle-cuentas');
-    tbody.innerHTML = ''; // Limpiar la tabla
-    balance.detalles.forEach(cuenta => {
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td>${cuenta.codigo}</td>
-            <td>${cuenta.nombre}</td>
-            <td>${cuenta.total_debitos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
-            <td>${cuenta.total_creditos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
-            <td>${cuenta.saldo.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
-        `;
-        tbody.appendChild(fila);
-    });
+        cuentas.forEach(cuenta => {
+            const li = document.createElement('li');
+            li.textContent = `${cuenta.cuenta} (Debe: ${cuenta.total_debe}, Haber: ${cuenta.total_haber}, Neto: ${cuenta.saldo_neto})`;
+
+            if (cuenta.codigo_cuenta.startsWith('1')) {
+                activosList.appendChild(li);
+            } else if (cuenta.codigo_cuenta.startsWith('2')) {
+                pasivosList.appendChild(li);
+            } else if (cuenta.codigo_cuenta.startsWith('3')) {
+                patrimonioList.appendChild(li);
+            }
+        });
+
+        // Add totals
+        document.getElementById('total-activos').textContent = `Total Activos: ${totales.total_activo}`;
+        document.getElementById('total-pasivos').textContent = `Total Pasivos: ${totales.total_pasivo}`;
+        document.getElementById('total-patrimonio').textContent = `Total Patrimonio: ${totales.total_patrimonio}`;
+    })
+    .catch(error => console.error('Error fetching balance general:', error));
 }

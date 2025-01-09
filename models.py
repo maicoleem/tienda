@@ -36,14 +36,14 @@ class Bodega(db.Model):
 
 # Modelo de Almacenamiento de productos en bodega
 class Almacenamiento(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    bodega = db.Column(db.String(100), nullable=False)
-    referencia = db.Column(db.String(100), nullable=False)
-    nombre = db.Column(db.String(100), nullable=False)
-    tipo = db.Column(db.String(50), nullable=False)
-    cantidad = db.Column(db.Integer, nullable=False)
-    precio_compra = db.Column(db.Float, nullable=False)
-    precio_venta = db.Column(db.Float, nullable=False)
+    id = db.Column(db.Integer, primary_key=True) # OMITIR
+    bodega = db.Column(db.String(100), nullable=False) # BODEGA GENERICA
+    referencia = db.Column(db.String(100), nullable=False) #CODIGO DEL PRODUCTO
+    nombre = db.Column(db.String(100), nullable=False) # NOMBRE DEL PRODUCTO
+    tipo = db.Column(db.String(50), nullable=False) # ALGUNA CARACTERISTICA PARA FILTRAR
+    cantidad = db.Column(db.Integer, nullable=False) # CANTIDAD QUE HAY EN BODEGA
+    precio_compra = db.Column(db.Float, nullable=False)# PRECIO DE COMPRA
+    precio_venta = db.Column(db.Float, nullable=False) #PRECIO DE VENTA
 
 # Modelo de Libro de Registro
 class LibroRegistro(db.Model):
@@ -79,13 +79,13 @@ class CuentaContable(db.Model):
 # Modelo de Libro Contable
 class LibroContable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fecha = db.Column(db.DateTime, nullable=False)
-    factura = db.Column(db.String(100), nullable=True) #Factura
-    detalle = db.Column(db.String(100), nullable=True) #Observaciones de la factura
-    codigo_cuenta = db.Column(db.String(10), nullable=True)
-    cuenta = db.Column(db.String(100), nullable=True)
-    debe = db.Column(db.Float, nullable=False)
-    haber = db.Column(db.Float, nullable=False)
+    fecha = db.Column(db.DateTime, nullable=False) #Fecha de la factura
+    factura = db.Column(db.String(100), nullable=True) # Factura
+    detalle = db.Column(db.String(100), nullable=True) # Observaciones de la factura
+    codigo_cuenta = db.Column(db.String(10), nullable=True) # Codigo de la cuenta ejemplo para caja es 110505 segun PUC colombia
+    cuenta = db.Column(db.String(100), nullable=True) # nombre de la cuenta
+    debe = db.Column(db.Float, nullable=False) # debe de la cuenta (debito)
+    haber = db.Column(db.Float, nullable=False) # haber de la cuenta (credito)
 
 #Modelo Socios
 class Socios(db.Model):

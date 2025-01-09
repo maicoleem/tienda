@@ -1,27 +1,36 @@
-document.addEventListener('DOMContentLoaded', cargarResultados);
+document.addEventListener("DOMContentLoaded", () => {
+    // Fetch data from API
+    fetch('/api/resultados')
+        .then(response => response.json())
+        .then(data => {
+            // Render tables
+            renderTable('tabla-ingresos', data.ingresos, data.total_ingresos);
+            renderTable('tabla-costos', data.costos, data.total_costos);
+            renderTable('tabla-gastos', data.gastos, data.total_gastos);
 
-// Función para cargar los datos del estado de resultados
-async function cargarResultados() {
-    const response = await fetch('/api/resultados');
-    const estadoResultados = await response.json();
+            // Render summary
+            document.getElementById('utilidad-operacional').textContent = data.utilidad_operacional.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+            document.getElementById('utilidad-neta').textContent = data.utilidad_neta.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
 
-    // Mostrar el resumen
-    document.getElementById('total-ingresos').textContent = estadoResultados.resumen.ingresos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-    document.getElementById('total-costos').textContent = estadoResultados.resumen.costos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-    document.getElementById('total-gastos').textContent = estadoResultados.resumen.gastos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+function renderTable(tableId, accounts, total) {
+    const tbody = document.querySelector(`#${tableId} tbody`);
+    const totalCell = document.getElementById(`total-${tableId.split('-')[1]}`);
 
-    // Mostrar el detalle de las cuentas
-    const tbody = document.getElementById('tabla-detalle-cuentas');
-    tbody.innerHTML = ''; // Limpiar la tabla
-    estadoResultados.detalles.forEach(cuenta => {
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td>${cuenta.codigo}</td>
-            <td>${cuenta.nombre}</td>
-            <td>${cuenta.total_debitos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
-            <td>${cuenta.total_creditos.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
-            <td>${cuenta.saldo.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
+    accounts.forEach(account => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td>${account.cuenta}</td>
+            <td>${account.total_debe.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
+            <td>${account.total_haber.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
+            <td>${account.saldo_neto.toLocaleString('es-CO', { style: 'currency', currency: 'COP' })}</td>
         `;
-        tbody.appendChild(fila);
+
+        tbody.appendChild(row);
     });
+
+    totalCell.textContent = total.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
 }

@@ -71,9 +71,9 @@ def registrar_aporte():
         nombre=data['nombre'],
         tipo='Aporte',
         bodega='N/A',
-        cantidad='N/A',
-        precio_compra='N/A',
-        precio_venta='N/A',
+        cantidad='1',
+        precio_compra=efectivo,
+        precio_venta=banco,
         ganancia = aporte_neto,
         observaciones=data['observaciones']
     )

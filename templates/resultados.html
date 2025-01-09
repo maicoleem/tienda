@@ -8,56 +8,79 @@
     <script src="{{ url_for('static', filename='resultados.js') }}" defer></script>
 </head>
 <body>
-    <header>
+    <div class="container">
         <h1>Estado de Resultados</h1>
-    </header>
-    <main>
-        <!-- Resumen del Estado de Resultados -->
-        <section id="resumen-resultado">
-            <h2>Resumen</h2>
-            <table>
+
+        <div class="table-container">
+            <h2>Ingresos</h2>
+            <table id="tabla-ingresos">
                 <thead>
                     <tr>
-                        <th>Tipo</th>
-                        <th>Total</th>
+                        <th>Nombre de la Cuenta</th>
+                        <th>Debe</th>
+                        <th>Haber</th>
+                        <th>Neto</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody></tbody>
+                <tfoot>
                     <tr>
-                        <td>Ingresos</td>
+                        <td colspan="3"><strong>Total Ingresos:</strong></td>
                         <td id="total-ingresos"></td>
                     </tr>
-                    <tr>
-                        <td>Costos</td>
-                        <td id="total-costos"></td>
-                    </tr>
-                    <tr>
-                        <td>Gastos</td>
-                        <td id="total-gastos"></td>
-                    </tr>
-                </tbody>
+                </tfoot>
             </table>
-        </section>
+        </div>
 
-        <!-- Detalle del Estado de Resultados -->
-        <section id="detalle-resultado">
-            <h2>Detalle de Cuentas</h2>
-            <table>
+        <div class="table-container">
+            <h2>Costos</h2>
+            <table id="tabla-costos">
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Total Débitos</th>
-                        <th>Total Créditos</th>
-                        <th>Saldo</th>
+                        <th>Nombre de la Cuenta</th>
+                        <th>Debe</th>
+                        <th>Haber</th>
+                        <th>Neto</th>
                     </tr>
                 </thead>
-                <tbody id="tabla-detalle-cuentas">
-                    <!-- Se llenará dinámicamente -->
-                </tbody>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"><strong>Total Costos:</strong></td>
+                        <td id="total-costos"></td>
+                    </tr>
+                </tfoot>
             </table>
-        </section>
-    </main>
+        </div>
+
+        <div class="table-container">
+            <h2>Gastos</h2>
+            <table id="tabla-gastos">
+                <thead>
+                    <tr>
+                        <th>Nombre de la Cuenta</th>
+                        <th>Debe</th>
+                        <th>Haber</th>
+                        <th>Neto</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"><strong>Total Gastos:</strong></td>
+                        <td id="total-gastos"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="summary">
+            <h2>Resultados Finales</h2>
+            <p><strong>Utilidad Operacional:</strong> <span id="utilidad-operacional"></span></p>
+            <p><strong>Utilidad Neta:</strong> <span id="utilidad-neta"></span></p>
+        </div>
+    </div>
+
     <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
 </body>
 </html>

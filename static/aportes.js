@@ -56,7 +56,7 @@ document.getElementById('crear-socio').addEventListener('click', async () => {
 document.getElementById('registrar-dinero').addEventListener('click', async () => {
     const datos = {
         identificacion: document.getElementById('identificacion-socio').value,
-        nombre: document.getElementById('nombre-aporte').value,
+        nombre: document.getElementById('nombre').value,
         efectivo: parseFloat(document.getElementById('efectivo').value),
         banco: parseFloat(document.getElementById('banco').value),
         observaciones: document.getElementById('observaciones-dinero').value,
@@ -67,8 +67,10 @@ document.getElementById('registrar-dinero').addEventListener('click', async () =
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datos)
-    });
-    alert('Aporte registrado exitosamente');
+    }).then(()=>{
+        limpiarFormularioDinero();
+        buscarRegistros()
+    }).catch(error => console.error('Error al registrar aporte:', error));
 });
 
 // Función para establecer la fecha y hora actual
@@ -122,13 +124,36 @@ const buscarFacturas = async () => {
     }
 };
 
+const buscarRegistros = async () => {
+    try {
+        // Obtener el valor del input con id "factura"
+        const cadena = "APORTE";
+
+        // Realizar la solicitud GET con la cadena como parámetro
+        const response = await fetch(`/api/libro_registro/facturas-registro?cadena=${encodeURIComponent(cadena)}`);
+        const datos = await response.json();
+
+        if (response.ok) {
+            console.log("Facturas encontradas:", datos);
+            // Mostrar los resultados en la interfaz
+            mostrarFacturasEnTabla(datos);
+        } else {
+            console.error("Error:", datos.error);
+            alert(`Error: ${datos.error}`);
+        }
+    } catch (error) {
+        console.error("Error al buscar facturas:", error);
+        alert("Hubo un problema al buscar las facturas. Consulte la consola para más detalles.");
+    }
+};
+
 // Función para mostrar las facturas en una tabla HTML
 const mostrarFacturasEnTabla = (facturas) => {
-    const tabla = document.getElementById("tablaFacturas");
-    tabla.innerHTML = ""; // Vaciar la tabla
+    const tbody = document.getElementById("tabla-aportes");
+    tbody.innerHTML = ""; // Vaciar la tabla
 
     if (facturas.length === 0) {
-        tabla.innerHTML = "<tr><td colspan='7'>No se encontraron facturas</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='7'>No se encontraron facturas</td></tr>";
         return;
     }
 
@@ -136,16 +161,14 @@ const mostrarFacturasEnTabla = (facturas) => {
     facturas.forEach((factura) => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
-            <td>${factura.id}</td>
             <td>${new Date(factura.fecha).toLocaleDateString()}</td>
             <td>${factura.factura}</td>
-            <td>${factura.detalle}</td>
-            <td>${factura.codigo_cuenta}</td>
-            <td>${factura.cuenta}</td>
-            <td>${factura.debe}</td>
-            <td>${factura.haber}</td>
+            <td>${factura.referencia}</td>
+            <td>${factura.nombre}</td>
+            <td>${factura.precio_compra}</td>
+            <td>${factura.precio_venta}</td>
         `;
-        tabla.appendChild(fila);
+        tbody.appendChild(fila);
     });
 
 
@@ -178,8 +201,16 @@ const obtenerNuevaFactura = async () => {
     }
 };
 
+function limpiarFormularioDinero(){
+    const formulario = document.getElementById('formulario-aportes')
+    formulario.reset();
+}
+
 // Establecer fecha actual al cargar la página
 establecerFechaActual();
 
 //obtener factura nueva
 obtenerNuevaFactura();
+
+//registros
+buscarRegistros()

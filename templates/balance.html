@@ -8,58 +8,32 @@
     <script src="{{ url_for('static', filename='balance.js') }}" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Balance General</h1>
-    </header>
-    <main>
-        <!-- Resumen del Balance -->
-        <section id="resumen-balance">
-            <h2>Resumen</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Activos</td>
-                        <td id="total-activos"></td>
-                    </tr>
-                    <tr>
-                        <td>Pasivos</td>
-                        <td id="total-pasivos"></td>
-                    </tr>
-                    <tr>
-                        <td>Patrimonio</td>
-                        <td id="total-patrimonio"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- Detalle del Balance -->
-        <section id="detalle-balance">
-            <h2>Detalle de Cuentas</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Total Débitos</th>
-                        <th>Total Créditos</th>
-                        <th>Saldo</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-detalle-cuentas">
-                    <!-- Se llenará dinámicamente -->
-                </tbody>
-            </table>
-        </section>
-    </main>
-    <footer>
+    <body>
+        <div class="container">
+            <h1>Balance General</h1>
+            <div class="balance-grid">
+                <!-- Activos -->
+                <div class="balance-section" id="activos">
+                    <h2>Activos</h2>
+                    <ul id="lista-activos"></ul>
+                    <p class="total" id="total-activos"></p>
+                </div>
+                
+                <!-- Patrimonio -->
+                <div class="balance-section" id="patrimonio">
+                    <h2>Patrimonio</h2>
+                    <ul id="lista-patrimonio"></ul>
+                    <p class="total" id="total-patrimonio"></p>
+                </div>
+                
+                <!-- Pasivos -->
+                <div class="balance-section" id="pasivos">
+                    <h2>Pasivos</h2>
+                    <ul id="lista-pasivos"></ul>
+                    <p class="total" id="total-pasivos"></p>
+                </div>
+            </div>
+        </div>
         <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
-    </footer>
-</body>
+    </body>
 </html>
