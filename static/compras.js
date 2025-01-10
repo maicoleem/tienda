@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar datos iniciales
     cargarOpciones('/api/empleados', 'empleado');
     cargarOpciones('/api/proveedores', 'proveedor');
-    cargarOpciones('/api/clientes', 'cliente');
+    cargarOpciones('/api/clientes/', 'cliente');
 
     // Configurar búsqueda en las listas desplegables
     configurarBusquedaSelect('empleado');

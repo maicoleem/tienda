@@ -30,7 +30,7 @@ def obtener_balance_general():
         for resultado in resultados:
             codigo_cuenta, cuenta, total_debe, total_haber = resultado
 
-            # Calcular el saldo neto por cuenta
+            
             saldo_neto = total_debe - total_haber
 
             # Clasificar las cuentas según el código (por ejemplo, activos 1xx, pasivos 2xx, patrimonio 3xx)

@@ -87,16 +87,11 @@ def agregar_registro():
     db.session.add(nuevo_registro)
 
     # Registrar en libro contable
-    costo_total = float(data.get('precio_compra', 0) * data.get('cantidad', 0))
+    costo_total = int(data.get('precio_compra', 0) * int(data.get('cantidad', 0)))
     pago_total = float(data['banco'])  + float(data['efectivo'])
-    credito = float(data.get('credito', 0))
-    debe_220505 = max(credito, 0)
-    iva_por_pagar = float(data.get['valor-iva'])
-    iva_descontable_pagado = iva_por_pagar
-
-    if(pago_total > costo_total):
-        debe_220505 = costo_total
-        iva_descontable_pagado = pago_total - costo_total
+    #credito = float(data.get('credito', 0))
+    iva_pagado = float(data.get('iva', 0))
+    neto_a_pagar = costo_total + iva_pagado
 
     registro_mercancias = LibroContable(
         fecha = datetime.now(),
@@ -115,21 +110,21 @@ def agregar_registro():
             detalle = data.get('observaciones', 'compras'),
             codigo_cuenta = '220505',
             cuenta = 'Proveedores nacionales',
-            debe = float(debe_220505),
-            haber = costo_total,
+            debe = float(pago_total), #lo que ha pagado
+            haber = float(neto_a_pagar), #lo que debe pagar costo + iva
     )
     db.session.add(registro_proveedor)
 
     #la cuenta del iva por pagar en el balance general se trata como activo
-    if(data['valor-iva'] != 0):
+    if(data['iva'] != 0):
         registro_iva = LibroContable(
             fecha = datetime.now(),
             factura=data['factura'],
             detalle = data.get('observaciones', 'compras'),
             codigo_cuenta = '240805',
             cuenta = 'IVA descontable',
-            debe = float(iva_por_pagar),
-            haber = float(iva_descontable_pagado)
+            debe = float(iva_pagado),
+            haber = float(0)
         )
         db.session.add(registro_iva)
     
