@@ -86,8 +86,8 @@ def registrar_aporte():
         detalle=data['observaciones'],
         codigo_cuenta='311505',
         cuenta='Aportes sociales',
-        debe=aporte_neto,
-        haber=0
+        debe=0,
+        haber=aporte_neto
     )
     db.session.add(nuevo_aporte)
 
@@ -97,7 +97,7 @@ def registrar_aporte():
         factura=data['factura'],
         detalle=data['observaciones'],
         codigo_cuenta='111005',
-        cuenta='Bancos nacionales',
+        cuenta='Bancos',
         debe=banco,
         haber=0
         ) 

@@ -112,6 +112,12 @@ def crear_cuentas_iniciales():
             "tipo": "Activo",
             "descripcion": "Cuentas por cobrar"
         },
+        {
+            "codigo": "360505",
+            "nombre": "Utilidad del ejercicio",
+            "tipo": "Patrimonio",
+            "descripcion": "Utilidades del ejercicio"
+        },
         # Agrega más cuentas iniciales si lo deseas
     ]
 
@@ -122,7 +128,6 @@ def crear_cuentas_iniciales():
             db.session.add(nueva_cuenta)
 
     db.session.commit()
-
 
 db.init_app(app)
 with app.app_context(): 

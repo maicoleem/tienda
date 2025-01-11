@@ -81,7 +81,7 @@ def realizar_venta():
 
             # Crear el registro en LibroRegistro
             nuevo_registro = LibroRegistro(
-                fecha=datetime.fromisoformat(registro.get('fecha')),
+                fecha=datetime.now(),
                 empleado=registro.get('empleado'),
                 cliente=registro.get('cliente'),
                 movimiento='Salida',
@@ -150,7 +150,7 @@ def realizar_venta():
             detalle = libro_contable.get('observaciones', 'venta'),
             codigo_cuenta = '130505',
             cuenta = 'Deudores clientes',
-            debe = float(libro_contable['acredito']),
+            debe = float(libro_contable['acredita']),
             haber = float(0)
         )
         db.session.add(registro_credito)
@@ -176,6 +176,18 @@ def realizar_venta():
             haber = float(libro_contable['costo_mercancia'])
         )
         db.session.add(registro_mercancias)
+        #Utilidad del ejercicio
+        registro_utilidad = LibroContable(
+            fecha = datetime.now(),
+            factura=libro_contable['factura'],
+            detalle = libro_contable.get('observaciones', 'venta'),
+            codigo_cuenta = '360505',
+            cuenta = 'Utilidad del ejercicio',
+            debe = float(0),
+            haber = float(libro_contable['ganancia_total'])
+        )
+        db.session.add(registro_utilidad)
+
 
         # Confirmar cambios
         db.session.commit()

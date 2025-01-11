@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputTotal = document.getElementById('total');
     const inputAcredita = document.getElementById('acredita');
     const checkBoxIva = document.getElementById('iva-checkbox');
-    const checkBoxAcredito = document.getElementById('acredito-checkbox');
+    const checkBoxAcredito = document.getElementById('credito-checkbox');
     const ivaVenta = document.getElementById('iva-venta');
     const inputBanco = document.getElementById('banco');
     const inputEfectivo = document.getElementById('efectivo');
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${registro.tipo}</td>
                 <td>${registro.bodega}</td>
                 <td>${registro.cantidad}</td>
-                <td>${registro.precio_compra}</td>
+                <td>${registro.precioCompra}</td>
                 <td>${registro.precioVenta}</td>
                 <td>${registro.ganancia}</td> <!-- Ganancia calculada después -->
                 <td>${registro.observaciones}</td>
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cantidad: columnas[9].textContent,
                 precio_compra: columnas[10].textContent,
                 precio_venta: columnas[11].textContent,
-                ganancia: columnas[12].textContent,
+                ganancia: columnas[12].textContent, //id almacenamiento NO ganancias
                 observaciones: columnas[13].textContent || ""
             };
         });
@@ -212,39 +212,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para realizar la venta
     const realizarVenta = async () => {
         const registros = obtenerRegistrosTabla();
-
+        
         if (registros.length === 0) {
             alert("No hay registros para realizar la venta.");
             return;
         }
-        const habilitado = checkBoxAcredito.checked;
-        if(!habilitado){
-            alert("Para hacer venta a credito habilitarla.");
-            return;
+        
+        const credito_vlaue = parseInt(inputAcredita.value)
+        if(credito_vlaue>0){
+            const habilitado = checkBoxAcredito.checked;
+            if(!habilitado){
+                alert("Para hacer venta a credito habilitarla.");
+                return;
+            }
         }
-        costoMercancia = calcularCostoMercancia;
+            
+        const costoMercancia = calcularCostoMercancia();
         if(costoMercancia <= 0){
             alert("Error al calcular el costo de la mercancia.");
             return;
         }
+        console.log('inicia try')
         try {
-            
+            total_venta = parseFloat(inputTotal.value);
+            ganancia_venta = total_venta - costoMercancia;
+
+
             const contable ={
                 banco: inputBanco.value,
                 efectivo: inputEfectivo.value,
                 iva: ivaVenta.value,
                 acredita: inputAcredita.value,
                 subtotal: inputSubtotal.value,
-                total: inputTotal.value,
+                total: total_venta,
                 costo_mercancia: costoMercancia,
                 factura: inputFactura.value,
-                observaciones: inputObservacionesVenta
+                ganancia_total: ganancia_venta,
+                observaciones: inputObservacionesVenta.value
             };
-        
+            console.log('before playload')
             const playload = {
                 registros,
                 contable
             };
+            console.log('after playload')
 
             const response = await fetch('/api/realizar-venta', {
                 method: 'POST',
@@ -394,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar datos iniciales
     cargarOpciones('/api/empleados', 'empleado');
     cargarOpciones('/api/proveedores', 'proveedor');
-    cargarOpciones('/api/clientes', 'cliente');
+    cargarOpciones('/api/clientes/', 'cliente');
 
     // Configurar búsqueda en las listas desplegables
     configurarBusquedaSelect('empleado');
