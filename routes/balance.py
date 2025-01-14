@@ -31,15 +31,18 @@ def obtener_balance_general():
             codigo_cuenta, cuenta, total_debe, total_haber = resultado
 
             
-            saldo_neto = total_debe - total_haber
+            #saldo_neto = total_debe - total_haber
 
             # Clasificar las cuentas según el código (por ejemplo, activos 1xx, pasivos 2xx, patrimonio 3xx)
             if codigo_cuenta.startswith('1'):  # Activos
-                total_activo += saldo_neto
+                total_activo += total_debe - total_haber
+                saldo_neto = total_debe - total_haber
             elif codigo_cuenta.startswith('2'):  # Pasivos
-                total_pasivo += saldo_neto
+                total_pasivo += total_haber - total_debe 
+                saldo_neto = total_haber - total_debe 
             elif codigo_cuenta.startswith('3'):  # Patrimonio
-                total_patrimonio += saldo_neto
+                total_patrimonio += total_haber - total_debe 
+                saldo_neto = total_haber - total_debe
 
             # Agregar la cuenta al balance
             balance_por_cuenta.append({

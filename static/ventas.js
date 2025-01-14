@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('inicia try')
         try {
             total_venta = parseFloat(inputTotal.value);
-            ganancia_venta = total_venta - costoMercancia;
+            ganancia_venta = total_venta - costoMercancia - ivaVenta.value;
 
 
             const contable ={

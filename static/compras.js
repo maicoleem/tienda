@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const precioTotalInput = document.getElementById('precio-total');
     const bancoInput = document.getElementById('banco');
     const efectivoInput = document.getElementById('efectivo');
-    const creditoInput = document.getElementById('credito')
+    const creditoInput = document.getElementById('credito');
+    const valorIva = document.getElementById('valor-iva');
+    const efectivoDisponible = document.getElementById('disponible-efectivo');
+    const bancoDisponible = document.getElementById('disponible-banco');
 
     // Habilitar/deshabilitar campos al cambiar el estado del checkbox
     checkboxNuevoProducto.addEventListener('change', () => {
@@ -233,17 +236,18 @@ document.addEventListener('DOMContentLoaded', () => {
         disponibleBanco = document.getElementById('disponible-banco').value;
         disponibleEfectivo = document.getElementById('disponible-efectivo').value;
 
-        if(disponibleBanco < bancoInput.value){
+        if(parseFloat(disponibleBanco) < parseFloat(bancoInput.value)){
             formularioValido = false
             alert(`No tiene saldo disponible en banco`);
         }
-        if(disponibleEfectivo < efectivoInput.value){
+        if(parseFloat(disponibleEfectivo) < parseFloat(efectivoInput.value)){
             formularioValido = false
             alert(`No tiene saldo disponible en caja`);
         }
 
-        pagoTotal = disponibleBanco + disponibleEfectivo
-        if(pagoTotal > precioTotalInput.value){
+        pagoTotal = parseFloat(bancoInput.value) + parseFloat(efectivoInput.value)
+        apagar = parseFloat(precioTotalInput.value) + parseFloat(valorIva.value)
+        if(pagoTotal > apagar){
             formularioValido = false
             alert(`Ingreso una cantidad superior al valor de la factura`);
         }
@@ -265,15 +269,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 tipo: document.getElementById('tipo').value,
                 bodega: document.getElementById('bodega').value,
                 cantidad: document.getElementById('cantidad').value,
-                precio_compra: document.getElementById('precio-compra').value,
-                precio_venta: document.getElementById('precio-venta').value,
-                ganancia: document.getElementById('ganancia').value,
+                precio_compra: parseFloat(document.getElementById('precio-compra').value),
+                precio_venta: parseFloat(document.getElementById('precio-venta').value),
+                ganancia: parseFloat(document.getElementById('ganancia').value),
                 observaciones: document.getElementById('observaciones').value,
-                banco: document.getElementById('banco').value,
-                efectivo: document.getElementById('efectivo').value,
-                iva: document.getElementById('valor-iva').value,
+                banco: parseFloat(document.getElementById('banco').value),
+                efectivo: parseFloat(document.getElementById('efectivo').value),
+                iva: parseFloat(document.getElementById('valor-iva').value),
                 factura : document.getElementById('factura').value,
-                credito: creditoInput.value
+                credito: parseFloat(creditoInput.value)
             };
 
             const response = await fetch('/api/libro-registro', {
@@ -337,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cantidad > 0) {
             const ganancia = (precioVenta - precioCompra) / cantidad;
             gananciaInput.value = ganancia.toFixed(2);
-            precioTotalInput.value  = cantidad * precioCompra
+            precioTotalInput.value  = (cantidad * precioCompra)
         } else {
             gananciaInput.value = '0.00';
         }
@@ -373,12 +377,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function calcularCredito(){
-        creditoInput.value = precioTotalInput.value - bancoInput.value - efectivoInput.value
+        const costoIVA = parseFloat(valorIva.value) || 0;
+        creditoInput.value = parseFloat(precioTotalInput.value) + costoIVA - parseFloat(bancoInput.value) - parseFloat(efectivoInput.value)
 
         if(0 > creditoInput){
             alert('esta ingresando una cantidad superior a la de la factura')
         }
     }
+
+    //Cargar disponible
+    async function cargarDisponible() {
+        const caja = '110505';
+        const banco = '111005';
+        const cajaCuenta = await obtenerTotalesPorCodigo(caja);
+        totalCaja = cajaCuenta.totalDebe - cajaCuenta.totalHaber;
+        if(cajaCuenta){
+            efectivoDisponible.value = totalCaja;
+        }
+        
+        const bancoCuenta = await obtenerTotalesPorCodigo(banco)
+        totalBanco = bancoCuenta.totalDebe - bancoCuenta.totalHaber
+        if(totalBanco){
+            bancoDisponible.value = totalBanco;
+        }
+    }
+    // Función para obtener los totales de debe y haber por código de cuenta
+    const obtenerTotalesPorCodigo = async (codigoCuenta) => {
+        if (!codigoCuenta) {
+            alert('Por favor, ingrese un código de cuenta.');
+            return;
+        }
+        try {
+            // Realizar la solicitud al backend
+            const response = await fetch(`/api/debe-haber-cuenta?codigo_cuenta=${codigoCuenta}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const data = await response.json();
+
+            // Retornar los totales de debe y haber
+            return {
+                totalDebe: data.total_debe || 0,
+                totalHaber: data.total_haber || 0
+            };
+        } catch (error) {
+            console.error('Error al obtener los totales:', error);
+            alert('Hubo un problema al obtener los datos. Consulte la consola para más detalles.');
+        }
+    }
+
+    cargarDisponible()
+
     // Cargar registros al cargar la página
     cargarRegistros();
 
@@ -425,7 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('iva').addEventListener('click', function () {
         const selectedValue = this.value;
-        const valorIva = document.getElementById('valor-iva')
         console.log(selectedValue)
         if (selectedValue === 'NO') {
             valorIva.value = 0

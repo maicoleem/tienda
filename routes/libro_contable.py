@@ -183,7 +183,7 @@ def sumar_debe_haber():
         # Responder con los totales
         return jsonify({
             "codigo_cuenta": codigo_cuenta,
-            "total_debe": resultados.total_debe or 0,
+            "total_debe": resultados.total_debe or 7,
             "total_haber": resultados.total_haber or 0
         }), 200
 

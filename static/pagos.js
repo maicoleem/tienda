@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', cargarDisponible);
+document.addEventListener('DOMContentLoaded', () =>{
 
 const inputValorServicio = document.getElementById('valor-servicio');
 const inputValorAlquiler = document.getElementById('valor-alquiler');
@@ -17,9 +17,6 @@ const checkBoxServicio = document.getElementById('credito-checkbox-servicios')
 
 // Función para obtener los totales de debe y haber por código de cuenta
 const obtenerTotalesPorCodigo = async (codigoCuenta) => {
-    // Obtener el valor del input del código de cuenta
-    const totalDebeInput = document.getElementById('total_debe');
-    const totalHaberInput = document.getElementById('total_haber');
     if (!codigoCuenta) {
         alert('Por favor, ingrese un código de cuenta.');
         return;
@@ -47,14 +44,17 @@ const obtenerTotalesPorCodigo = async (codigoCuenta) => {
 async function cargarDisponible() {
     const caja = '110505';
     const banco = '111005';
-    cajaCuenta = obtenerTotalesPorCodigo(caja);
+    const cajaCuenta = await obtenerTotalesPorCodigo(caja);
     totalCaja = cajaCuenta.totalDebe - cajaCuenta.totalHaber;
-    efectivoDisponible.value = totalCaja;
+    if(cajaCuenta){
+        efectivoDisponible.value = totalCaja;
+    }
     
-    bancoCuenta = obtenerTotalesPorCodigo(banco)
+    const bancoCuenta = await obtenerTotalesPorCodigo(banco)
     totalBanco = bancoCuenta.totalDebe - bancoCuenta.totalHaber
-    bancoDisponible.value = totalBanco;
-
+    if(totalBanco){
+        bancoDisponible.value = totalBanco;
+    }
 }
 
 //calcular deuda
@@ -250,3 +250,8 @@ inputCajaServicio.addEventListener('input', calcularDeuda);
 
 btnAlquiler.addEventListener('click', guardaAlquiler);
 btnServicio.addEventListener('click', guardaServicio);
+
+cargarDisponible();
+
+});
+
