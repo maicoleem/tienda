@@ -8,12 +8,18 @@ const inputCreditoServicio = document.getElementById('pago-credito-servicios');
 const inputCajaAlquiler = document.getElementById('pago-caja-alquiler');
 const inputBancoAlquiler = document.getElementById('pago-banco-alquiler');
 const inputCreditoAlquiler = document.getElementById('pago-credito-alquiler');
+const inputIVAAlquiler = document.getElementById('valor-iva-alquiler');
+const inputIVAServicio = document.getElementById('valor-iva-servicio');
+const inputTotalServicio = document.getElementById('total-servicio');
+const inputTotalAlquiler = document.getElementById('total-alquiler');
 const btnServicio = document.getElementById('guardar-servicios-btn');
 const btnAlquiler = document.getElementById('guardar-alquiler-btn');
 const efectivoDisponible = document.getElementById('efectivo');
 const bancoDisponible = document.getElementById('banco');
 const checkBoxAlquiler = document.getElementById('credito-checkbox-alquiler');
-const checkBoxServicio = document.getElementById('credito-checkbox-servicios')
+const checkBoxServicio = document.getElementById('credito-checkbox-servicios');
+const selectIVAServicio = document.getElementById('iva-servicio');
+const selectIVAAlquiler = document.getElementById('iva-alquiler');
 
 // Función para obtener los totales de debe y haber por código de cuenta
 const obtenerTotalesPorCodigo = async (codigoCuenta) => {
@@ -63,23 +69,30 @@ function calcularDeuda() {
     const valorAlquiler = parseFloat(inputValorAlquiler.value) || 0;
     const bancoAlquiler = parseFloat(inputBancoAlquiler.value) || 0;
     const cajaAlquiler = parseFloat(inputCajaAlquiler.value) || 0;
+    const ivaAlquiler = parseFloat(inputIVAAlquiler.value) || 0;
 
     // Calcular la deuda
-    const creditoAlquiler = valorAlquiler - bancoAlquiler - cajaAlquiler;
+    const creditoAlquiler = valorAlquiler - bancoAlquiler - cajaAlquiler + ivaAlquiler;
+
 
     // Asignar el resultado al input correspondiente
     inputCreditoAlquiler.value = creditoAlquiler.toFixed(2); // Formato a dos decimales
+
+    inputTotalAlquiler.value = creditoAlquiler.toFixed(2)
 
     // Convertir los valores de los inputs a números usando parseFloat
     const valorServicio = parseFloat(inputValorServicio.value) || 0;
     const bancoServicio = parseFloat(inputBancoServicio.value) || 0;
     const cajaServicio = parseFloat(inputCajaServicio.value) || 0;
+    const ivaServicio = parseFloat(inputIVAServicio.value) || 0;
 
     // Calcular la deuda
-    const creditoServicio = valorServicio - bancoServicio - cajaServicio;
+    const creditoServicio = valorServicio - bancoServicio - cajaServicio +ivaServicio;
 
     // Asignar el resultado al input correspondiente
     inputCreditoServicio.value = creditoServicio.toFixed(2); // Formato a dos decimales
+
+    inputTotalServicio.value = creditoServicio.toFixed(2)
 }
 
  // Validar formulario servicios
@@ -120,8 +133,8 @@ function calcularDeuda() {
         alert(`No tiene saldo disponible en caja`);
     }
 
-    pagoTotal = disponibleBanco + disponibleEfectivo
-    if(pagoTotal > inputValorServicio.value){
+    pagoTotal = parseFloat(inputBancoServicio.value) + parseFloat(inputCajaServicio.value)
+    if(pagoTotal > parseFloat(inputTotalServicio.value)){
         formularioValido = false
         alert(`Ingreso una cantidad superior al valor de la factura`);
     }
@@ -174,8 +187,8 @@ const validarFormularioAlquiler = () => {
         alert(`No tiene saldo disponible en caja`);
     }
 
-    pagoTotal = disponibleBanco + disponibleEfectivo
-    if(pagoTotal > inputValorAlquiler.value){
+    pagoTotal = parseFloat(inputBancoAlquiler.value) + parseFloat(inputCajaAlquiler.value)
+    if(pagoTotal > parseFloat(inputTotalAlquiler.value)){
         formularioValido = false
         alert(`Ingreso una cantidad superior al valor de la factura`);
     }
@@ -195,10 +208,11 @@ const guardaServicio = async (e) => {
     e.preventDefault(); // Evita el envío del formulario tradicional
     if (validarFormularioServicio()) {
         const datos = {
-            banco : inputBancoServicio.value,
-            caja: inputCajaServicio.value,
-            valor: inputValorServicio.value,
-            credito: inputCreditoServicio.value,
+            banco : parseFloat(inputBancoServicio.value),
+            caja: parseFloat(inputCajaServicio.value),
+            valor: parseFloat(inputTotalServicio.value),
+            credito: parseFloat(inputCreditoServicio.value),
+            iva: parseFloat(inputIVAServicio.value),
             factura: document.getElementById('facutra-servicios'),
             observaciones: document.getElementById('nombre-servicios')
         };
@@ -220,10 +234,11 @@ const guardaAlquiler = async (e) => {
     e.preventDefault(); // Evita el envío del formulario tradicional
     if (validarFormularioAlquiler()) {
         const datos = {
-            banco : inputBancoAlquiler.value,
-            caja: inputCajaAlquiler.value,
-            valor: inputValorAlquiler.value,
-            credito: inputCreditoAlquiler.value,
+            banco : parseFloat(inputBancoAlquiler.value),
+            caja: parseFloat(inputCajaAlquiler.value),
+            valor: parseFloat(inputTotalAlquiler.value),
+            credito: parseFloat(inputCreditoAlquiler.value),
+            iva: parseFloat(inputIVAAlquiler.value),
             factura: document.getElementById('facutra-alquiler'),
             observaciones: document.getElementById('nombre-alquiler')
         };
@@ -240,6 +255,36 @@ const guardaAlquiler = async (e) => {
         }
     }
 };
+
+function calcularIVA(event){
+    const yesOrNot = event.target;
+    const selectedValue = yesOrNot.value;
+    console.log(yesOrNot === selectIVAServicio)
+    if(yesOrNot === selectIVAServicio){
+        if (selectedValue === 'NO') {
+            inputIVAServicio.value = 0
+            inputTotalServicio.value = inputValorServicio.value
+        } else if (selectedValue === 'SI') {
+            const valor = parseFloat(inputValorServicio.value) * 0.19
+            inputIVAServicio.value = valor.toFixed(2)
+            inputTotalServicio.value = valor + parseFloat(inputValorServicio.value)
+        }
+    }else{
+        if (selectedValue === 'NO') {
+            inputIVAAlquiler.value = 0
+            inputTotalAlquiler.value = inputValorAlquiler.value
+        } else if (selectedValue === 'SI') {
+            const valor = parseFloat(inputValorAlquiler.value) * 0.19
+            inputIVAAlquiler.value = valor.toFixed(2)
+            inputTotalAlquiler.value = valor + parseFloat(inputValorAlquiler.value)
+        }
+    }
+
+    
+}
+
+selectIVAAlquiler.addEventListener('change', calcularIVA);
+selectIVAServicio.addEventListener('change', calcularIVA);
 
 inputValorAlquiler.addEventListener('input', calcularDeuda);
 inputBancoAlquiler.addEventListener('input', calcularDeuda);

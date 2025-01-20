@@ -37,10 +37,21 @@ def pagar_servicios():
             detalle = data.get('observaciones', 'servicios'),
             codigo_cuenta = '513535',
             cuenta = 'Servicios publicos',
-            debe = float(data['valor']),
+            debe = float(data['valor']) - float(data['iva']),
             haber = float(0)
         )
         db.session.add(registro_servicios)
+        #cuenta debito iva descontable
+        registro_servicios_iva = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '240805',
+            cuenta = 'IVA descontable',
+            debe = float(data['iva']),
+            haber = float(0)
+        )
+        db.session.add(registro_servicios_iva)
         #Pago a credito de servicios
         registro_credito = LibroContable(
             fecha = datetime.now(),
@@ -114,10 +125,21 @@ def pagar_alquiler():
             detalle = data.get('observaciones', 'alquiler'),
             codigo_cuenta = '513540',
             cuenta = 'Arrendamientos',
-            debe = float(data['valor']),
+            debe = float(data['valor']) - float(data['iva']),
             haber = float(0)
         )
         db.session.add(registro_servicios)
+        #cuenta debito iva descontable
+        registro_alquiler_iva = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '240805',
+            cuenta = 'IVA descontable',
+            debe = float(data['iva']),
+            haber = float(0)
+        )
+        db.session.add(registro_alquiler_iva)
         #Pago a credito de alquiler
         registro_credito = LibroContable(
             fecha = datetime.now(),

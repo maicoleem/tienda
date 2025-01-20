@@ -28,6 +28,17 @@
                     <input type="text" id="valor-servicio" placeholder="valor-servicio" value="0">
                 </div>            
                 <div class="pago">
+                    <label for="iva">IVA:</label>
+                    <select id="iva-servicio" name="iva-servicio" class="iva">
+                        <option value="NO">NO</option>
+                        <option value="SI">SI</option>
+                    </select>
+                    <label for="valor-iva">IVA:</label>
+                    <input type="number" id="valor-iva-servicio" name="valor-iva-servicio" step="0.01" required min="0" value="0" disabled="true">
+                    <label for="total-servicio">TOTAL:</label>
+                    <input type="number" id="total-servicio" name="total-servicio" step="0.01" required min="0" value="0" disabled="true">
+                </div>
+                <div class="pago">
                     <label for="pago-banco-servicio">Banco:</label>
                     <input type="number" id="pago-banco-servicios" value="0">
     
@@ -50,6 +61,17 @@
     
                     <label for="valor-alquiler">Valor:</label>
                     <input type="text" id="valor-alquiler" value="0">
+                </div>
+                <div class="pago">
+                    <label for="iva">IVA:</label>
+                    <select id="iva-alquiler" name="iva-alquiler" class="iva">
+                        <option value="NO">NO</option>
+                        <option value="SI">SI</option>
+                    </select>
+                    <label for="valor-iva">IVA:</label>
+                    <input type="number" id="valor-iva-alquiler" name="valor-iva-alquiler" step="0.01" required min="0" value="0" disabled="true">
+                    <label for="total-servicio">TOTAL:</label>
+                    <input type="number" id="total-alquiler" name="total-alquiler" step="0.01" required min="0" value="0" disabled="true">
                 </div>
                 <div class="pago">
                     <label for="pago-banco-alquile">Banco:</label>
