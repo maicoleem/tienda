@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Productos</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='basedatos.css') }}">
+    <script src="{{ url_for('static', filename='basedatos.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cargar Productos</h1>
+        <form id="upload-form">
+            <label for="excel-file">Selecciona el archivo Excel:</label>
+            <input type="file" id="excel-file" accept=".xlsx" required>
+            <button type="submit">Subir y Procesar</button>
+        </form>
+    </div>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+</body>
+</html>

@@ -99,8 +99,6 @@ const establecerFechaActual = () => {
     campoFecha.value = formatoBogota;
 };
 
-
-
 const buscarFacturas = async () => {
     try {
         // Obtener el valor del input con id "factura"

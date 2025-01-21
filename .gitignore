@@ -1,10 +1,11 @@
 instance/
 env/
 __pychache__/
-routes/__pychache__/
+routes/__pycache__/
 __pycache__/models.cpython-310.pyc
 __pycache__/models.cpython-310.pyc
 routes/__pycache__/cuentas.cpython-310.pyc
 __pycache__/models.cpython-310.pyc
 __pycache__/models.cpython-310.pyc
 __pycache__/models.cpython-310.pyc
+uploads/

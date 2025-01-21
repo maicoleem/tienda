@@ -15,10 +15,14 @@ from routes.balance import balance_bp
 from routes.resultados import resultados_bp
 from routes.aportes import aportes_bp
 from routes.libro_contable import libro_contable_bp
+from routes.basedatos import dataBase_db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tienda.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Configuración de la carpeta para subir archivos
+UPLOAD_FOLDER = './uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def crear_cuentas_iniciales():
     cuentas = [
@@ -148,6 +152,7 @@ app.register_blueprint(balance_bp)
 app.register_blueprint(resultados_bp)
 app.register_blueprint(cuentas_bp, url_prefix='/api/cuentas')
 app.register_blueprint(libro_contable_bp)
+app.register_blueprint(dataBase_db, url_prefix='/basedatos')
 
 @app.route('/')
 def index():
@@ -205,10 +210,16 @@ def aportes():
 @app.route('/pagos/')
 def pagos():
     return render_template('pagos.html')
+
 @app.route('/nomina')
 @app.route('/nomina/')
 def nomina():
     return render_template('nomina.html')
+
+@app.route('/basedatos')
+@app.route('/basedatos/')
+def basedatos():
+    return render_template('basedatos.html')
 
 print(app.url_map)
 
