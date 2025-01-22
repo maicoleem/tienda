@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from models import db, Almacenamiento
+from models import db, Almacenamiento, LibroRegistro, LibroContable
+from datetime import datetime
 
 almacenamiento_bp = Blueprint('/almacenamiento', __name__)
 
@@ -84,3 +85,87 @@ def eliminar_registro(id):
     db.session.delete(registro)
     db.session.commit()
     return jsonify({"mensaje": "Registro eliminado exitosamente"})
+
+
+#Producto vencido
+@almacenamiento_bp.route('/producto-perdida', methods=['POST'])
+def perdida():
+    try:
+        data = request.json  # Recibe lso datos del producto y la cantidad
+        
+        if not data:
+            return jsonify({"error": "No se enviaron datos para procesar"}), 400
+        
+        required_fields = ['referencia', 'cantidad_perdida', 'precio_compra', 'factura']
+        for field in required_fields:
+            if field not in data or data[field] is None:
+                return jsonify({"error": f"El campo {field} es obligatorio"}), 400
+        
+        producto = Almacenamiento.query.filter_by(referencia=data['referencia']).first()
+        if not producto:
+            return jsonify({"error": "El producto no existe"}), 404
+        
+        cantidad_perdida = int(data['cantidad_perdida'])
+        precio_compra = float(data['precio_compra'])
+        costo_neto = cantidad_perdida * precio_compra
+        cantidad_stock = int(producto.cantidad)
+
+        if cantidad_perdida > cantidad_stock:
+            return jsonify({"error": "La cantidad perdida es superior al stock"}), 400
+
+        cantidad_actualizada = cantidad_stock - cantidad_perdida
+        producto.cantidad = cantidad_actualizada
+        db.session.add(producto)
+
+        # Registrar en el LibroRegistro
+        nuevo_registro = LibroRegistro(
+            fecha=datetime.now(),
+            empleado=data.get('empleado', ''),
+            proveedor=data.get('proveedor', ''),
+            cliente=data.get('cliente', ''),
+            movimiento='Salida',
+            referencia=data['referencia'],
+            factura=data['factura'],
+            nombre=producto.nombre,
+            tipo=producto.tipo,
+            bodega=producto.bodega,
+            cantidad=int(cantidad_perdida),
+            precio_compra=float(data['precio_compra']),  # precio de compra seleccionado
+            precio_venta=float(producto.precio_compra),  # precio de compra de la data base
+            ganancia=float(0),
+            observaciones=data.get('observaciones', '')
+        )
+        db.session.add(nuevo_registro)
+
+        #
+        registro_costo_mercancia = LibroContable(
+        fecha = datetime.now(),
+        factura=data['factura'],
+        detalle = data.get('observaciones', 'compras'),
+        codigo_cuenta = '613505',
+        cuenta = 'Costo de mercancías vendidas',
+        debe = float(costo_neto),
+        haber = float(0)
+        )
+        db.session.add(registro_costo_mercancia)
+
+        registro_mercancias = LibroContable(
+        fecha = datetime.now(),
+        factura=data['factura'],
+        detalle = data.get('observaciones', 'compras'),
+        codigo_cuenta = '143505',
+        cuenta = 'Mercancias no fabricadas por la empresa',
+        debe = float(0),
+        haber = float(costo_neto)
+        )
+        db.session.add(registro_mercancias)
+        db.session.commit()
+        return jsonify({
+            "mensaje": "Producto actualizado correctamente",
+            "referencia": producto.referencia,
+            "cantidad_actualizada": producto.cantidad,
+            "nombre": producto.nombre
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"No se pudo registrar la pérdida: {str(e)}"}), 500
