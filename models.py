@@ -47,18 +47,18 @@ class Almacenamiento(db.Model):
 
 # Modelo de Libro de Registro
 class LibroRegistro(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    fecha = db.Column(db.DateTime, nullable=False)
-    empleado = db.Column(db.String(100), nullable=True)
-    proveedor = db.Column(db.String(100), nullable=True)
-    cliente = db.Column(db.String(100), nullable=True)
-    movimiento = db.Column(db.String(50), nullable=False)  # Entrada o Salida
-    referencia = db.Column(db.String(100), nullable=False)
-    factura = db.Column(db.String(50), nullable=False)
-    nombre = db.Column(db.String(100), nullable=False)
-    tipo = db.Column(db.String(50), nullable=False)
-    bodega = db.Column(db.String(100), nullable=False)
-    cantidad = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True) #identificador del registro
+    fecha = db.Column(db.DateTime, nullable=False) #fecha del registro
+    empleado = db.Column(db.String(100), nullable=True) #nombre del empleado
+    proveedor = db.Column(db.String(100), nullable=True) #nombre del proveedor
+    cliente = db.Column(db.String(100), nullable=True) #nombre del cliente
+    movimiento = db.Column(db.String(50), nullable=False)  # tipo de movimiento (entrada o salida)
+    referencia = db.Column(db.String(100), nullable=False) #codigo del producto u objeto al que va el movimiento
+    factura = db.Column(db.String(50), nullable=False) #factura del movimiento
+    nombre = db.Column(db.String(100), nullable=False) # nombre del producto u objeto
+    tipo = db.Column(db.String(50), nullable=False) #alguna caracteristica del producto
+    bodega = db.Column(db.String(100), nullable=False) #bodega donde se almacena el producto u objeto
+    cantidad = db.Column(db.Integer, nullable=False) # cantidad
     precio_compra = db.Column(db.Float, nullable=False)
     precio_venta = db.Column(db.Float, nullable=False)
     ganancia = db.Column(db.Float, nullable=False) # 0 para compras

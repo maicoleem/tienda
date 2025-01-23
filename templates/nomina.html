@@ -12,40 +12,79 @@
         <h1>Gestión de Nómina</h1>
     </header>
     <main>
-        <!-- Sección de empleados -->
-        <section id="empleados">
-            <h2>Lista de Empleados</h2>
-            <ul id="lista-empleados">
-                <!-- Los empleados se cargarán dinámicamente aquí -->
-            </ul>
-        </section>
         <!-- Sección de cálculo -->
+         <section>
+            <h3>Disponible</h3>
+            <form>
+                <label for="efectivo-disponible">Efectivo:</label>
+                <input type="number" id="efectivo-disponible" name="efectivo-disponible" step="0.01" readonly>
+
+                <label for="banco-disponible">Banco:</label>
+                <input type="number" id="banco-disponible" name="banco-disponible" step="0.01" readonly>
+                
+                <label for="factura">Factura:</label>
+                <input type="text" id="factura" name="factura" step="0.01" readonly>
+            </form>
+         </section>
         <section id="calculo-salario">
             <h2>Calcular Nómina</h2>
             <form id="form-nomina">
-                <label for="nombre-empleado">Empleado:</label>
-                <input type="text" id="nombre-empleado" name="nombre" readonly>
+                <label for="nombre">Empleado:</label>
+                <input type="text" id="nombre" name="nombre" readonly value="Empleado">
 
-                <label for="dias-trabajados">Días Trabajados (8 horas/día):</label>
-                <input type="number" id="dias-trabajados" name="dias_trabajados" min="1" max="30" required>
+                <label for="salario">Salario:</label>
+                <input type="number" id="salario" name="salario" min="1" max="30" required value="1" readonly>
 
-                <label for="horas-extras">Horas Extras:</label>
-                <input type="number" id="horas-extras" name="horas_extras" min="0">
+                <label for="pago">Pago:</label>
+                <input type="number" id="pago" name="pago" min="0" value="1">
 
-                <h3>Parafiscales y Costos Asociados</h3>
-                <div id="detalles-costos">
-                    <!-- Los detalles de costos se mostrarán aquí -->
-                </div>
+                <h3>Liquidar</h3>
+                <label for="efectivo">Efectivo:</label>
+                <input type="number" id="efectivo" name="efectivo" step="0.01" readonly>
 
-                <label for="monto-caja">Monto (Caja):</label>
-                <input type="number" id="monto-caja" name="monto_caja" step="0.01">
+                <label for="banco">Banco:</label>
+                <input type="number" id="banco" name="banco" step="0.01" readonly>
 
-                <label for="monto-banco">Monto (Banco):</label>
-                <input type="number" id="monto-banco" name="monto_banco" step="0.01">
-
-                <button type="submit">Pagar</button>
+                <button type="submit" id="btn-pago">Pagar</button>
             </form>
         </section>
+        <!-- Sección de empleados -->
+        <section id="empleados">
+            <h2>Lista de Empleados</h2>
+            <div id="lista-empleados">
+                <input type="text" id="filtro-nombre-empleado" placeholder="Filtrar por nombre...">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Salario</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-empleados">
+                        <!-- Las filas se llenarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Factura</th>
+                        <th>Identificación</th>
+                        <th>Nombre</th>
+                        <th>Efectivo</th>
+                        <th>Banco</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-nomina">
+                    <!-- Se llenará dinámicamente -->
+                </tbody>
+            </table>
+        </section>
     </main>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
 </body>
 </html>

@@ -41,12 +41,12 @@ def pago_nomina():
             empleado=data.get('empleado', ''),
             proveedor=data.get('proveedor', ''),
             cliente=data.get('cliente', ''),
-            movimiento='Salida',
+            movimiento='NOMINA',
             referencia=data['referencia'],
             factura=data['factura'],
             nombre=empleado.nombre,
             tipo=empleado.cargo,
-            bodega='nomina',
+            bodega='NOMINA',
             cantidad=int(1),
             precio_compra=float(pago),  # cuanto se debe pagar (salario)
             precio_venta=float(neto),  # cuanto se pago
