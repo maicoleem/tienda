@@ -96,12 +96,12 @@ def perdida():
         if not data:
             return jsonify({"error": "No se enviaron datos para procesar"}), 400
         
-        required_fields = ['referencia', 'cantidad_perdida', 'precio_compra', 'factura']
+        required_fields = ['id', 'referencia', 'cantidad_perdida', 'precio_compra', 'factura']
         for field in required_fields:
             if field not in data or data[field] is None:
                 return jsonify({"error": f"El campo {field} es obligatorio"}), 400
         
-        producto = Almacenamiento.query.filter_by(referencia=data['referencia']).first()
+        producto = Almacenamiento.query.filter_by(id=data['id']).first()
         if not producto:
             return jsonify({"error": "El producto no existe"}), 404
         

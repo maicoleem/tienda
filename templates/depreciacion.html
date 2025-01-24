@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Compras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='compras.css') }}">
+    <script src="{{ url_for('static', filename='depreciacion.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Bloque 1: Búsqueda de productos en almacenamiento -->
+        <div class="search-section">
+            <h2>Buscar Productos</h2>
+            <div class="search-box">
+                <label for="producto-busqueda">Producto:</label>
+                <input type="text" id="producto-busqueda" placeholder="Buscar producto...">
+                <ul id="producto-lista"></ul>
+            </div>
+        </div>
+    </div>
+    <section>
+        <form id="perdida">
+            <label for="referencia">Referencia:</label>
+            <input type="text" id="referencia" value="0" readonly>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" value="0" readonly>
+            
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" value="0">
+            
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" value="0">
+            
+            <label for="precio-compra">Precio de compra:</label>
+            <input type="text" id="precio-compra" value="0" readonly>
+            
+            <label for="factura">factura:</label>
+            <input type="text" id="factura" value="0" readonly>
+
+            <button type="submit" id="registrar">Registrar</button>
+        </form>
+    </section>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+</body>
+</html>

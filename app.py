@@ -16,6 +16,7 @@ from routes.resultados import resultados_bp
 from routes.aportes import aportes_bp
 from routes.libro_contable import libro_contable_bp
 from routes.basedatos import dataBase_db
+from routes.nomina import nomina_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tienda.db'
@@ -153,6 +154,7 @@ app.register_blueprint(resultados_bp)
 app.register_blueprint(cuentas_bp, url_prefix='/api/cuentas')
 app.register_blueprint(libro_contable_bp)
 app.register_blueprint(dataBase_db, url_prefix='/basedatos')
+app.register_blueprint(nomina_bp, url_prefix='/api/nomina')
 
 @app.route('/')
 def index():
@@ -220,6 +222,11 @@ def nomina():
 @app.route('/basedatos/')
 def basedatos():
     return render_template('basedatos.html')
+
+@app.route('/vencimiento')
+@app.route('/vencimiento/')
+def vencimiento():
+    return render_template('depreciacion.html')
 
 print(app.url_map)
 

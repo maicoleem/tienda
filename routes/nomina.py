@@ -1,8 +1,13 @@
-from flask import jsonify, request, render_template, Blueprint
+from flask import jsonify, request, Blueprint, render_template
 from models import db, Empleado, LibroContable, LibroRegistro
 from datetime import datetime
 
 nomina_bp = Blueprint('/nomina', __name__)
+
+#Ruta para cargar la pagina de balance
+@nomina_bp.route('/balance')
+def nomina():
+    return render_template('nomina.html')
 
 @nomina_bp.route('/empleados')
 def obtener_empleados():
@@ -11,7 +16,7 @@ def obtener_empleados():
         'id': e.id, 'nombre': e.nombre, 'cargo': e.cargo, 'salario': e.salario
     } for e in empleados])
 
-@nomina_bp.route('/api/pago-nomina', morhhods=['POST'])
+@nomina_bp.route('/pago-nomina', methods=['POST'])
 def pago_nomina():
     try:
         data = request.json  # Recibe los datos del empleado y el pago

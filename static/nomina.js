@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     //cargar empleados
     function cargarEmpleados(){
-        fetch('/api/empleados/')
+        fetch('/api/nomina/empleados')
         .then(response => response.json())
         .then(empleados =>{
             empleados.forEach(empleado =>{
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                factura: factura.value,
                observaciones: observaciones
             };
-            await fetch('',{
+            await fetch('/api/nomina/pago-nomina',{
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -189,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enviar formulario
     formNomina.addEventListener("submit", (e) => {
         e.preventDefault();
+        //falta un verificador
 
         const empleadoId = listaEmpleados.querySelector("li[data-nombre='" + nombreEmpleadoInput.value + "']").dataset.id;
         const formData = new FormData(formNomina);
