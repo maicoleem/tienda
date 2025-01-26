@@ -143,7 +143,7 @@ def perdida():
         factura=data['factura'],
         detalle = data.get('observaciones', 'compras'),
         codigo_cuenta = '613505',
-        cuenta = 'Costo de mercancías vendidas',
+        cuenta = 'Costo de mercancias vendida',
         debe = float(costo_neto),
         haber = float(0)
         )

@@ -21,6 +21,7 @@ const apiURL = '/api/empleados/';
 
 //cargar empleados
 function cargarEmpleados(){
+    listaEmpleados.innerHTML = '';
     fetch(apiURL)
     .then(response => response.json())
     .then(empleados =>{
@@ -31,6 +32,7 @@ function cargarEmpleados(){
             li.innerHTML =`
             <td>${empleado.nombre}</td>
             <td>${empleado.cargo}</td>
+            <td>${empleado.salario}</td>
             `
             li.dataset.id = empleado.id;
             li.addEventListener('click', () => seleccionarEmpleado(empleado));
@@ -43,6 +45,7 @@ function seleccionarEmpleado(empleado){
     empleadoSeleccionado = empleado;
     formEmpleados.nombre.value = empleado.nombre;
     formEmpleados.cargo.value = empleado.cargo;
+    formEmpleados.salario.value = empleado.salario;
     
     btnActualizarEmpleado.disabled = false;
     btnEliminarEmpleado.disabled = false;
@@ -62,13 +65,13 @@ function limpiarFormulario(){
 }
 //guardar empleado
 btnGuardarEmpleado.addEventListener('click', () => {
-    
     const cargo = formEmpleados.cargo.value;
     const nombre = formEmpleados.nombre.value;
+    const salario = formEmpleados.salario.value
     fetch(apiURL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, cargo}),
+        body: JSON.stringify({ nombre, cargo, salario}),
     })
         .then(response => {
             if (response.ok) {
@@ -86,8 +89,9 @@ btnActualizarEmpleado.addEventListener('click', () => {
     const empleadoActualizado = {
         nombre: formEmpleados.nombre.value,
         cargo: formEmpleados.cargo.value,
+        salario: formEmpleados.salario.value,
     };
-    fetch(`/api/empleados/${clienteSeleccionado.id}`, {
+    fetch(`/api/empleados/${empleadoSeleccionado.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(empleadoActualizado),

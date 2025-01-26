@@ -7,14 +7,14 @@ empleados_bp = Blueprint('/empleados', __name__)
 @empleados_bp.route('/', methods=['GET'])
 def listar_empleados():
     empleados = Empleado.query.all()
-    resultado = [{"id": c.id, "nombre": c.nombre, "cargo": c.cargo} for c in empleados]
+    resultado = [{"id": c.id, "nombre": c.nombre, "cargo": c.cargo, "salario": c.salario} for c in empleados]
     return jsonify(resultado)
 
 # Crear un empleados
 @empleados_bp.route('/', methods=['POST'])
 def crear_empleado():
     data = request.get_json()
-    nuevo_empleado = Empleado(nombre=data['nombre'], cargo=data['cargo'])
+    nuevo_empleado = Empleado(nombre=data['nombre'], cargo=data['cargo'], salario=data['salario'])
     db.session.add(nuevo_empleado)
     db.session.commit()
     return jsonify({"mensaje": "Empleado creado con éxito"})
@@ -26,6 +26,7 @@ def actualizar_cliente(id):
     data = request.get_json()
     empleado.nombre = data.get('nombre', empleado.nombre)
     empleado.cargo = data.get('cargo', empleado.cargo)
+    empleado.salario = data.get('salario', empleado.salario)
     db.session.commit()
     return jsonify({"mensaje": "Empleado actualizado con éxito"})
 

@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formNomina.salario.value = empleadoSeleccionado.salario;
     }
 
-    btnPago.addEventListener('click', async () => {
+    const guardarNomina = async () => {
         const valorBanco = parseFloat(banco.value);
         const valorCaja = parseFloat(caja.value);
         const disponibleBanco = parseFloat(bancoDisponible.value)
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const zeroBanco = disponibleBanco - valorBanco;
         const zeroCaja= disponibleCaja - valorCaja;
         const zeroPago = valorPago -totalCash;
-        const observaciones = 'pago nomina salario: ' + empleadoPago.salario
+        const observaciones = 'pago nomina salario: '// + empleadoPago.salario
         if(zeroBanco>0 && zeroCaja >0 && zeroPago == 0 ){
 
             const data ={
@@ -106,10 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             }).then(()=>{
-
+                alert('guardado')
             }).catch(error => console.error('Error al registrar pago de nomina:', error));
+        }else{
+            alert('Error en if')
         }
-    })
+    }
 
     const buscarRegistros = async () => {
         try {
@@ -185,30 +187,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Hubo un problema al obtener la nueva factura. Consulte la consola para más detalles.");
         }
     };
-
-    // Enviar formulario
-    formNomina.addEventListener("submit", (e) => {
-        e.preventDefault();
-        //falta un verificador
-
-        const empleadoId = listaEmpleados.querySelector("li[data-nombre='" + nombreEmpleadoInput.value + "']").dataset.id;
-        const formData = new FormData(formNomina);
-
-        fetch(`/calcular/${empleadoId}`, {
-            method: "POST",
-            body: JSON.stringify(Object.fromEntries(formData)),
-            headers: { "Content-Type": "application/json" },
-        })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message || "Pago realizado con éxito");
-            });
-    });
-
     cargarEmpleados();
     cargarDisponible();
     buscarRegistros();
     //obtener factura nueva
     obtenerNuevaFactura();
+
+    btnPago.addEventListener('click', guardarNomina)
 
 });

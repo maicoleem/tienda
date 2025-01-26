@@ -29,8 +29,8 @@ def pago_nomina():
             if field not in data or data[field] is None:
                 return jsonify({"error": f"El campo {field} es obligatorio"}), 400
         
-        empleado = Empleado.query.filter_by(id=data['empleado_id']).first()
-        if not empleado:
+        empleadoNomina = Empleado.query.filter_by(id=data['empleado_id']).first()
+        if not empleadoNomina:
             return jsonify({"error": "El empleado no existe"}), 404
         
         pago = float(data['pago'])
@@ -47,10 +47,10 @@ def pago_nomina():
             proveedor=data.get('proveedor', ''),
             cliente=data.get('cliente', ''),
             movimiento='NOMINA',
-            referencia=data['referencia'],
+            referencia=empleadoNomina.id,
             factura=data['factura'],
-            nombre=empleado.nombre,
-            tipo=empleado.cargo,
+            nombre=empleadoNomina.nombre,
+            tipo=empleadoNomina.cargo,
             bodega='NOMINA',
             cantidad=int(1),
             precio_compra=float(pago),  # cuanto se debe pagar (salario)
