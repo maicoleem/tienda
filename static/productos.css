@@ -1,24 +1,18 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 h1 {
     text-align: center;
     margin-top: 20px;
 }
 
-.container {
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
-}
-
 .listado, .formulario {
     width: 50%;
     padding: 20px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la pantalla (opcional) */
+    padding: 20px; /* Espaciado interno (opcional) */
 }
 
 .listado input {
@@ -33,14 +27,9 @@ ul {
     padding: 0;
 }
 
-li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-}
-
-li:hover {
-    background-color: #f0f0f0;
+#productosList{
+    display: flex;
+    flex-direction: column; 
 }
 
 form label {
@@ -52,22 +41,4 @@ form input, form button {
     width: 100%;
     margin-top: 5px;
     padding: 10px;
-}
-
-button {
-    background-color: #a4a9f5;
-    border-radius: 10px;
-    color: rgb(22, 21, 21);
-    cursor: pointer;
-    margin: 10px;
-    min-width: 90px;
-    min-height: 30px;
-}
-button:hover {
-    background-color: #c560f3;
-}
-.link-back{
-    display: flex;
-    margin: 10px;
-    justify-content: right;
 }

@@ -5,26 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proveedores</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='empleados.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <script src="{{ url_for('static', filename='empleados.js') }}" defer></script>
 </head>
 <body>
     <h1>Gestión de Empleados</h1>
     <div class="container">
-        <div id="lista-clientes">
-            <h2>Lista de Empleados</h2>
-            <input type="text" id="filtro-nombre-empleado" placeholder="Filtrar por nombre...">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Cargo</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-empleados">
-                    <!-- Las filas se llenarán dinámicamente -->
-                </tbody>
-            </table>
-        </div>
         <!-- seccion de formulario-->
         <div class="formulario-clientes">
             <h2>Detalles del Empleados</h2>
@@ -48,6 +34,21 @@
         <div class="botones-empleados">
             <button id="guardar-empleado" disabled>Guardar</button>
         </div>
+        </div>
+        <div id="lista-clientes">
+            <h2>Lista de Empleados</h2>
+            <input type="text" id="filtro-nombre-empleado" placeholder="Filtrar por nombre...">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-empleados">
+                    <!-- Las filas se llenarán dinámicamente -->
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="link-back">

@@ -5,17 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Productos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='productos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <script defer src="{{ url_for('static', filename='productos.js') }}"></script>
 </head>
 <body>
     <h1>Gestión de Productos</h1>
     <div class="container">
-        <div class="listado">
-            <h2>Lista de Productos</h2>
-            <input type="text" id="filterReferencia" placeholder="Filtrar por Referencia">
-            <input type="text" id="filterNombre" placeholder="Filtrar por Nombre">
-            <ul id="productosList"></ul>
-        </div>
         <div class="formulario">
             <h2>Detalles del Producto</h2>
             <button id="crearBtn">Crear</button>
@@ -34,9 +29,15 @@
                 <button type="button" id="guardarBtn" disabled>Guardar</button>
             </form>
         </div>
+        <div class="listado">
+            <h2>Lista de Productos</h2>
+            <input type="text" id="filterReferencia" placeholder="Filtrar por Referencia">
+            <input type="text" id="filterNombre" placeholder="Filtrar por Nombre">
+            <ul id="productosList"></ul>
+        </div>
+        
     </div>
-    <div class="link-back">
-        <a href="/" style="display: block; margin-bottom: 20px;">Volver a la página principal</a>
-    </div>
+    
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
 </body>
 </html>

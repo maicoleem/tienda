@@ -5,15 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bodegas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bodegas.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
     <div class="container">
-        <div class="left-panel">
-            <h2>Lista de Bodegas</h2>
-            <input type="text" id="filterCodigo" placeholder="Filtrar por Código">
-            <input type="text" id="filterNombre" placeholder="Filtrar por Nombre">
-            <ul id="bodegaList"></ul>
-        </div>
         <div class="right-panel">
             <h2>Gestión de Bodegas</h2>
             <button id="crearBtn">Crear</button>
@@ -33,11 +28,16 @@
                 <textarea id="descripcion"></textarea>
             </div>
         </div>
+        <div class="left-panel">
+            <h2>Lista de Bodegas</h2>
+            <input type="text" id="filterCodigo" placeholder="Filtrar por Código">
+            <input type="text" id="filterNombre" placeholder="Filtrar por Nombre">
+            <ul id="bodegaList"></ul>
+        </div>
+        
     </div>
     <script src="{{ url_for('static', filename='bodegas.js') }}"></script>
-    <div class="link-back">
-        <a href="/" style="display: block; margin-bottom: 20px;">Volver a la página principal</a>
-    </div>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
     
 </body>
 </html>

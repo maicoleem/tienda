@@ -1,23 +1,13 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
-}
-
 .container {
     width: 80%;
     margin: auto;
     padding: 20px;
-    background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h1, h2 {
     text-align: center;
-    color: #444;
 }
 
 .table-container {
@@ -32,22 +22,7 @@ table {
 }
 
 thead th {
-    background-color: #007bff;
-    color: #fff;
     padding: 10px;
-}
-
-tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #ececec;
-}
-
-td, th {
-    padding: 10px;
-    border: 1px solid #ddd;
 }
 
 tfoot td {
