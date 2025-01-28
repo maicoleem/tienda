@@ -1,68 +1,74 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #F8F8FF; /* GhostWhite */
-    color: #333333; /* Gris Oscuro */
+    background-color: #FFFFFF; /* Blanco */
+    color: #37474F; /* Gris Azulado Oscuro */
     margin: 0;
     padding: 0;
 }
+
 button {
-    background-color: #FFB6C1; /* LightPink */
-    color: #333333; /* Gris Oscuro */
+    background-color: #E91E63; /* Rosa Fuerte */
+    color: #FFFFFF; /* Blanco */
     cursor: pointer;
     border-radius: 10px;
     cursor: pointer;
     margin: 10px;
     min-width: 90px;
     min-height: 30px;
+    border: none; /* Elimina el borde por defecto */
+    transition: all 0.3s ease;
 }
+
 button:disabled {
-    background-color: #FFD1DC;  /* BabyPink */
-    color: #333333; /* Gris Oscuro */
+    background-color: rgba(233, 30, 99, 0.5); /* Rosa Fuerte con transparencia */
+    color: #FFFFFF;
 }
+
 button:hover {
-    background-color: #F08080; /* LightCoral */
-    transform: scale(1.05); /* Agranda ligeramente la opción */
-    border-color: #DDA0DD; /* Cambia el borde a Plum */
-    box-shadow: 0 0 10px rgba(221, 160, 221, 0.5); /* Añade sombra con color Plum */
-    color: #F8F8FF; /* GhostWhite */
+    background-color: #FFD47E; /* Amarillo Mostaza Suave */
+    color: #37474F; /* Gris Azulado Oscuro */
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(55, 71, 79, 0.3); /* Sombra sutil */
 }
+
 nav {
-    display: flex; /* Para usar flexbox */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    padding: 10px 20px; /* Espaciado dentro del nav */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
 }
 
 ul {
-    display: flex; /* Hace que las opciones estén alineadas en línea */
-    list-style: none; /* Elimina los puntos de la lista */
+    display: flex;
+    list-style: none;
     text-align: center;
-    background-color: #FFD1DC; /* BabyPink */
-    padding: 0; /* Elimina el padding predeterminado */
-    margin: 0; /* Elimina el margen predeterminado */
+    background-color: #FCE4EC; /* Rosa Pastel */
+    padding: 0;
+    margin: 0;
+    border-radius: 8px; /* Bordes redondeados al contenedor */
 }
 
 ul li {
-    margin: 0 15px; /* Espaciado entre las opciones */
-    padding: 10px 15px; /* Espaciado interno de cada opción */
-    border: 2px solid transparent; /* Bordes transparentes por defecto */
-    border-radius: 8px; /* Bordes redondeados */
-    transition: all 0.3s ease; /* Transiciones suaves */
+    margin: 0 15px;
+    padding: 10px 15px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 ul li:hover {
-    transform: scale(1.05); /* Agranda ligeramente la opción */
-    border-color: #F08080; /* Cambia el borde a LightCoral al pasar el cursor */
-    box-shadow: 0 0 10px rgba(240, 128, 128, 0.5); /* Añade sombra con color LightCoral */
-    cursor: pointer; /* Cambia el cursor a una mano */
-    background-color: #FFB6C1; /* LightPink */
+    transform: scale(1.05);
+    border-color: #E91E63; /* Rosa Fuerte */
+    box-shadow: 0 0 10px rgba(233, 30, 99, 0.3);
+    cursor: pointer;
+    background-color: #FFFFFF; /* Blanco */
 }
 
 a {
-    text-decoration: none; /* Quita el subrayado de los enlaces */
-    color: #333333; /* Gris Oscuro */
-    font-family: Arial, sans-serif; /* Usa la fuente Roboto */
-    font-size: 16px; /* Tamaño del texto */
+    text-decoration: none;
+    color: #37474F; /* Gris Azulado Oscuro */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
 }
 
 table {
@@ -73,49 +79,50 @@ table {
 th, td {
     padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #FFD1DC; /* BabyPink */
-    border: 1px solid #FFD1DC; /* BabyPink */
+    border-bottom: 1px solid #FCE4EC; /* Rosa Pastel */
+    border: 1px solid #FCE4EC; /* Rosa Pastel */
 }
 
 tr:hover {
-    transform: scale(1.05); /* Agranda ligeramente la opción */
-    border-color: #FFB6C1; /* Cambia el borde a LightPink al pasar el cursor */
-    box-shadow: 0 0 10px rgba(255, 182, 193, 0.5); /* Añade sombra con color LightPink */
-    cursor: pointer; /* Cambia el cursor a una mano */
-    background-color: #FFD1DC; /* BabyPink */
+    transform: scale(1.02);
+    box-shadow: 0 0 5px rgba(233, 30, 99, 0.2); /* Sombra sutil al pasar el ratón */
+    cursor: pointer;
+    background-color: #FCE4EC;
 }
+
 input, textarea {
-    color: #333333; /* Color del texto */
-    background-color: #F8F8FF; /* Color de fondo GhostWhite */
-    border-color: #FFB6C1; /* Color del borde LightPink */
-    text-align: center; /* Texto centrado */
-    border-radius: 10px; /* Bordes redondeados */
-    padding: 10px; /* Espaciado interno */
-    border: 2px solid #FFB6C1; /* Borde inicial LightPink */
-    outline: none; /* Elimina el contorno azul predeterminado */
-    transition: all 0.3s ease; /* Suaviza las transiciones */
+    color: #37474F; /* Gris Azulado Oscuro */
+    background-color: #FFFFFF; /* Blanco */
+    border-color: #E91E63; /* Rosa Fuerte */
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+    border: 2px solid #E91E63;
+    outline: none;
+    transition: all 0.3s ease;
 }
 
 input:focus, textarea:focus {
-    background-color: #F08080; /* Cambia el fondo al estar seleccionado LightCoral */
-    border-color: #DDA0DD; /* Cambia el color del borde Plum */
-    color: #F8F8FF; /* Asegura que el texto siga siendo GhostWhite */
-    box-shadow: 0 0 10px rgba(221, 160, 221, 0.5); /* Añade un efecto de brillo Plum */
-    transform: scale(1.02); /* Agranda ligeramente el input */
+    background-color: #FFD47E; /* Amarillo Mostaza Suave */
+    border-color: #37474F; /* Gris Azulado Oscuro */
+    color: #37474F; /* Gris Azulado Oscuro */
+    box-shadow: 0 0 10px rgba(55, 71, 79, 0.3);
+    transform: scale(1.02);
 }
 input:-webkit-autofill, textarea:-webkit-autofill {
-    background-color: #FFB6C1 !important; /* Color de fondo del autocompletado LightPink */
-    color: #333333 !important; /* Color del texto autocompletado Gris Oscuro */
-    border-color: #FFB6C1 !important; /* Color del borde del autocompletado LightPink */
-    box-shadow: 0 0 0px 1000px #FFB6C1 inset !important; /* Elimina el fondo blanco del autocompletado */
-    transition: background-color 5000s ease-in-out 0s; /* Previene el cambio de fondo */
+    background-color: #FCE4EC !important; /* Rosa Pastel */
+    color: #37474F !important; /* Gris Azulado Oscuro */
+    border-color: #FCE4EC !important; /* Rosa Pastel */
+    box-shadow: 0 0 0px 1000px #FCE4EC inset !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 input:-webkit-autofill::first-line, textarea:-webkit-autofill::first-line{
-    color: #333333 !important; /* Asegura que la primera línea del texto sea Gris Oscuro */
+    color: #37474F !important;
 }
 select {
     min-height: 30px;
-    color: #333333;
-    background-color: #FFB6C1;
-    border-color: #DDA0DD; /* Cambia el borde a Plum */
+    color: #37474F; /* Gris Azulado Oscuro */
+    background-color: #FCE4EC; /* Rosa Pastel */
+    border-color: #37474F;
+    border-radius: 10px; /* Bordes redondeados */
 }

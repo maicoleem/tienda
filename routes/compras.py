@@ -226,3 +226,43 @@ def validar_referencia():
     else:
         return jsonify({"existe": False, "mensaje": "La referencia está disponible"}), 200
 
+@compras_bp.route('/api/deshacer-compra/<factura>', methods=['DELETE'])
+def deshacer_compra(factura):
+    try:
+        # Buscar todos los registros de LibroRegistro con la factura dada
+        registros_libro = LibroRegistro.query.filter_by(factura=factura).all()
+        
+        if not registros_libro:
+            return jsonify({"mensaje": "No se encontraron registros de compra con esa factura"}), 404
+        
+        # Iterar sobre cada registro encontrado
+        for registro in registros_libro:
+           # Buscar el registro de almacenamiento que coincida por referencia, bodega y precio de compra
+            almacenamiento_registro = Almacenamiento.query.filter_by(
+                referencia=registro.referencia,
+                bodega=registro.bodega,
+                precio_compra=registro.precio_compra,
+                ).first()
+            if almacenamiento_registro:
+               # Verificar que la cantidad no sea negativa después de la eliminación.
+                if almacenamiento_registro.cantidad - registro.cantidad >= 0:
+                    almacenamiento_registro.cantidad -= registro.cantidad
+                    if almacenamiento_registro.cantidad == 0:
+                       db.session.delete(almacenamiento_registro)
+                else:
+                    db.session.rollback()
+                    return jsonify({"error": "La cantidad en almacenamiento quedaría negativa. La compra no puede ser deshecha.", "detalle": str(e)}), 400
+            
+            #Elimina la fila del libro de registro
+            db.session.delete(registro)
+
+        # Eliminar todos los registros del libro contable asociados a la factura
+        registros_contables = LibroContable.query.filter_by(factura=factura).all()
+        for registro_contable in registros_contables:
+            db.session.delete(registro_contable)
+        
+        db.session.commit()
+        return jsonify({"mensaje": f"Compra con factura {factura} deshecha exitosamente"}), 200
+    except Exception as e:
+        db.session.rollback()  # Revertir cambios en caso de error
+        return jsonify({"error": "Error al deshacer la compra", "detalle": str(e)}), 500
