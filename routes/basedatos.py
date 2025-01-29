@@ -8,7 +8,7 @@ import io
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from flask_alchemydumps import AlchemyDumps
+#from flask_alchemydumps import AlchemyDumps
 # Importa tus modelos de la base de datos
 from models import (
      Proveedor, Cliente, Empleado, Producto, Bodega,
@@ -198,7 +198,7 @@ def upload_ods():
         return jsonify({"message": "Error al subir el archivo ODS"}), 500
     
 # Inicializa flask-alchemydumps con tu instancia de Flask y SQLAlchemy
-alchemydumps = AlchemyDumps(current_app, db)
+alchemydumps = 'AlchemyDumps(current_app, db)'
 
 @dataBase_db.route('/api/download_sql')
 def download_sql():
