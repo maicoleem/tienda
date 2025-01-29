@@ -6,9 +6,8 @@ from models import db, Socios, Proveedor
 import ezodf
 import io
 from datetime import datetime
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-#from flask_alchemydumps import AlchemyDumps
 # Importa tus modelos de la base de datos
 from models import (
      Proveedor, Cliente, Empleado, Producto, Bodega,
@@ -197,23 +196,57 @@ def upload_ods():
     else:
         return jsonify({"message": "Error al subir el archivo ODS"}), 500
     
-# Inicializa flask-alchemydumps con tu instancia de Flask y SQLAlchemy
-alchemydumps = 'AlchemyDumps(current_app, db)'
+def export_db_to_sql(db_uri):
+    """Exporta toda la base de datos a un archivo SQL."""
+    engine = create_engine(db_uri)
+    metadata = db.metadata
+    sql_statements = []
+
+    with engine.connect() as connection:
+        # Primero, las definiciones de las tablas
+        for table in metadata.sorted_tables:
+            sql_statements.append(str(table.create(connection, checkfirst=True)))
+        
+        # Luego, los datos de las tablas
+        for table in metadata.sorted_tables:
+            rows = connection.execute(table.select()).fetchall()
+            for row in rows:
+                insert_statement = table.insert().values(row)
+                sql_statements.append(str(insert_statement.compile(connection)))
+
+    return '\n'.join(sql_statements).encode('utf-8')
 
 @dataBase_db.route('/api/download_sql')
 def download_sql():
-     try:
-         filename = f"backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.sql"
-         backup = alchemydumps.export_data()
-         return send_file(
-             io.BytesIO(backup),
-             as_attachment=True,
-             download_name=filename,
-             mimetype="application/sql"
-             )
-     except Exception as e:
+    try:
+        filename = f"backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.sql"
+        backup = export_db_to_sql(current_app.config['SQLALCHEMY_DATABASE_URI'])
+        return send_file(
+            io.BytesIO(backup),
+            as_attachment=True,
+            download_name=filename,
+            mimetype="application/sql"
+        )
+    except Exception as e:
         print(f"Error al descargar el backup de la base de datos: {e}")
         return jsonify({"message": f"Error al descargar el backup de la base de datos: {e}"}), 500
+
+def import_sql_to_db(db_uri, sql_file):
+    """Importa la base de datos desde un archivo SQL."""
+    engine = create_engine(db_uri)
+    
+    try:
+        with engine.begin() as connection:
+            sql_statements = sql_file.decode('utf-8').split(';')
+            for sql in sql_statements:
+                sql = sql.strip()
+                if sql:
+                    connection.execute(text(sql))
+
+        return True
+    except Exception as e:
+        print(f"Error al restaurar la base de datos: {e}")
+        return False
 
 @dataBase_db.route('/api/upload_sql', methods=['POST'])
 def upload_sql():
@@ -231,10 +264,30 @@ def upload_sql():
     file.save(file_path) # Guarda el archivo en la carpeta definida
     try:
         with open(file_path, 'rb') as f:
-           sql_file = f.read()
-        alchemydumps.import_data(sql_file)
-        return jsonify({"message": "Base de datos restaurada con exito"}), 200
+            sql_file = f.read()
+        if import_sql_to_db(current_app.config['SQLALCHEMY_DATABASE_URI'],sql_file):
+           return jsonify({"message": "Base de datos restaurada con exito"}), 200
+        else:
+            return jsonify({"message": "Error al restaurar la base de datos"}), 500
 
     except Exception as e:
         print(f"Error al restaurar la base de datos: {e}")
         return jsonify({"message": f"Error al restaurar la base de datos: {e}"}), 500
+    
+def clear_database(db_uri):
+    """Limpia todas las tablas de la base de datos."""
+    engine = create_engine(db_uri)
+    metadata = db.metadata
+    with engine.begin() as connection:
+        for table in reversed(metadata.sorted_tables):
+             connection.execute(text(f'TRUNCATE TABLE {table.name} RESTART IDENTITY CASCADE;'))
+    
+@dataBase_db.route('/api/clear_db', methods=['POST'])
+def clear_db():
+    """Endpoint para limpiar todas las tablas de la base de datos."""
+    try:
+        clear_database(current_app.config['SQLALCHEMY_DATABASE_URI'])
+        return jsonify({"message": "Todas las tablas han sido limpiadas con éxito."}), 200
+    except Exception as e:
+        print(f"Error al limpiar la base de datos: {e}")
+        return jsonify({"message": f"Error al limpiar la base de datos: {e}"}), 500

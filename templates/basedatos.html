@@ -3,20 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Productos</title>
-    
+    <title>Administración de Base de Datos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='basedatos.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <script src="{{ url_for('static', filename='basedatos.js') }}" defer></script>
 </head>
 <body>
     <div class="container">
-        <h1>Cargar Productos</h1>
-        <form id="upload-form">
-            <label for="excel-file">Selecciona el archivo Excel:</label>
-            <input type="file" id="excel-file" accept=".xlsx" required>
-            <button type="submit">Subir y Procesar</button>
-        </form>
+        <h1>Administración de Base de Datos</h1>
+
+        <section>
+            <h2>Cargar Productos desde Excel</h2>
+            <form id="upload-form">
+                <label for="excel-file">Selecciona el archivo Excel:</label>
+                <input type="file" id="excel-file" accept=".xlsx" required>
+                <button type="submit">Subir y Procesar Excel</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Exportar/Importar Base de Datos</h2>
+            <div class="button-container">
+              <button id="download-ods">Descargar ODS</button>
+              <button id="download-sql">Descargar SQL</button>
+              <div class="upload-sql-section">
+                  <label for="sql-file">Subir SQL:</label>
+                  <input type="file" id="sql-file" accept=".sql">
+                  <button id="upload-sql-btn">Subir SQL</button>
+               </div>
+             <div class="upload-ods-section">
+                <label for="ods-file">Subir ODS:</label>
+                <input type="file" id="ods-file" accept=".ods">
+                <button id="upload-ods-btn">Subir ODS</button>
+            </div>
+
+             </div>
+        </section>
+         <section>
+                <h2>Limpiar Base de Datos</h2>
+              <button id="clear-db">Limpiar la Base de Datos</button>
+        </section>
     </div>
     <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
 </body>
