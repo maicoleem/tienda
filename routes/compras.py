@@ -1,6 +1,6 @@
 # routes/compras.py
 from flask import Blueprint, request, jsonify, render_template
-from models import db, Producto, Bodega, Almacenamiento, LibroRegistro, Empleado, Proveedor, LibroContable
+from models import db, Producto, Bodega, Almacenamiento, LibroRegistro, Empleado, Proveedor, LibroContable, Cliente
 from datetime import datetime
 
 compras_bp = Blueprint('/compras', __name__)

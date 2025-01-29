@@ -196,3 +196,40 @@ def realizar_venta():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": "Error al procesar la venta", "detalle": str(e)}), 500
+    
+
+@ventas_bp.route('/api/deshacer-venta/<factura>', methods=['DELETE'])
+def deshacer_venta(factura):
+    try:
+        # Buscar todos los registros de LibroRegistro con la factura dada
+        registros_libro = LibroRegistro.query.filter_by(factura=factura).all()
+
+        if not registros_libro:
+            return jsonify({"mensaje": "No se encontraron registros de venta con esa factura"}), 404
+
+        # Iterar sobre cada registro de venta encontrado
+        for registro in registros_libro:
+            # Buscar el registro de almacenamiento correspondiente
+            almacenamiento_registro = Almacenamiento.query.filter_by(
+               referencia=registro.referencia,
+                bodega=registro.bodega,
+                precio_compra=registro.precio_compra,
+            ).first()
+            if almacenamiento_registro:
+                 # Sumar la cantidad de la venta al almacenamiento (si existe)
+                almacenamiento_registro.cantidad += registro.cantidad
+
+            # Eliminar el registro de LibroRegistro
+            db.session.delete(registro)
+
+        # Eliminar todos los registros del libro contable asociados a la factura
+        registros_contables = LibroContable.query.filter_by(factura=factura).all()
+        for registro_contable in registros_contables:
+            db.session.delete(registro_contable)
+
+        db.session.commit()
+        return jsonify({"mensaje": f"Venta con factura {factura} deshecha exitosamente"}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Error al deshacer la venta", "detalle": str(e)}), 500

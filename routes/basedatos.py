@@ -197,7 +197,6 @@ def upload_ods():
     else:
         return jsonify({"message": "Error al subir el archivo ODS"}), 500
     
-
 # Inicializa flask-alchemydumps con tu instancia de Flask y SQLAlchemy
 alchemydumps = AlchemyDumps(current_app, db)
 

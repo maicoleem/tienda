@@ -179,3 +179,27 @@ def pagar_alquiler():
         return jsonify({"mensaje": "Pago registrado exitosamente"}), 201
     except Exception as e:
         return jsonify({"error": "Error al pagar alquiler", "detalle": str(e)}), 500
+    
+@pagos_db.route('/api/deshacer-pago/<factura>', methods=['DELETE'])
+def deshacer_pago(factura):
+    try:
+        # Buscar todos los registros de LibroRegistro con la factura dada
+        registros_libro = LibroRegistro.query.filter_by(factura=factura).all()
+        
+        if not registros_libro:
+            return jsonify({"mensaje": "No se encontraron registros de pago con esa factura"}), 404
+
+        # Eliminar los registros de libro registro asociados a la factura
+        for registro in registros_libro:
+             db.session.delete(registro)
+
+        # Eliminar todos los registros del libro contable asociados a la factura
+        registros_contables = LibroContable.query.filter_by(factura=factura).all()
+        for registro_contable in registros_contables:
+            db.session.delete(registro_contable)
+
+        db.session.commit()
+        return jsonify({"mensaje": f"Pago con factura {factura} deshecho exitosamente"}), 200
+    except Exception as e:
+         db.session.rollback()
+         return jsonify({"error": f"Error al deshacer el pago: {str(e)} "}), 500

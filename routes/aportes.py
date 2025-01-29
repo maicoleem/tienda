@@ -117,3 +117,30 @@ def registrar_aporte():
         
     db.session.commit()
     return jsonify({'mensaje': 'Aporte registrado exitosamente'}), 201
+
+@aportes_bp.route('/api/deshacer-aporte/<factura>', methods=['DELETE'])
+def deshacer_aporte(factura):
+    try:
+        # Buscar todos los registros de LibroRegistro con la factura dada
+        registros_libro = LibroRegistro.query.filter_by(factura=factura).all()
+
+        if not registros_libro:
+            return jsonify({"mensaje": "No se encontraron registros de aporte con esa factura"}), 404
+
+        # Iterar sobre cada registro de aporte encontrado
+        for registro in registros_libro:
+            # Eliminar el registro de LibroRegistro
+             db.session.delete(registro)
+            
+
+        # Eliminar todos los registros de LibroContable asociados a la factura
+        registros_contables = LibroContable.query.filter_by(factura=factura).all()
+        for registro_contable in registros_contables:
+            db.session.delete(registro_contable)
+
+        db.session.commit()
+        return jsonify({"mensaje": f"Aporte con factura {factura} deshecho exitosamente"}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Error al deshacer el aporte", "detalle": str(e)}), 500

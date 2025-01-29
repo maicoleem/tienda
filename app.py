@@ -1,4 +1,3 @@
-from flask import Flask
 from flask import Flask, render_template
 from models import db, CuentaContable
 from routes.proveedores import proveedores_bp
@@ -17,6 +16,7 @@ from routes.aportes import aportes_bp
 from routes.libro_contable import libro_contable_bp
 from routes.basedatos import dataBase_db
 from routes.nomina import nomina_bp
+from routes.pagos import pagos_db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tienda.db'
@@ -155,6 +155,7 @@ app.register_blueprint(cuentas_bp, url_prefix='/api/cuentas')
 app.register_blueprint(libro_contable_bp)
 app.register_blueprint(dataBase_db, url_prefix='/basedatos')
 app.register_blueprint(nomina_bp, url_prefix='/api/nomina')
+app.register_blueprint(pagos_db, url_prefix='/api/pagos')
 
 @app.route('/')
 def index():
