@@ -1,23 +1,134 @@
-h2{
-  margin: 10px;
-}
-h3, #filtro_nombre{
+/* proveedor.css */
+
+.container {
     display: flex;
-    margin: 10px;
-    justify-content: left;
-}
-.botones_proveedor{
-    display: flex;
-    gap: 10px;
-    justify-content: left;
-}
-#form_proveedor{
-    display: flex;
-    gap: 10px;
-    justify-content: left;
-    margin: 10px;
-}
-#form_proveedor input{
-    font-size: large;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    gap: 20px;
 }
 
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    flex: 1; /* Permite que las tarjetas se expandan en el espacio disponible */
+    min-width: 300px; /* Ancho mínimo para cada tarjeta */
+     max-width: 500px;
+}
+
+.formulario-proveedores {
+     display: flex;
+     flex-direction: column;
+    align-items: center;
+}
+
+.formulario-proveedores h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.formulario-proveedores .botones_proveedor {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.formulario-proveedores button {
+     min-width: auto;
+}
+.formulario-proveedores button:disabled {
+    background-color: rgba(233, 30, 99, 0.5); /* Rosa Fuerte con transparencia */
+    color: #FFFFFF;
+}
+.formulario-proveedores form{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+}
+.form-group {
+    margin-bottom: 15px;
+    width: 95%;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.formulario-proveedores form input {
+     width: 100%;
+}
+#lista-proveedores {
+      display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+#lista-proveedores h3{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.table-container{
+    width: 100%;
+    overflow-x: auto;
+}
+.column-filters {
+     display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.column-filters input {
+    flex: 1; /* Divide el espacio disponible entre los filtros */
+    min-width: 150px; /* Ancho mínimo para cada filtro */
+    margin: 5px; /* Espacio entre los filtros */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.proveedor-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.proveedor-table th, .proveedor-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.proveedor-table thead th {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.proveedor-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+.proveedor-table th.sorted-asc::after {
+    content: " ▲";
+}
+.proveedor-table th.sorted-desc::after {
+    content: " ▼";
+}
+
+#item-count {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+/* Para dispositivos pequeños */
+@media (max-width: 768px) {
+    .container{
+        flex-direction: column;
+    }
+    .column-filters{
+         flex-direction: column;
+    }
+    .column-filters input {
+        width: calc(100% - 20px);
+    }
+}

@@ -9,44 +9,56 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
-    <!-- seccion de formulario-->
-    <div class="formulario-proveedores">
-        <h2>Detalles del Proveedor</h2>
-    <div class="botones_proveedor">
-        <button id="crear">Crear</button>
-        <button id="actualizar" class="boton-deshabilitado" disabled>Actualizar</button>
-        <button id="eliminar" class="boton-deshabilitado" disabled>Eliminar</button>
-    </div>
-    <form id="form_proveedor">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-
-        <label for="contacto">Contacto:</label>
-        <input type="text" id="contacto" name="contacto" required>
-
-        <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" required>
-    </form>
-    <div class="botones_proveedor">
-        <button id="guardar" disabled>Guardar</button>
-    </div>
-    </div>
-    <div id="lista-proveedores">
-        <h3>Lista de Proveedores</h2>
-        <input type="text" id="filtro_nombre" placeholder="Filtrar por nombre...">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Contacto</th>
-                    <th>Teléfono</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-proveedores">
-                <!-- Las filas se llenarán dinámicamente -->
-            </tbody>
-        </table>
-    </div>
     <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+    <div class="container">
+        <div class="formulario-proveedores card">
+            <h2>Detalles del Proveedor</h2>
+            <div class="botones_proveedor">
+                <button id="crear">Crear</button>
+                <button id="actualizar" disabled>Actualizar</button>
+                <button id="eliminar" disabled>Eliminar</button>
+             </div>
+            <form id="form_proveedor">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="contacto">Contacto:</label>
+                    <input type="text" id="contacto" name="contacto" required>
+                </div>
+                 <div class="form-group">
+                   <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+                 </div>
+            </form>
+             <div class="botones_proveedor">
+                  <button id="guardar" disabled>Guardar</button>
+              </div>
+        </div>
+       <div id="lista-proveedores" class="card">
+            <h3>Lista de Proveedores</h3>
+            <div class="table-container">
+                 <div class="column-filters">
+                    <input type="text" data-column="nombre" placeholder="Filtrar por Nombre">
+                    <input type="text" data-column="contacto" placeholder="Filtrar por Contacto">
+                    <input type="text" data-column="telefono" placeholder="Filtrar por Teléfono">
+                  </div>
+                <table class="proveedor-table">
+                    <thead>
+                    <tr>
+                        <th data-column="nombre">Nombre</th>
+                        <th data-column="contacto">Contacto</th>
+                        <th data-column="telefono">Teléfono</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tabla-proveedores">
+                    <!-- Las filas se llenarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="item-count"></div>
+        </div>
+    </div>
 </body>
 </html>
