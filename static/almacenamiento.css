@@ -1,0 +1,98 @@
+/* almacenamiento.css */
+
+#lista-almacenamiento {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    margin: 0 auto;
+}
+#lista-almacenamiento h3 {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 20px;
+}
+.table-container{
+    width: 100%;
+    max-width: 1200px;
+    overflow-x: auto;
+}
+.filtros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.filtros input, .filtros select {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 200px;
+}
+.column-filters {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los filtros se envuelvan en pantallas pequeñas */
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.column-filters input{
+    flex: 1; /* Divide el espacio disponible entre los filtros */
+    min-width: 150px; /* Ancho mínimo para cada filtro */
+    margin: 5px; /* Espacio entre los filtros */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.almacen-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.almacen-table th, .almacen-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.almacen-table thead th {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.almacen-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+.almacen-table th.sorted-asc::after {
+    content: " ▲";
+}
+.almacen-table th.sorted-desc::after {
+    content: " ▼";
+}
+#item-count {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+/* Para dispositivos pequeños */
+@media (max-width: 768px) {
+    .filtros {
+        flex-direction: column; /* Apila los filtros en pantallas pequeñas */
+    }
+     .filtros input, .filtros select {
+        width: calc(100% - 20px)
+    }
+    .column-filters {
+        flex-direction: column; /* Apila los filtros en pantallas pequeñas */
+    }
+     .column-filters input{
+        width: calc(100% - 20px)
+     }
+    .almacen-table {
+        overflow-x: auto; /* Hace que la tabla sea desplazable horizontalmente */
+    }
+}

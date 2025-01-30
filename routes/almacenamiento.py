@@ -86,7 +86,6 @@ def eliminar_registro(id):
     db.session.commit()
     return jsonify({"mensaje": "Registro eliminado exitosamente"})
 
-
 #Producto vencido
 @almacenamiento_bp.route('/producto-perdida', methods=['POST'])
 def perdida():

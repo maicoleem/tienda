@@ -11,27 +11,42 @@
 <body>
     <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
     <div id="lista-almacenamiento">
-        <h3>Alamcenamiento</h2>
-        <div class="filtros">
-            <input type="text" id="filtro-bodega" placeholder="Filtrar por bodega...">
-            <input type="text" id="filtro-producto" placeholder="Filtrar por producto...">
+        <h3>Almacenamiento</h3>
+        <div id="item-count">
+           
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Bodega</th>
-                    <th>Referencia</th>
-                    <th>Producto</th>
-                    <th>Tipo</th>
-                    <th>Existencia</th>
-                    <th>Precio de compra</th>
-                    <th>Precio de venta</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-almacenamiento">
-                <!-- Las filas se llenarán dinámicamente -->
-            </tbody>
-        </table>
+        <div class="table-container">
+            <div class="filtros">
+                <select id="filtro-bodega">
+                    <option value="">Todas las Bodegas</option>
+                </select>
+            </div>
+            <div class="column-filters">
+                 <input type="text" data-column="referencia"  placeholder="Filtrar por Referencia">
+                 <input type="text" data-column="nombre" placeholder="Filtrar por Producto">
+                 <input type="text" data-column="tipo" placeholder="Filtrar por Tipo">
+                 <input type="text" data-column="cantidad" placeholder="Filtrar por Existencia">
+                 <input type="text" data-column="precio_compra" placeholder="Filtrar por Precio Compra">
+                 <input type="text" data-column="precio_venta" placeholder="Filtrar por Precio Venta">
+             </div>
+            <table class="almacen-table">
+                <thead>
+                    <tr>
+                        <th data-column="bodega">Bodega</th>
+                        <th data-column="referencia">Referencia</th>
+                        <th data-column="nombre">Producto</th>
+                        <th data-column="tipo">Tipo</th>
+                        <th data-column="cantidad">Existencia</th>
+                        <th data-column="precio_compra">Precio de compra</th>
+                        <th data-column="precio_venta">Precio de venta</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-almacenamiento">
+                    <!-- Las filas se llenarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+        
     </div>
     
 </body>
