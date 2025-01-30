@@ -1,33 +1,130 @@
-h1 {
+/* empleados.css */
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    gap: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    flex: 1; /* Permite que las tarjetas se expandan en el espacio disponible */
+    min-width: 300px; /* Ancho mínimo para cada tarjeta */
+    max-width: 500px;
+}
+.formulario-empleados {
+      display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formulario-empleados h2 {
     text-align: center;
+    margin-bottom: 20px;
+}
+.formulario-empleados .botones-empleados {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.formulario-empleados button{
+    min-width: auto;
+}
+.formulario-empleados button:disabled {
+    background-color: rgba(233, 30, 99, 0.5); /* Rosa Fuerte con transparencia */
+    color: #FFFFFF;
+}
+.formulario-empleados form {
+   display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+}
+.form-group {
+    margin-bottom: 15px;
+     width: 95%;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.formulario-empleados form input {
+    width: 100%;
+}
+#lista-empleados {
+     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#lista-empleados h2{
+      text-align: center;
+    margin-bottom: 15px;
+}
+.table-container{
+      width: 100%;
+    overflow-x: auto;
+}
+.column-filters {
+      display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+     flex-wrap: wrap;
+}
+.column-filters input {
+     flex: 1; /* Divide el espacio disponible entre los filtros */
+    min-width: 150px; /* Ancho mínimo para cada filtro */
+    margin: 5px; /* Espacio entre los filtros */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.empleado-table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
 }
 
-
-.lista-clientes, .formulario-clientes {
-    width: 45%;
+.empleado-table th, .empleado-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
 }
 
-.link-back{
-    display: flex;
-    margin: 10px;
-    justify-content: right;
+.empleado-table thead th {
+    background-color: #f2f2f2;
+     cursor: pointer;
 }
 
-.lista-clientes input, .formulario-clientes input {
-    display: block;
-    width: 90%;
-    margin: 5px auto;
-    padding: 5px;
+.empleado-table tbody tr:hover {
+    background-color: #f9f9f9;
 }
-
-form label {
-    display: block;
+.empleado-table th.sorted-asc::after {
+    content: " ▲";
+}
+.empleado-table th.sorted-desc::after {
+    content: " ▼";
+}
+#item-count {
     margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
 }
-
-form input {
-    width: 100%;
-    padding: 5px;
-    margin-top: 5px;
+/* Para dispositivos pequeños */
+@media (max-width: 768px) {
+    .container{
+        flex-direction: column;
+    }
+    .column-filters{
+        flex-direction: column;
+    }
+    .column-filters input {
+        width: calc(100% - 20px);
+    }
 }
