@@ -1,55 +1,129 @@
-h1 {
-    text-align: center;
-    margin-top: 20px;
-}
+/* clientes.css */
 
 .container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 20px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
     gap: 20px;
 }
-
-.lista-clientes, .formulario-clientes {
-    width: 45%;
+.card {
+     background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    flex: 1; /* Permite que las tarjetas se expandan en el espacio disponible */
+    min-width: 300px; /* Ancho mínimo para cada tarjeta */
+    max-width: 500px;
 }
-
-
-.link-back{
+.formulario-clientes {
     display: flex;
-    margin: 10px;
-    justify-content: right;
+     flex-direction: column;
+    align-items: center;
 }
 
-.lista-clientes input, .formulario-clientes input {
-    display: block;
-    width: 90%;
-    margin: 5px auto;
-    padding: 5px;
-}
-
-#clientes-lista {
-    list-style-type: none;
-    padding: 0;
-    max-height: 500px;
-    overflow-y: none;
-    justify-content: center;    
-}
-
-.formulario-clientes .botones {
-    display: flex;
-    justify-content: space-between;
+.formulario-clientes h2 {
+    text-align: center;
     margin-bottom: 20px;
 }
-
-form label {
+.formulario-clientes .botones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.formulario-clientes button{
+    min-width: auto;
+}
+.formulario-clientes button:disabled {
+    background-color: rgba(233, 30, 99, 0.5); /* Rosa Fuerte con transparencia */
+    color: #FFFFFF;
+}
+.formulario-clientes form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+}
+.form-group {
+    margin-bottom: 15px;
+    width: 95%;
+}
+.form-group label {
     display: block;
-    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.formulario-clientes form input {
+    width: 100%;
+}
+.lista-clientes{
+       display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.lista-clientes h2{
+      text-align: center;
+    margin-bottom: 15px;
+}
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+.column-filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.column-filters input {
+     flex: 1; /* Divide el espacio disponible entre los filtros */
+    min-width: 150px; /* Ancho mínimo para cada filtro */
+    margin: 5px; /* Espacio entre los filtros */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.cliente-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-form input {
-    width: 100%;
-    padding: 5px;
-    margin-top: 5px;
+.cliente-table th, .cliente-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.cliente-table thead th {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.cliente-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+.cliente-table th.sorted-asc::after {
+    content: " ▲";
+}
+.cliente-table th.sorted-desc::after {
+    content: " ▼";
+}
+#item-count {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+/* Para dispositivos pequeños */
+@media (max-width: 768px) {
+    .container{
+        flex-direction: column;
+    }
+    .column-filters{
+        flex-direction: column;
+    }
+     .column-filters input {
+          width: calc(100% - 20px)
+     }
 }
