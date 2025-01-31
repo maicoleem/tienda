@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,32 +9,73 @@
     <script src="{{ url_for('static', filename='balance.js') }}" defer></script>
 </head>
 <body>
-    <body>
-        <div class="container">
-            <h1>Balance General</h1>
-            <div class="balance-grid">
-                <!-- Activos -->
-                <div class="balance-section" id="activos">
-                    <h2>Activos</h2>
-                    <ul id="lista-activos"></ul>
-                    <p class="total" id="total-activos"></p>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+    <div class="container">
+        <h1>Balance General</h1>
+         <div class="balance-info">
+             <p id="formula-patrimonio"></p>
+        </div>
+        <div class="balance-grid">
+            <!-- Activos -->
+            <div class="balance-section card" id="activos">
+                <h2 id="title-activos">Activos</h2>
+                 <div class="table-container">
+                    <table class="balance-table">
+                        <thead>
+                            <tr>
+                                <th data-column="cuenta">Cuenta</th>
+                                <th data-column="total_debe">Debe</th>
+                                <th data-column="total_haber">Haber</th>
+                                <th data-column="saldo_neto">Neto</th>
+                            </tr>
+                         </thead>
+                        <tbody id="lista-activos">
+                           <!-- Las filas se llenarán dinámicamente -->
+                        </tbody>
+                    </table>
                 </div>
-                
-                <!-- Patrimonio -->
-                <div class="balance-section" id="patrimonio">
-                    <h2>Patrimonio</h2>
-                    <ul id="lista-patrimonio"></ul>
-                    <p class="total" id="total-patrimonio"></p>
-                </div>
-                
-                <!-- Pasivos -->
-                <div class="balance-section" id="pasivos">
-                    <h2>Pasivos</h2>
-                    <ul id="lista-pasivos"></ul>
-                    <p class="total" id="total-pasivos"></p>
+            </div>
+
+            <!-- Patrimonio -->
+            <div class="balance-section card" id="patrimonio">
+                <h2 id="title-patrimonio">Patrimonio</h2>
+                  <div class="table-container">
+                       <table class="balance-table">
+                        <thead>
+                            <tr>
+                                <th data-column="cuenta">Cuenta</th>
+                                <th data-column="total_debe">Debe</th>
+                                <th data-column="total_haber">Haber</th>
+                                <th data-column="saldo_neto">Neto</th>
+                            </tr>
+                        </thead>
+                           <tbody id="lista-patrimonio">
+                            <!-- Las filas se llenarán dinámicamente -->
+                           </tbody>
+                       </table>
+                  </div>
+            </div>
+
+            <!-- Pasivos -->
+             <div class="balance-section card" id="pasivos">
+                <h2 id="title-pasivos">Pasivos</h2>
+                <div class="table-container">
+                    <table class="balance-table">
+                        <thead>
+                            <tr>
+                                <th data-column="cuenta">Cuenta</th>
+                                <th data-column="total_debe">Debe</th>
+                                <th data-column="total_haber">Haber</th>
+                                <th data-column="saldo_neto">Neto</th>
+                            </tr>
+                        </thead>
+                         <tbody id="lista-pasivos">
+                            <!-- Las filas se llenarán dinámicamente -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
-    </body>
+    </div>
+</body>
 </html>

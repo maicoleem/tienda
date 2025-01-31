@@ -9,35 +9,56 @@
     <script defer src="{{ url_for('static', filename='productos.js') }}"></script>
 </head>
 <body>
-    <h1>Gestión de Productos</h1>
+     <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
     <div class="container">
-        <div class="formulario">
+        <div class="formulario card">
             <h2>Detalles del Producto</h2>
-            <button id="crearBtn">Crear</button>
-            <button id="actualizarBtn" disabled>Actualizar</button>
-            <button id="eliminarBtn" disabled>Eliminar</button>
+            <div class="botones-producto">
+                <button id="crearBtn">Crear</button>
+                <button id="actualizarBtn" disabled>Actualizar</button>
+                <button id="eliminarBtn" disabled>Eliminar</button>
+            </div>
             <form id="productoForm">
-                <label for="referencia">Referencia:</label>
-                <input type="text" id="referencia" name="referencia">
-                
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre">
-                
-                <label for="tipo">Tipo:</label>
-                <input type="text" id="tipo" name="tipo">
-                
-                <button type="button" id="guardarBtn" disabled>Guardar</button>
+                 <div class="form-group">
+                     <label for="referencia">Referencia:</label>
+                     <input type="text" id="referencia" name="referencia">
+                 </div>
+                 <div class="form-group">
+                     <label for="nombre">Nombre:</label>
+                     <input type="text" id="nombre" name="nombre">
+                 </div>
+                 <div class="form-group">
+                     <label for="tipo">Tipo:</label>
+                     <input type="text" id="tipo" name="tipo">
+                 </div>
+                <div class="botones-producto">
+                    <button type="button" id="guardarBtn" disabled>Guardar</button>
+                </div>
             </form>
         </div>
-        <div class="listado">
-            <h2>Lista de Productos</h2>
-            <input type="text" id="filterReferencia" placeholder="Filtrar por Referencia">
-            <input type="text" id="filterNombre" placeholder="Filtrar por Nombre">
-            <ul id="productosList"></ul>
-        </div>
-        
+        <div class="listado card">
+             <h2>Lista de Productos</h2>
+             <div class="table-container">
+                  <div class="column-filters">
+                        <input type="text" data-column="referencia" placeholder="Filtrar por Referencia">
+                        <input type="text" data-column="nombre" placeholder="Filtrar por Nombre">
+                         <input type="text" data-column="tipo" placeholder="Filtrar por Tipo">
+                  </div>
+                    <table class="producto-table">
+                        <thead>
+                            <tr>
+                                <th data-column="referencia">Referencia</th>
+                                <th data-column="nombre">Nombre</th>
+                                <th data-column="tipo">Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productosList">
+                            <!-- Las filas se llenarán dinámicamente -->
+                        </tbody>
+                     </table>
+             </div>
+            <div id="item-count"></div>
+         </div>
     </div>
-    
-    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
 </body>
 </html>

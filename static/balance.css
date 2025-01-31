@@ -1,63 +1,93 @@
+/* balance.css */
 .container {
+    width: 95%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
 }
-
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
 h1 {
     text-align: center;
-    color: #007BFF;
+    margin-bottom: 20px;
 }
-
+.balance-info{
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.balance-info p {
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+}
+.balance-status-ok {
+    color: green;
+}
+.balance-status-error {
+    color: red;
+}
 .balance-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     gap: 20px;
-    margin-top: 20px;
 }
-
-#lista-activos,#lista-patrimonio, #lista-pasivos {
+.balance-section {
     display: flex;
     flex-direction: column;
-    overflow:hidden;
-    overflow-y: auto; /* Permite el desplazamiento vertical */
+    align-items: center;
 }
-
-.balance-section {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+.balance-section h2{
+     text-align: center;
+     margin-bottom: 10px;
 }
-
-.balance-section h2 {
-    text-align: center;
-    margin-bottom: 10px;
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;        /* Habilitar flexbox */
+    justify-content: center; /* Centrar horizontalmente */
 }
-
-.balance-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.balance-section li {
-    padding: 5px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.balance-section .total {
-    font-weight: bold;
-    text-align: center;
+.balance-table {
+    width: 90%;
+    border-collapse: collapse;
     margin-top: 10px;
-    font-size: 1.2em;
 }
-
-/* Highlight totals */
+.balance-table th,
+.balance-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.balance-table thead th {
+    background-color: #f2f2f2;
+}
 .total {
-
-    padding: 10px;
-    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+table th,
+table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 0.9em; /* Disminuir el tamaño de fuente a 0.9 veces el tamaño por defecto*/
+}
+/* Para dispositivos pequeños */
+@media (max-width: 768px) {
+     .container{
+         width: 100%;
+     }
+    .balance-grid {
+        flex-direction: column;
+     }
 }

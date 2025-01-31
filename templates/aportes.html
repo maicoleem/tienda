@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,76 +9,119 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
     <header>
         <h1>Aportes Sociales</h1>
     </header>
-    <main>
-        <!-- Sección de Socios -->
-        <section id="crud-socios">
+    <main class="container">
+         <!-- Sección de Socios -->
+        <section id="crud-socios" class="card">
             <h2>Gestión de Socios</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Identificación</th>
-                        <th>Teléfono</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-socios">
-                    <!-- Se llenará dinámicamente -->
-                </tbody>
-            </table>
             <form id="formulario-socios">
-                <label for="nombre-socio">Nombre:</label>
-                <input type="text" id="nombre-socio" required>
-                <label for="identificacion-socio">Identificación:</label>
-                <input type="text" id="identificacion-socio" required>
-                <label for="telefono-socio">Teléfono:</label>
-                <input type="text" id="telefono-socio" required>
-                <button type="button" id="crear-socio">Crear</button>
-                <button type="button" id="actualizar-socio" disabled>Actualizar</button>
-                <button type="button" id="eliminar-socio" disabled>Eliminar</button>
+                 <div class="form-row">
+                   <div class="form-group">
+                        <label for="nombre-socio">Nombre:</label>
+                       <input type="text" id="nombre-socio" required>
+                    </div>
+                    <div class="form-group">
+                       <label for="identificacion-socio">Identificación:</label>
+                       <input type="text" id="identificacion-socio" required>
+                   </div>
+                   <div class="form-group">
+                      <label for="telefono-socio">Teléfono:</label>
+                      <input type="text" id="telefono-socio" required>
+                   </div>
+                 </div>
+                 <div class="botones-socios">
+                    <button type="button" id="crear-socio">Crear</button>
+                    <button type="button" id="actualizar-socio" disabled>Actualizar</button>
+                    <button type="button" id="eliminar-socio" disabled>Eliminar</button>
+                </div>
             </form>
+            <div class="table-container">
+                  <div class="column-filters">
+                     <input type="text" data-column="nombre" placeholder="Filtrar por Nombre">
+                     <input type="text" data-column="id" placeholder="Filtrar por Identificación">
+                     <input type="text" data-column="contacto" placeholder="Filtrar por Teléfono">
+                  </div>
+                    <table class="socios-table">
+                        <thead>
+                            <tr>
+                                <th data-column="nombre">Nombre</th>
+                                <th data-column="id">Identificación</th>
+                                <th data-column="contacto">Teléfono</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-socios">
+                            <!-- Se llenará dinámicamente -->
+                        </tbody>
+                    </table>
+                 <div id="item-count-socios"></div>
+            </div>
         </section>
         <!-- Sección de Aportes -->
-        <section class="registro-aportes">
-            <h2>Registrar Aporte en Dinero</h2>
+        <section class="registro-aportes card">
+             <h2>Registrar Aporte en Dinero</h2>
             <form id="formulario-aportes">
-                <label for="fecha">Fecha:</label>
-                <input type="text" id="fecha" required readonly>
-
-                <label for="factura">Factura:</label>
-                <input type="text" id="factura" required readonly>
-                
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" required readonly>
-                
-                <label for="efectivo">Efectivo:</label>
-                <input type="number" id="efectivo" required value="0">
-                
-                <label for="banco">Banco:</label>
-                <input type="number" id="banco" required value="0">
-                
-                <label for="observaciones-aporte">Observaciones:</label>
-                <textarea id="observaciones-dinero"></textarea>
-                <button type="button" id="registrar-dinero">Registrar</button>
+                 <div class="form-row">
+                    <div class="form-group">
+                         <label for="fecha">Fecha:</label>
+                        <input type="text" id="fecha" required readonly>
+                    </div>
+                   <div class="form-group">
+                        <label for="factura">Factura:</label>
+                        <input type="text" id="factura" required readonly>
+                   </div>
+                  <div class="form-group">
+                         <label for="nombre">Nombre:</label>
+                         <input type="text" id="nombre" required readonly>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="form-group">
+                         <label for="efectivo">Efectivo:</label>
+                         <input type="number" id="efectivo" required value="0">
+                      </div>
+                      <div class="form-group">
+                        <label for="banco">Banco:</label>
+                        <input type="number" id="banco" required value="0">
+                      </div>
+                    <div class="form-group">
+                       <label for="observaciones-aporte">Observaciones:</label>
+                       <textarea id="observaciones-dinero"></textarea>
+                    </div>
+                  </div>
+                <div class="botones-aportes">
+                      <button type="button" id="registrar-dinero">Registrar</button>
+                </div>
             </form>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Factura</th>
-                        <th>Identificación</th>
-                        <th>Nombre</th>
-                        <th>Efectivo</th>
-                        <th>Banco</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-aportes">
-                    <!-- Se llenará dinámicamente -->
-                </tbody>
-            </table>
-        </section>            
-        <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+           <div class="table-container">
+                <div class="column-filters">
+                    <input type="text" data-column="fecha" placeholder="Filtrar por Fecha">
+                    <input type="text" data-column="factura" placeholder="Filtrar por Factura">
+                    <input type="text" data-column="referencia" placeholder="Filtrar por Identificación">
+                     <input type="text" data-column="nombre" placeholder="Filtrar por Nombre">
+                    <input type="text" data-column="precio_compra" placeholder="Filtrar por Efectivo">
+                   <input type="text" data-column="precio_venta" placeholder="Filtrar por Banco">
+                </div>
+                    <table class="aportes-table">
+                        <thead>
+                            <tr>
+                                <th data-column="fecha">Fecha</th>
+                                <th data-column="factura">Factura</th>
+                                 <th data-column="referencia">Identificación</th>
+                                 <th data-column="nombre">Nombre</th>
+                                <th data-column="precio_compra">Efectivo</th>
+                                <th data-column="precio_venta">Banco</th>
+                             </tr>
+                        </thead>
+                        <tbody id="tabla-aportes">
+                            <!-- Se llenará dinámicamente -->
+                        </tbody>
+                    </table>
+                   <div id="item-count-aportes"></div>
+             </div>
+        </section>
+    </main>
 </body>
 </html>

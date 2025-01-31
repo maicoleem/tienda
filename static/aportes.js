@@ -1,12 +1,25 @@
-document.addEventListener('DOMContentLoaded', cargarSocios);
-
+document.addEventListener('DOMContentLoaded', () => {
+    cargarSocios();
+    buscarRegistros();
+    establecerFechaActual();
+    obtenerNuevaFactura();
+});
+let sociosData = [];
+let aportesData = [];
+let currentSortColumnSocios = null;
+let currentSortColumnAportes = null;
+let sortDirectionSocios = 'asc';
+let sortDirectionAportes = 'asc';
 // Cargar socios en la tabla
 async function cargarSocios() {
     const response = await fetch('/api/socios');
-    const socios = await response.json();
+    sociosData = await response.json();
+    renderSocios(sociosData);
+    updateItemCountSocios(sociosData)
+}
+function renderSocios(socios) {
     const tabla = document.getElementById('tabla-socios');
-    tabla.innerHTML = ''; // Limpiar la tabla
-
+    tabla.innerHTML = '';
     socios.forEach(socio => {
         const fila = document.createElement('tr');
         fila.innerHTML = `
@@ -19,7 +32,6 @@ async function cargarSocios() {
         tabla.appendChild(fila);
     });
 }
-
 // Seleccionar socio
 function seleccionarSocio(socio, fila) {
     const filas = document.querySelectorAll('#tabla-socios tr');
@@ -81,8 +93,8 @@ const establecerFechaActual = () => {
     const ahora = new Date();
 
     // Configuración para el formato "MIE 01 ENE 24 13:30"
-    const options = { 
-        timeZone: 'America/Bogota', 
+    const options = {
+        timeZone: 'America/Bogota',
         weekday: 'short',    // Día de la semana (MIE, JUE, ...)
         day: '2-digit',      // Día con dos dígitos (01, 02, ...)
         month: 'short',      // Mes en formato corto (ENE, FEB, ...)
@@ -129,15 +141,16 @@ const buscarRegistros = async () => {
 
         // Realizar la solicitud GET con la cadena como parámetro
         const response = await fetch(`/api/libro_registro/facturas-registro?cadena=${encodeURIComponent(cadena)}`);
-        const datos = await response.json();
+        aportesData = await response.json();
 
         if (response.ok) {
-            console.log("Facturas encontradas:", datos);
+            console.log("Facturas encontradas:", aportesData);
             // Mostrar los resultados en la interfaz
-            mostrarFacturasEnTabla(datos);
+            mostrarAportesEnTabla(aportesData);
+            updateItemCountAportes(aportesData)
         } else {
-            console.error("Error:", datos.error);
-            alert(`Error: ${datos.error}`);
+            console.error("Error:", aportesData.error);
+            alert(`Error: ${aportesData.error}`);
         }
     } catch (error) {
         console.error("Error al buscar facturas:", error);
@@ -146,7 +159,7 @@ const buscarRegistros = async () => {
 };
 
 // Función para mostrar las facturas en una tabla HTML
-const mostrarFacturasEnTabla = (facturas) => {
+const mostrarAportesEnTabla = (facturas) => {
     const tbody = document.getElementById("tabla-aportes");
     tbody.innerHTML = ""; // Vaciar la tabla
 
@@ -161,15 +174,13 @@ const mostrarFacturasEnTabla = (facturas) => {
         fila.innerHTML = `
             <td>${new Date(factura.fecha).toLocaleDateString()}</td>
             <td>${factura.factura}</td>
-            <td>${factura.referencia}</td>
+             <td>${factura.referencia}</td>
             <td>${factura.nombre}</td>
             <td>${factura.precio_compra}</td>
             <td>${factura.precio_venta}</td>
         `;
         tbody.appendChild(fila);
     });
-
-
 };
 
 const obtenerNuevaFactura = async () => {
@@ -203,12 +214,121 @@ function limpiarFormularioDinero(){
     const formulario = document.getElementById('formulario-aportes')
     formulario.reset();
 }
+ function updateItemCountSocios(data) {
+        const itemCountDiv = document.getElementById('item-count-socios')
+      itemCountDiv.textContent = `Número de items: ${data.length}`;
+    };
+  function updateItemCountAportes(data) {
+        const itemCountDiv = document.getElementById('item-count-aportes')
+      itemCountDiv.textContent = `Número de items: ${data.length}`;
+    };
+function filterSocios() {
+       const columnFilters = Array.from(document.querySelectorAll('#crud-socios .column-filters input'))
+        const columnFiltersValues = columnFilters.reduce((acc, input) => {
+            acc[input.dataset.column] = input.value.toLowerCase();
+            return acc;
+        }, {});
+        const filteredData = sociosData.filter(socio => {
+            return Object.keys(columnFiltersValues).every(column => {
+                if(!columnFiltersValues[column]){
+                   return true;
+                }
+                const value = String(socio[column]).toLowerCase();
+                return value.includes(columnFiltersValues[column])
+            });
+        });
+       renderSocios(filteredData);
+        updateItemCountSocios(filteredData)
+    }
+  function filterAportes() {
+        const columnFilters = Array.from(document.querySelectorAll('.registro-aportes .column-filters input'))
+        const columnFiltersValues = columnFilters.reduce((acc, input) => {
+             acc[input.dataset.column] = input.value.toLowerCase();
+            return acc;
+         }, {});
+        const filteredData = aportesData.filter(aporte => {
+            return Object.keys(columnFiltersValues).every(column => {
+                 if(!columnFiltersValues[column]){
+                     return true;
+                 }
+                const value = String(aporte[column]).toLowerCase();
+               return value.includes(columnFiltersValues[column]);
+            });
+        });
+        mostrarAportesEnTabla(filteredData);
+       updateItemCountAportes(filteredData)
+    }
+ function sortTableSocios(column) {
+       if (currentSortColumnSocios === column) {
+            sortDirectionSocios = sortDirectionSocios === 'asc' ? 'desc' : 'asc';
+        } else {
+            currentSortColumnSocios = column;
+            sortDirectionSocios = 'asc';
+        }
+        const sortedData = [...sociosData].sort((a, b) => {
+            const aValue = a[column];
+            const bValue = b[column];
 
-// Establecer fecha actual al cargar la página
-establecerFechaActual();
+            if (typeof aValue === 'number' && typeof bValue === 'number') {
+                return sortDirectionSocios === 'asc' ? aValue - bValue : bValue - aValue
+            }
+            if (aValue < bValue) return sortDirectionSocios === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortDirectionSocios === 'asc' ? 1 : -1;
+            return 0;
+         });
+        renderSocios(sortedData);
+        updateSortIndicatorsSocios()
+    }
+  function sortTableAportes(column) {
+        if (currentSortColumnAportes === column) {
+           sortDirectionAportes = sortDirectionAportes === 'asc' ? 'desc' : 'asc';
+       } else {
+             currentSortColumnAportes = column;
+           sortDirectionAportes = 'asc';
+       }
+         const sortedData = [...aportesData].sort((a, b) => {
+            const aValue = a[column];
+            const bValue = b[column];
 
-//obtener factura nueva
-obtenerNuevaFactura();
-
-//registros
-buscarRegistros()
+            if (typeof aValue === 'number' && typeof bValue === 'number') {
+                return sortDirectionAportes === 'asc' ? aValue - bValue : bValue - aValue
+            }
+            if (aValue < bValue) return sortDirectionAportes === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortDirectionAportes === 'asc' ? 1 : -1;
+            return 0;
+        });
+        mostrarAportesEnTabla(sortedData);
+        updateSortIndicatorsAportes();
+    }
+  function updateSortIndicatorsSocios() {
+        const thElements = document.querySelectorAll('#crud-socios .socios-table thead th');
+        thElements.forEach(th => {
+            th.classList.remove('sorted-asc', 'sorted-desc');
+            if (th.dataset.column === currentSortColumnSocios) {
+                th.classList.add(sortDirectionSocios === 'asc' ? 'sorted-asc' : 'sorted-desc');
+            }
+        });
+  }
+   function updateSortIndicatorsAportes() {
+        const thElements = document.querySelectorAll('.registro-aportes .aportes-table thead th');
+        thElements.forEach(th => {
+             th.classList.remove('sorted-asc', 'sorted-desc');
+            if (th.dataset.column === currentSortColumnAportes) {
+                th.classList.add(sortDirectionAportes === 'asc' ? 'sorted-asc' : 'sorted-desc');
+            }
+        });
+    }
+    const columnFiltersSocios = Array.from(document.querySelectorAll('#crud-socios .column-filters input'));
+    columnFiltersSocios.forEach(input => {
+         input.addEventListener('input', filterSocios)
+   })
+   document.querySelectorAll('#crud-socios .socios-table thead th').forEach(th => {
+         th.addEventListener('click', () => sortTableSocios(th.dataset.column))
+    })
+    const columnFiltersAportes = Array.from(document.querySelectorAll('.registro-aportes .column-filters input'));
+    columnFiltersAportes.forEach(input => {
+          input.addEventListener('input', filterAportes)
+     })
+    document.querySelectorAll('.registro-aportes .aportes-table thead th').forEach(th => {
+        th.addEventListener('click', () => sortTableAportes(th.dataset.column))
+    })

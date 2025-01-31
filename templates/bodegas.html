@@ -6,38 +6,53 @@
     <title>Bodegas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bodegas.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+     <script src="{{ url_for('static', filename='bodegas.js') }}" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="right-panel">
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+     <div class="container">
+        <div class="right-panel card">
             <h2>Gestión de Bodegas</h2>
-            <button id="crearBtn">Crear</button>
-            <button id="guardarBtn" disabled>Guardar</button>
-            <button id="actualizarBtn" disabled>Actualizar</button>
-            <button id="eliminarBtn" disabled>Eliminar</button>
-            <div>
+             <div class="botones-bodega">
+                <button id="crearBtn">Crear</button>
+                <button id="guardarBtn" disabled>Guardar</button>
+                <button id="actualizarBtn" disabled>Actualizar</button>
+                <button id="eliminarBtn" disabled>Eliminar</button>
+             </div>
+            <div class="form-group">
                 <label for="codigo">Código:</label>
-                <input type="text" id="codigo">
-            </div>
-            <div>
+                 <input type="text" id="codigo">
+             </div>
+            <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre">
-            </div>
-            <div>
-                <label for="descripcion">Descripción:</label>
+             </div>
+            <div class="form-group">
+                 <label for="descripcion">Descripción:</label>
                 <textarea id="descripcion"></textarea>
-            </div>
+             </div>
         </div>
-        <div class="left-panel">
+        <div class="left-panel card">
             <h2>Lista de Bodegas</h2>
-            <input type="text" id="filterCodigo" placeholder="Filtrar por Código">
-            <input type="text" id="filterNombre" placeholder="Filtrar por Nombre">
-            <ul id="bodegaList"></ul>
+           <div class="table-container">
+              <div class="column-filters">
+                   <input type="text" data-column="codigo" placeholder="Filtrar por Código">
+                   <input type="text" data-column="nombre" placeholder="Filtrar por Nombre">
+               </div>
+                <table class="bodega-table">
+                  <thead>
+                        <tr>
+                           <th data-column="codigo">Código</th>
+                            <th data-column="nombre">Nombre</th>
+                         </tr>
+                    </thead>
+                     <tbody id="bodegaList">
+                           <!-- Las filas se llenarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+             <div id="item-count"></div>
         </div>
-        
     </div>
-    <script src="{{ url_for('static', filename='bodegas.js') }}"></script>
-    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
-    
 </body>
 </html>

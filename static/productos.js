@@ -1,6 +1,8 @@
 const apiUrl = '/api/productos/';
 let selectedProductoId = null;
-
+let productosData = [];
+let currentSortColumn = null;
+let sortDirection = 'asc';
 document.addEventListener('DOMContentLoaded', () => {
     cargarProductos();
 
@@ -36,16 +38,24 @@ document.addEventListener('DOMContentLoaded', () => {
             eliminarProducto(selectedProductoId);
         }
     });
-
-    document.getElementById('filterReferencia').addEventListener('input', filtrarProductos);
-    document.getElementById('filterNombre').addEventListener('input', filtrarProductos);
+    const columnFilters = Array.from(document.querySelectorAll('.column-filters input'));
+   columnFilters.forEach(input => {
+        input.addEventListener('input', filtrarProductos)
+    })
+    document.querySelectorAll('.producto-table thead th').forEach(th => {
+        th.addEventListener('click', () => sortTable(th.dataset.column))
+    })
 });
 
 // Funciones principales
 function cargarProductos() {
     fetch(apiUrl)
         .then(response => response.json())
-        .then(data => mostrarProductos(data))
+        .then(data => {
+           productosData = data;
+           mostrarProductos(productosData)
+           updateItemCount(productosData);
+        })
         .catch(error => console.error('Error al cargar productos:', error));
 }
 
@@ -53,13 +63,21 @@ function mostrarProductos(productos) {
     const productosList = document.getElementById('productosList');
     productosList.innerHTML = '';
     productos.forEach(producto => {
-        const li = document.createElement('li');
-        li.textContent = `${producto.referencia} - ${producto.nombre} (${producto.tipo})`;
+        const li = document.createElement('tr');
+        li.innerHTML = `
+            <td>${producto.referencia}</td>
+            <td>${producto.nombre}</td>
+            <td>${producto.tipo}</td>
+        `;
+        li.dataset.id = producto.id;
         li.addEventListener('click', () => seleccionarProducto(producto));
         productosList.appendChild(li);
     });
 }
-
+const updateItemCount = (data) => {
+        const itemCountDiv = document.getElementById('item-count')
+      itemCountDiv.textContent = `Número de items: ${data.length}`;
+    };
 function crearProducto(producto) {
     fetch(apiUrl, {
         method: 'POST',
@@ -135,17 +153,50 @@ function toggleBotones(guardar, actualizar, eliminar) {
 }
 
 function filtrarProductos() {
-    const filtroReferencia = document.getElementById('filterReferencia').value.toLowerCase();
-    const filtroNombre = document.getElementById('filterNombre').value.toLowerCase();
-    const productos = document.querySelectorAll('#productosList li');
-
-    productos.forEach(producto => {
-        const [referencia, nombre] = producto.textContent.toLowerCase().split(' - ');
-        if (referencia.includes(filtroReferencia) && nombre.includes(filtroNombre)) {
-            producto.style.display = '';
-        } else {
-            producto.style.display = 'none';
-        }
-    });
+       const columnFilters = Array.from(document.querySelectorAll('.column-filters input'))
+        const columnFiltersValues = columnFilters.reduce((acc, input) => {
+            acc[input.dataset.column] = input.value.toLowerCase();
+            return acc;
+        }, {});
+        const filteredData = productosData.filter(producto => {
+            return Object.keys(columnFiltersValues).every(column => {
+               if(!columnFiltersValues[column]){
+                   return true;
+                }
+                const value = String(producto[column]).toLowerCase();
+                return value.includes(columnFiltersValues[column])
+            });
+        });
+      mostrarProductos(filteredData)
+      updateItemCount(filteredData)
 }
+function sortTable(column) {
+         if (currentSortColumn === column) {
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            currentSortColumn = column;
+            sortDirection = 'asc';
+        }
+        const sortedData = [...productosData].sort((a, b) => {
+           const aValue = a[column];
+           const bValue = b[column];
 
+            if (typeof aValue === 'number' && typeof bValue === 'number') {
+                 return sortDirection === 'asc' ? aValue - bValue : bValue - aValue
+            }
+             if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+            return 0;
+         });
+       mostrarProductos(sortedData);
+       updateSortIndicators();
+}
+function updateSortIndicators() {
+        const thElements = document.querySelectorAll('.producto-table thead th');
+        thElements.forEach(th => {
+            th.classList.remove('sorted-asc', 'sorted-desc');
+            if (th.dataset.column === currentSortColumn) {
+                th.classList.add(sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc');
+            }
+        });
+}
