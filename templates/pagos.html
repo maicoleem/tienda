@@ -1,94 +1,138 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width", initial-scale="1.0">
-        <title>Pagos</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='pagos.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-        <script src="{{ url_for('static', filename='pagos.js') }}"></script>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width", initial-scale="1.0">
+    <title>Pagos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pagos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="{{ url_for('static', filename='pagos.js') }}" defer></script>
+</head>
+<body>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+    <header>
         <h1>Pagos</h1>
-        <div class="pagos" name="disponible">
-            <label for="banco">banco:</label>
-            <input type="number" id="banco" placeholder="banco" value="0" readonly>
-            <label for="efectivo">Caja:</label>
-            <input type="number" id="efectivo" placeholder="efectivo" value="0" readonly>
+    </header>
+    <div class="disponible card">
+        <h2>Fondos Disponibles</h2>
+         <div class="form-row">
+            <div class="form-group">
+                <label for="banco">Banco:</label>
+                <input type="number" id="banco" class="resaltar-valor" value="0" readonly>
+            </div>
+            <div class="form-group">
+               <label for="efectivo">Caja:</label>
+                <input type="number" id="efectivo" class="resaltar-valor" value="0" readonly>
+            </div>
         </div>
-        <div class="container">
-            <section>
-                <div class="pago">
-                    <label for="facutra-servicios">Factura:</label>
-                    <input type="text" id="facutra-servicios" placeholder="facutra-servicios">
-    
-                    <label for="nombre-servicios">Servicio:</label>
-                    <input type="text" id="nombre-servicios" placeholder="nombre-servicios">
-    
-                    <label for="valor-servicio">Valor:</label>
-                    <input type="text" id="valor-servicio" placeholder="valor-servicio" value="0">
-                </div>            
-                <div class="pago">
-                    <label for="iva">IVA:</label>
-                    <select id="iva-servicio" name="iva-servicio" class="iva">
-                        <option value="NO">NO</option>
-                        <option value="SI">SI</option>
-                    </select>
-                    <label for="valor-iva">IVA:</label>
-                    <input type="number" id="valor-iva-servicio" name="valor-iva-servicio" step="0.01" required min="0" value="0" disabled="true">
-                    <label for="total-servicio">TOTAL:</label>
-                    <input type="number" id="total-servicio" name="total-servicio" step="0.01" required min="0" value="0" disabled="true">
+     </div>
+    <main class="container">
+        <section class="card">
+            <h2>Pago de Servicios</h2>
+            <form id="formulario-servicios">
+                <div class="form-row">
+                    <div class="form-group">
+                       <label for="facutra-servicios">Factura:</label>
+                        <input type="text" id="facutra-servicios" placeholder="Factura">
+                    </div>
+                    <div class="form-group">
+                      <label for="nombre-servicios">Servicio:</label>
+                      <input type="text" id="nombre-servicios" placeholder="Servicio">
+                   </div>
+                   <div class="form-group">
+                      <label for="valor-servicio">Valor:</label>
+                       <input type="text" id="valor-servicio" value="0">
+                    </div>
+               </div>
+               <div class="form-row">
+                    <div class="form-group">
+                         <label for="iva">IVA:</label>
+                         <select id="iva-servicio" class="iva">
+                           <option value="NO">NO</option>
+                           <option value="SI">SI</option>
+                        </select>
+                   </div>
+                    <div class="form-group">
+                       <label for="valor-iva">IVA:</label>
+                        <input type="number" id="valor-iva-servicio" step="0.01" required min="0" value="0" disabled>
+                    </div>
+                   <div class="form-group">
+                        <label for="total-servicio">TOTAL:</label>
+                        <input type="number" id="total-servicio" step="0.01" required min="0" value="0" disabled>
+                    </div>
+                 </div>
+                 <div class="form-row">
+                    <div class="form-group">
+                       <label for="pago-banco-servicio">Banco:</label>
+                         <input type="number" id="pago-banco-servicios" value="0">
+                    </div>
+                     <div class="form-group">
+                        <label for="pago-caja-servicio">Efectivo:</label>
+                        <input type="number" id="pago-caja-servicios" value="0">
+                     </div>
+                    <div class="form-group">
+                       <label><input type="checkbox" id="credito-checkbox-servicios">Crédito:</label>
+                       <input type="number" id="pago-credito-servicios" value="0" readonly>
+                   </div>
+                 </div>
+                 <div class="botones-pagos">
+                     <button type="submit" id="guardar-servicios-btn">PAGAR</button>
+                 </div>
+            </form>
+        </section>
+         <section class="card">
+            <h2>Pago de Alquileres</h2>
+            <form id="formulario-alquileres">
+                <div class="form-row">
+                     <div class="form-group">
+                       <label for="facutra-alquiler">Factura:</label>
+                        <input type="text" id="facutra-alquiler" placeholder="Factura">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre-alquiler">Alquiler:</label>
+                       <input type="text" id="nombre-alquiler" placeholder="Alquiler">
+                     </div>
+                   <div class="form-group">
+                      <label for="valor-alquiler">Valor:</label>
+                      <input type="text" id="valor-alquiler" value="0">
+                  </div>
+                 </div>
+                 <div class="form-row">
+                      <div class="form-group">
+                         <label for="iva">IVA:</label>
+                         <select id="iva-alquiler" class="iva">
+                             <option value="NO">NO</option>
+                            <option value="SI">SI</option>
+                          </select>
+                      </div>
+                    <div class="form-group">
+                        <label for="valor-iva">IVA:</label>
+                       <input type="number" id="valor-iva-alquiler" step="0.01" required min="0" value="0" disabled>
+                   </div>
+                    <div class="form-group">
+                       <label for="total-servicio">TOTAL:</label>
+                       <input type="number" id="total-alquiler" step="0.01" required min="0" value="0" disabled>
+                    </div>
+                  </div>
+                 <div class="form-row">
+                    <div class="form-group">
+                         <label for="pago-banco-alquile">Banco:</label>
+                         <input type="number" id="pago-banco-alquiler" value="0">
+                     </div>
+                   <div class="form-group">
+                         <label for="pago-caja-alquile">Efectivo:</label>
+                        <input type="number" id="pago-caja-alquiler" value="0">
+                    </div>
+                     <div class="form-group">
+                       <label><input type="checkbox" id="credito-checkbox-alquiler">Crédito:</label>
+                        <input type="number" id="pago-credito-alquiler"  value="0" readonly>
+                    </div>
+                 </div>
+                <div class="botones-pagos">
+                      <button type="submit" id="guardar-alquiler-btn">PAGAR</button>
                 </div>
-                <div class="pago">
-                    <label for="pago-banco-servicio">Banco:</label>
-                    <input type="number" id="pago-banco-servicios" value="0">
-    
-                    <label for="pago-caja-servicio">Efectivo:</label>
-                    <input type="number" id="pago-caja-servicios" value="0">
-                    
-                    <label><input type="checkbox" id="credito-checkbox-servicios">Crédito:</label>
-                    <input type="number" id="pago-credito-servicios" value="0" readonly>
-    
-                    <button type="guardar" id="guardar-servicios-btn">PAGAR</button>
-                </div>
-            </section>
-            <section>
-                <div class="pago">
-                    <label for="facutra-alquiler">Factura:</label>
-                    <input type="text" id="facutra-alquiler" placeholder="facutra-alquiler">
-    
-                    <label for="nombre-alquiler">Alquiler:</label>
-                    <input type="text" id="nombre-alquiler" placeholder="nombre-alquiler">
-    
-                    <label for="valor-alquiler">Valor:</label>
-                    <input type="text" id="valor-alquiler" value="0">
-                </div>
-                <div class="pago">
-                    <label for="iva">IVA:</label>
-                    <select id="iva-alquiler" name="iva-alquiler" class="iva">
-                        <option value="NO">NO</option>
-                        <option value="SI">SI</option>
-                    </select>
-                    <label for="valor-iva">IVA:</label>
-                    <input type="number" id="valor-iva-alquiler" name="valor-iva-alquiler" step="0.01" required min="0" value="0" disabled="true">
-                    <label for="total-servicio">TOTAL:</label>
-                    <input type="number" id="total-alquiler" name="total-alquiler" step="0.01" required min="0" value="0" disabled="true">
-                </div>
-                <div class="pago">
-                    <label for="pago-banco-alquile">Banco:</label>
-                    <input type="number" id="pago-banco-alquiler" value="0">
-    
-                    <label for="pago-caja-alquile">Efectivo:</label>
-                    <input type="number" id="pago-caja-alquiler" value="0">
-                    
-                    <label><input type="checkbox" id="credito-checkbox-alquiler">Crédito:</label>
-                    <input type="number" id="pago-credito-alquiler" placeholder="pago-credito-alquiler" value="0" readonly>
-    
-                    <button type="guardar" id="guardar-alquiler-btn">PAGAR</button>
-                </div>
-            </section>
-        </div>
-        <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
-    </body>
-
+            </form>
+        </section>
+    </main>
+</body>
 </html>

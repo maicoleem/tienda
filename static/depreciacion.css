@@ -1,0 +1,120 @@
+/* depreciacion.css */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    gap: 20px;
+}
+.card {
+     background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 700px;
+}
+.search-section{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     max-width: 460px; /* Ancho máximo del buscador */
+}
+.search-section h2 {
+     text-align: center;
+    margin-bottom: 20px;
+}
+.search-box {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+.search-box label {
+    margin-bottom: 5px;
+    text-align: left;
+}
+.search-box input {
+   padding: 10px;
+    border: 1px solid #ccc;
+     border-radius: 4px;
+    margin-bottom: 10px;
+}
+.table-container {
+    width: 450px;
+    flex: 1; /* Para que ocupe el espacio disponible en el contenedor flex */
+}
+.producto-table {
+    width: 450px; /* La tabla ocupa todo el ancho de su contenedor */
+    border-collapse: collapse; /* Para que los bordes no se separen */
+    margin-top: 10px;
+    font-size: 0.6em; /* Tamaño de la fuente más pequeña que los inputs */
+}
+.producto-table th,
+.producto-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.producto-table thead th{
+    background-color: #f2f2f2;
+}
+.form-section {
+    display: flex;
+    flex-direction: column;
+   flex: 2; /* Permite que el formulario se expanda más */
+}
+.form-section h2 {
+     text-align: center;
+    margin-bottom: 20px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+}
+.form-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 600px; /* Ancho máximo para las filas del formulario */
+}
+.form-group {
+    margin-bottom: 10px;
+    flex: 1;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+}
+form input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 200px;
+    max-width: 500px; /* Ancho máximo para los inputs del formulario */
+}
+.botones-depreciacion {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+/* Para dispositivos pequeños */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+     .search-section{
+          max-width: 100%;
+     }
+    .form-row {
+        flex-direction: column;
+     }
+    form input{
+         max-width: 100%;
+     }
+}

@@ -9,52 +9,72 @@
     <script src="{{ url_for('static', filename='nomina.js') }}" defer></script>
 </head>
 <body>
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
     <header>
         <h1>Gestión de Nómina</h1>
     </header>
-    <main>
-        <!-- Sección de cálculo -->
-         <section>
-            <h3>Disponible</h3>
-            <form>
-                <label for="efectivo-disponible">Efectivo:</label>
-                <input type="number" id="efectivo-disponible" name="efectivo-disponible" step="0.01" readonly>
-
-                <label for="banco-disponible">Banco:</label>
-                <input type="number" id="banco-disponible" name="banco-disponible" step="0.01" readonly>
-                
-                <label for="factura">Factura:</label>
-                <input type="text" id="factura" name="factura" step="0.01" readonly>
-            </form>
-         </section>
-        <section id="calculo-salario">
+    <section class="card">
+        <h2>Fondos Disponibles</h2>
+        <form>
+              <div class="form-row">
+                    <div class="form-group">
+                        <label for="efectivo-disponible">Efectivo:</label>
+                        <input type="number" id="efectivo-disponible" class="resaltar-valor" name="efectivo-disponible" step="0.01" readonly>
+                   </div>
+                    <div class="form-group">
+                         <label for="banco-disponible">Banco:</label>
+                        <input type="number" id="banco-disponible" class="resaltar-valor"  name="banco-disponible" step="0.01" readonly>
+                    </div>
+                    <div class="form-group">
+                         <label for="factura">Factura:</label>
+                        <input type="text" id="factura" name="factura" step="0.01" readonly>
+                    </div>
+             </div>
+         </form>
+    </section>
+    <main class="container">
+       <!-- Sección de cálculo -->
+       <section class="card">
             <h2>Calcular Nómina</h2>
             <form id="form-nomina">
-                <label for="nombre">Empleado:</label>
-                <input type="text" id="nombre" name="nombre" readonly value="Empleado">
-
-                <label for="salario">Salario:</label>
-                <input type="number" id="salario" name="salario" min="1" max="30" required value="1" readonly>
-
-                <label for="pago">Pago:</label>
-                <input type="number" id="pago" name="pago" min="0" value="1">
-
+                 <div class="form-row">
+                    <div class="form-group">
+                         <label for="nombre">Empleado:</label>
+                        <input type="text" id="nombre" name="nombre" readonly value="Empleado">
+                     </div>
+                    <div class="form-group">
+                        <label for="salario">Salario:</label>
+                        <input type="number" id="salario" name="salario" min="1" max="30" required value="1" readonly>
+                     </div>
+                    <div class="form-group">
+                       <label for="pago">Pago:</label>
+                       <input type="number" id="pago" name="pago" min="0" value="1">
+                    </div>
+                  </div>
                 <h3>Liquidar</h3>
-                <label for="efectivo">Efectivo:</label>
-                <input type="number" id="efectivo" name="efectivo" step="0.01">
-
-                <label for="banco">Banco:</label>
-                <input type="number" id="banco" name="banco" step="0.01">
-
-                <button type="submit" id="btn-pago">Pagar</button>
+                 <div class="form-row">
+                    <div class="form-group">
+                        <label for="efectivo">Efectivo:</label>
+                        <input type="number" id="efectivo" name="efectivo" step="0.01">
+                    </div>
+                    <div class="form-group">
+                       <label for="banco">Banco:</label>
+                        <input type="number" id="banco" name="banco" step="0.01">
+                    </div>
+                 </div>
+                 <div class="botones-nomina">
+                   <button type="submit" id="btn-pago">Pagar</button>
+                 </div>
             </form>
         </section>
-        <!-- Sección de empleados -->
-        <section id="empleados">
+         <!-- Sección de empleados -->
+        <section class="card" id="empleados">
             <h2>Lista de Empleados</h2>
-            <div id="lista-empleados">
-                <input type="text" id="filtro-nombre-empleado" placeholder="Filtrar por nombre...">
-                <table>
+            <div class="table-container">
+                  <div class="column-filters">
+                        <input type="text" id="filtro-nombre-empleado" placeholder="Filtrar por nombre...">
+                  </div>
+                <table class="empleado-table">
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -68,24 +88,26 @@
                 </table>
             </div>
         </section>
-        <section>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Factura</th>
-                        <th>Identificación</th>
-                        <th>Nombre</th>
-                        <th>Efectivo</th>
-                        <th>Banco</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-nomina">
-                    <!-- Se llenará dinámicamente -->
-                </tbody>
-            </table>
-        </section>
     </main>
-    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+    <section class="card">
+        <h2>Registro de Nómina</h2>
+         <div class="table-container">
+             <table class="nomina-table">
+                 <thead>
+                     <tr>
+                         <th>Fecha</th>
+                         <th>Factura</th>
+                         <th>Identificación</th>
+                         <th>Nombre</th>
+                         <th>Efectivo</th>
+                         <th>Banco</th>
+                      </tr>
+                 </thead>
+                 <tbody id="tabla-nomina">
+                     <!-- Se llenará dinámicamente -->
+                 </tbody>
+             </table>
+         </div>
+  </section>
 </body>
 </html>

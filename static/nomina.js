@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnPago = document.getElementById('btn-pago');
     const factura = document.getElementById('factura');
     let empleadoPago = null;
-
+    let empleadosData = []
     // Función para obtener los totales de debe y haber por código de cuenta
     const obtenerTotalesPorCodigo = async (codigoCuenta) => {
         if (!codigoCuenta) {
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(cajaCuenta){
             efectivoDisponible.value = totalCaja;
         }
-        
+
         const bancoCuenta = await obtenerTotalesPorCodigo(banco)
         totalBanco = bancoCuenta.totalDebe - bancoCuenta.totalHaber
         if(totalBanco){
@@ -58,8 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('/api/nomina/empleados')
         .then(response => response.json())
         .then(empleados =>{
-            empleados.forEach(empleado =>{
-                const li = document.createElement('tr');
+            empleadosData = empleados
+           renderEmpleados(empleadosData)
+        });
+    }
+     function renderEmpleados(empleados){
+          tablaEmpleados.innerHTML = '';
+           empleados.forEach(empleado =>{
+             const li = document.createElement('tr');
                 li.innerHTML =`
                 <td>${empleado.nombre}</td>
                 <td>${empleado.cargo}</td>
@@ -69,8 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 li.addEventListener('click', () => seleccionarEmpleado(empleado));
                 tablaEmpleados.appendChild(li)
             });
-        });
-    }
+     }
     //seleccionar empleado
     function seleccionarEmpleado(empleado){
         empleadoSeleccionado = empleado;
@@ -89,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const zeroBanco = disponibleBanco - valorBanco;
         const zeroCaja= disponibleCaja - valorCaja;
         const zeroPago = valorPago -totalCash;
-        const observaciones = 'pago nomina salario: '// + empleadoPago.salario
+         const observaciones = 'pago nomina salario: '// + empleadoPago.salario
         if(zeroBanco>0 && zeroCaja >0 && zeroPago == 0 ){
 
             const data ={
@@ -109,10 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('guardado')
             }).catch(error => console.error('Error al registrar pago de nomina:', error));
         }else{
-            alert('Error en if')
+             alert('Error en if')
         }
     }
-
     const buscarRegistros = async () => {
         try {
             // Obtener el valor del input con id "factura"
@@ -187,6 +191,16 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Hubo un problema al obtener la nueva factura. Consulte la consola para más detalles.");
         }
     };
+
+    function filtrarEmpleados() {
+         const filtro = document.getElementById("filtro-nombre-empleado").value.toLowerCase();
+         const filteredData = empleadosData.filter(empleado => {
+               return String(empleado.nombre).toLowerCase().includes(filtro)
+         })
+        renderEmpleados(filteredData);
+    }
+    document.getElementById("filtro-nombre-empleado").addEventListener("input", filtrarEmpleados);
+
     cargarEmpleados();
     cargarDisponible();
     buscarRegistros();

@@ -3,46 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Compras</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='compras.css') }}">
+    <title>Registro de Depreciación</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='depreciacion.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-    <script src="{{ url_for('static', filename='depreciacion.js') }}"></script>
+    <script src="{{ url_for('static', filename='depreciacion.js') }}" defer></script>
 </head>
 <body>
-    <div class="container">
-        <!-- Bloque 1: Búsqueda de productos en almacenamiento -->
-        <div class="search-section">
+    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+    <main class="container">
+         <!-- Sección de búsqueda -->
+        <section class="card search-section">
             <h2>Buscar Productos</h2>
-            <div class="search-box">
+             <div class="search-box">
                 <label for="producto-busqueda">Producto:</label>
                 <input type="text" id="producto-busqueda" placeholder="Buscar producto...">
-                <ul id="producto-lista"></ul>
+                  <div class="table-container">
+                       <table class="producto-table">
+                           <thead>
+                                <tr>
+                                    <th>Referencia</th>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                             </thead>
+                             <tbody id="producto-lista">
+                              <!-- Las filas se llenarán dinámicamente -->
+                            </tbody>
+                      </table>
+                   </div>
             </div>
-        </div>
-    </div>
-    <section>
-        <form id="perdida">
-            <label for="referencia">Referencia:</label>
-            <input type="text" id="referencia" value="0" readonly>
-
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" value="0" readonly>
-            
-            <label for="stock">Stock:</label>
-            <input type="number" id="stock" value="0">
-            
-            <label for="cantidad">Cantidad:</label>
-            <input type="number" id="cantidad" value="0">
-            
-            <label for="precio-compra">Precio de compra:</label>
-            <input type="text" id="precio-compra" value="0" readonly>
-            
-            <label for="factura">factura:</label>
-            <input type="text" id="factura" value="0" readonly>
-
-            <button type="submit" id="registrar">Registrar</button>
-        </form>
-    </section>
-    <a href="/" style="position: absolute; top: 10px; right: 20px;">Volver a la página principal</a>
+        </section>
+        <!-- Sección de registro -->
+        <section class="card form-section">
+            <h2>Registro de Depreciación o Desecho</h2>
+            <form id="depreciacion">
+                 <div class="form-row">
+                    <div class="form-group">
+                         <label for="referencia">Referencia:</label>
+                         <input type="text" id="referencia" value="0" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                         <input type="text" id="nombre" value="0" readonly>
+                     </div>
+                    </div>
+                 <div class="form-row">
+                    <div class="form-group">
+                         <label for="stock">Stock:</label>
+                       <input type="number" id="stock" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad:</label>
+                       <input type="number" id="cantidad" value="0">
+                    </div>
+                  </div>
+                 <div class="form-row">
+                      <div class="form-group">
+                        <label for="precio-compra">Precio de compra:</label>
+                       <input type="text" id="precio-compra" value="0" readonly>
+                     </div>
+                    <div class="form-group">
+                         <label for="factura">Factura:</label>
+                        <input type="text" id="factura" value="0" readonly>
+                    </div>
+                  </div>
+               <div class="botones-depreciacion">
+                     <button type="submit" id="registrar">Registrar</button>
+               </div>
+            </form>
+        </section>
+    </main>
 </body>
 </html>
