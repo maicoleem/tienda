@@ -31,7 +31,7 @@ cat > ~/Desktop/Tienda.desktop <<EOF
 [Desktop Entry]
 Name=Tienda
 Exec=/home/\$(whoami)/tienda/run.sh
-Icon=/home/\$(whoami)/tienda/icono.png
+Icon=/home/\$(whoami)/tienda/bird.svg
 Type=Application
 Terminal=true
 EOF

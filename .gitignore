@@ -3,5 +3,4 @@ env/
 __pychache__/
 routes/__pycache__/
 uploads/
-
-
+tienda.db

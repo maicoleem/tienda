@@ -6,7 +6,7 @@ from models import db, Socios, Proveedor
 import ezodf
 import io
 from datetime import datetime
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, inspect
 from sqlalchemy.orm import sessionmaker
 # Importa tus modelos de la base de datos
 from models import (
@@ -15,7 +15,7 @@ from models import (
     LibroContable, Socios, Servicios
 )
 
-dataBase_db = Blueprint('/basedatos', __name__)
+dataBase_db = Blueprint('/basedatos/', __name__)
 
 @dataBase_db.route('/api/cargar_excel_temp', methods=['POST'])
 def cargar_excel_temp():
@@ -274,13 +274,20 @@ def upload_sql():
         print(f"Error al restaurar la base de datos: {e}")
         return jsonify({"message": f"Error al restaurar la base de datos: {e}"}), 500
     
-def clear_database(db_uri):
-    """Limpia todas las tablas de la base de datos."""
-    engine = create_engine(db_uri)
-    metadata = db.metadata
-    with engine.begin() as connection:
-        for table in reversed(metadata.sorted_tables):
-             connection.execute(text(f'TRUNCATE TABLE {table.name} RESTART IDENTITY CASCADE;'))
+def clear_database(database_uri):
+    engine = create_engine(database_uri)
+    inspector = inspect(engine)
+    tables = inspector.get_table_names()
+
+    with engine.begin() as conn:
+        for table in reversed(tables):
+            try:
+                conn.execute(text(f'DELETE FROM {table};'))
+                # Reiniciar el autoincremento si es SQLite
+                if 'sqlite' in database_uri:
+                    conn.execute(text(f"DELETE FROM sqlite_sequence WHERE name='{table}';"))
+            except Exception as e:
+                print(f"Error al limpiar la tabla {table}: {e}")
     
 @dataBase_db.route('/api/clear_db', methods=['POST'])
 def clear_db():
