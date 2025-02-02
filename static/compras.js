@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function filtrarTablaCompras() {
         const filtros = {
             fecha: document.getElementById('filtro-fecha').value.toLowerCase(),
-            empleado: document.getElementById('filtro-empleado').value.toLowerCase(),
+            factura: document.getElementById('filtro-factura').value.toLowerCase(),
             proveedor: document.getElementById('filtro-proveedor').value.toLowerCase(),
             cliente: document.getElementById('filtro-cliente').value.toLowerCase(),
             movimiento: document.getElementById('filtro-movimiento').value.toLowerCase(),
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarRegistros();
 
     //filtros
-    document.querySelectorAll('input[id^="filtro-"], select[id^="filtro-"]').forEach(filtro => {
+     document.querySelectorAll('input[id^="filtro-"], select[id^="filtro-"]').forEach(filtro => {
         filtro.addEventListener('input', filtrarTablaCompras);
     });
     
