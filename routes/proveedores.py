@@ -6,13 +6,13 @@ proveedores_bp = Blueprint('/proveedores', __name__)
 @proveedores_bp.route('/', methods=['GET'])
 def listar_proveedores():
     proveedores = Proveedor.query.all()
-    resultado = [{"id": p.id, "nombre": p.nombre, "contacto": p.contacto, "telefono": p.telefono} for p in proveedores]
+    resultado = [{"id": p.id, "nombre": p.nombre, "contacto": p.contacto, "detalle": p.detalle} for p in proveedores]
     return jsonify(resultado)
 
 @proveedores_bp.route('/', methods=['POST'])
 def crear_proveedor():
     data = request.get_json()
-    nuevo_proveedor = Proveedor(nombre=data['nombre'], contacto=data['contacto'], telefono=data['telefono'])
+    nuevo_proveedor = Proveedor(nombre=data['nombre'], contacto=data['contacto'], detalle=data['detalle'])
     db.session.add(nuevo_proveedor)
     db.session.commit()
     return jsonify({"mensaje": "Proveedor creado con éxito"})
@@ -23,7 +23,7 @@ def actualizar_proveedor(id):
     proveedor = Proveedor.query.get_or_404(id)
     proveedor.nombre = data.get('nombre', proveedor.nombre)
     proveedor.contacto = data.get('contacto', proveedor.contacto)
-    proveedor.telefono = data.get('telefono', proveedor.telefono)
+    proveedor.detalle = data.get('detalle', proveedor.detalle)
     db.session.commit()
     return jsonify({"mensaje": "Proveedor actualizado con éxito"})
 

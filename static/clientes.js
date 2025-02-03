@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => {
                 if (response.ok) {
-                    alert('Cliente creado con éxito');
                      limpiarFormulario()
                      cargarClientes()
                 } else {

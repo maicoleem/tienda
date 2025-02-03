@@ -2,10 +2,10 @@ from flask import Blueprint, request, jsonify
 from models import db, LibroContable, LibroRegistro
 from datetime import datetime
 
-pagos_db = Blueprint('/pagos', __name__)
+pagos_db = Blueprint('/pagos/', __name__)
 
 #Realizar pago de servicios
-@pagos_db.route('/api/pago-servicio', methods = ['POST'])
+@pagos_db.route('/pago-servicio', methods = ['POST'])
 def pagar_servicios():
     try:
         data = request.json
@@ -86,6 +86,18 @@ def pagar_servicios():
             haber = float(data['banco'])
         )
         db.session.add(registro_banco)
+        
+        #cuenta patrimonio
+        registro_patrimonio = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '361005',
+            cuenta = 'Perdida del ejercicio',
+            debe = float(data['valor']) - float(data['iva']),
+            haber = float(0)
+        )
+        db.session.add(registro_patrimonio)
 
         db.session.commit()
         return jsonify({"mensaje": "Pago registrado exitosamente"}), 201
@@ -93,7 +105,7 @@ def pagar_servicios():
         return jsonify({"error": "Error al pagar servicios", "detalle": str(e)}), 500
     
 #Realizar pago de alquiler
-@pagos_db.route('/api/pago-alquiler', methods = ['POST'])
+@pagos_db.route('/pago-alquiler', methods = ['POST'])
 def pagar_alquiler():
     try:
         data = request.json
@@ -175,12 +187,24 @@ def pagar_alquiler():
         )
         db.session.add(registro_banco)
 
+        #cuenta patrimonio
+        registro_patrimonio = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '361005',
+            cuenta = 'Perdida del ejercicio',
+            debe = float(data['valor']) - float(data['iva']),
+            haber = float(0)
+        )
+        db.session.add(registro_patrimonio)
+
         db.session.commit()
         return jsonify({"mensaje": "Pago registrado exitosamente"}), 201
     except Exception as e:
         return jsonify({"error": "Error al pagar alquiler", "detalle": str(e)}), 500
     
-@pagos_db.route('/api/deshacer-pago/<factura>', methods=['DELETE'])
+@pagos_db.route('/deshacer-pago/<factura>', methods=['DELETE'])
 def deshacer_pago(factura):
     try:
         # Buscar todos los registros de LibroRegistro con la factura dada

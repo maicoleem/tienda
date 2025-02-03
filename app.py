@@ -123,6 +123,12 @@ def crear_cuentas_iniciales():
             "tipo": "Patrimonio",
             "descripcion": "Utilidades del ejercicio"
         },
+        {
+            "codigo": "361005",
+            "nombre": "Perdida del ejercicio",
+            "tipo": "Patrimonio",
+            "descripcion": "Perdida del ejercicio"
+        },
         # Agrega más cuentas iniciales si lo deseas
     ]
 

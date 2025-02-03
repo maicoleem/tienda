@@ -6,7 +6,7 @@ class Proveedor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     contacto = db.Column(db.String(100), nullable=True)
-    telefono = db.Column(db.String(15), nullable=True)
+    detalle = db.Column(db.String(15), nullable=True)
 
 class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -49,10 +49,10 @@ class Almacenamiento(db.Model):
 class LibroRegistro(db.Model):
     id = db.Column(db.Integer, primary_key=True) #identificador del registro
     fecha = db.Column(db.DateTime, nullable=False) #fecha del registro
-    empleado = db.Column(db.String(100), nullable=True) #nombre del empleado
-    proveedor = db.Column(db.String(100), nullable=True) #nombre del proveedor
-    cliente = db.Column(db.String(100), nullable=True) #nombre del cliente
-    movimiento = db.Column(db.String(50), nullable=False)  # tipo de movimiento (entrada o salida)
+    empleado = db.Column(db.String(100), nullable=True) #nombre del que hace el movimiento
+    proveedor = db.Column(db.String(100), nullable=True) #nombre de donde vienen lo que se mueve
+    cliente = db.Column(db.String(100), nullable=True) #nombre al que va el movimiento
+    movimiento = db.Column(db.String(50), nullable=False)  # tipo de movimiento (entrada o salida {aportes, compras, ventas, inventario, obsoleto})
     referencia = db.Column(db.String(100), nullable=False) #codigo del producto u objeto al que va el movimiento
     factura = db.Column(db.String(50), nullable=False) #factura del movimiento
     nombre = db.Column(db.String(100), nullable=False) # nombre del producto u objeto

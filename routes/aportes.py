@@ -97,7 +97,7 @@ def registrar_aporte():
         factura=data['factura'],
         detalle=data['observaciones'],
         codigo_cuenta='111005',
-        cuenta='Bancos',
+        cuenta='Banco',
         debe=banco,
         haber=0
         ) 

@@ -93,6 +93,18 @@ def pago_nomina():
         haber = float(banco)
         )
         db.session.add(registro_banco)
+
+        #cuenta patrimonio
+        registro_patrimonio = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '361005',
+            cuenta = 'Perdida del ejercicio',
+            debe = float(neto),
+            haber = float(0)
+        )
+        db.session.add(registro_patrimonio)
         
         db.session.commit()
         return jsonify({

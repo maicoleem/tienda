@@ -34,9 +34,9 @@ def obtener_estado_resultados():
 
         for cuenta in cuentas:
             codigo = cuenta.codigo_cuenta
-            saldo_neto = cuenta.total_haber - cuenta.total_debe
-
+            
             if codigo.startswith('4'):  # Ingresos
+                saldo_neto = cuenta.total_haber - cuenta.total_debe
                 ingresos.append({
                     'codigo_cuenta': codigo,
                     'cuenta': cuenta.cuenta,
@@ -46,6 +46,7 @@ def obtener_estado_resultados():
                 })
                 total_ingresos += saldo_neto
             elif codigo.startswith('5'):  # Costos
+                saldo_neto = cuenta.total_debe - cuenta.total_haber
                 costos.append({
                     'codigo_cuenta': codigo,
                     'cuenta': cuenta.cuenta,
@@ -55,6 +56,7 @@ def obtener_estado_resultados():
                 })
                 total_costos += saldo_neto
             elif codigo.startswith('6'):  # Gastos
+                saldo_neto = cuenta.total_debe - cuenta.total_haber
                 gastos.append({
                     'codigo_cuenta': codigo,
                     'cuenta': cuenta.cuenta,

@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     const checkBoxServicio = document.getElementById('credito-checkbox-servicios');
     const selectIVAServicio = document.getElementById('iva-servicio');
     const selectIVAAlquiler = document.getElementById('iva-alquiler');
+    const btnDeshacer = document.getElementById('deshacer-pago');
 
     // Función para obtener los totales de debe y haber por código de cuenta
     const obtenerTotalesPorCodigo = async (codigoCuenta) => {
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         // Asignar el resultado al input correspondiente
         inputCreditoAlquiler.value = creditoAlquiler.toFixed(2); // Formato a dos decimales
 
-        inputTotalAlquiler.value = creditoAlquiler.toFixed(2)
+        inputTotalAlquiler.value = valorAlquiler + ivaAlquiler
 
         // Convertir los valores de los inputs a números usando parseFloat
         const valorServicio = parseFloat(inputValorServicio.value) || 0;
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         // Asignar el resultado al input correspondiente
         inputCreditoServicio.value = creditoServicio.toFixed(2); // Formato a dos decimales
 
-        inputTotalServicio.value = creditoServicio.toFixed(2)
+        inputTotalServicio.value = valorServicio + ivaServicio
     }
 
     // Validar formulario servicios
@@ -134,6 +135,9 @@ document.addEventListener('DOMContentLoaded', () =>{
         }
 
         pagoTotal = parseFloat(inputBancoServicio.value) + parseFloat(inputCajaServicio.value)
+        console.log(inputBancoServicio.value)
+        console.log(inputCajaServicio.value)
+        console.log(inputTotalServicio.value)
         if(pagoTotal > parseFloat(inputTotalServicio.value)){
             formularioValido = false
             alert(`Ingreso una cantidad superior al valor de la factura`);
@@ -216,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () =>{
                 factura: document.getElementById('facutra-servicios').value,
                 observaciones: document.getElementById('nombre-servicios').value
             };
-            const response = await fetch('/api/pago-servicio', {
+            const response = await fetch('/api/pagos/pago-servicio', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datos)
@@ -242,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () =>{
                 factura: document.getElementById('facutra-alquiler').value,
                 observaciones: document.getElementById('nombre-alquiler').value
             };
-            const response = await fetch('/api/pago-alquiler', {
+            const response = await fetch('/api/pagos/pago-alquiler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datos)
@@ -280,6 +284,39 @@ document.addEventListener('DOMContentLoaded', () =>{
           }
     }
 
+    function deshacerPago() {
+        const factura = document.getElementById('factura').value;
+        const mensajeDiv = document.getElementById('mensaje');
+    
+        if (factura.trim() === '') {
+            mensajeDiv.textContent = 'Por favor, ingresa un número de factura.';
+            mensajeDiv.style.color = 'red';
+            return;
+        }
+    
+        fetch(`/api/pagos/deshacer-pago/${factura}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(result => {
+            if (result.status === 200) {
+                mensajeDiv.textContent = result.body.mensaje;
+                mensajeDiv.style.color = 'green';
+            } else {
+                mensajeDiv.textContent = result.body.mensaje || result.body.error;
+                mensajeDiv.style.color = 'red';
+            }
+        })
+        .catch(error => {
+            mensajeDiv.textContent = 'Error al conectar con el servidor.';
+            mensajeDiv.style.color = 'red';
+            console.error('Error:', error);
+        });
+    }
+    btnDeshacer.addEventListener('click', deshacerPago)
     selectIVAAlquiler.addEventListener('change', calcularIVA);
     selectIVAServicio.addEventListener('change', calcularIVA);
 

@@ -82,6 +82,8 @@ document.getElementById('registrar-dinero').addEventListener('click', async () =
     }).then(()=>{
         limpiarFormularioDinero();
         buscarRegistros()
+        establecerFechaActual();
+        obtenerNuevaFactura();
     }).catch(error => console.error('Error al registrar aporte:', error));
 });
 

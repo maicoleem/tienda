@@ -142,7 +142,7 @@ def perdida():
         factura=data['factura'],
         detalle = data.get('observaciones', 'compras'),
         codigo_cuenta = '613505',
-        cuenta = 'Costo de mercancias vendida',
+        cuenta = 'Costo de mercancia vendida',
         debe = float(costo_neto),
         haber = float(0)
         )
@@ -158,7 +158,21 @@ def perdida():
         haber = float(costo_neto)
         )
         db.session.add(registro_mercancias)
+
+        #cuenta patrimonio
+        registro_patrimonio = LibroContable(
+            fecha = datetime.now(),
+            factura=data['factura'],
+            detalle = data.get('observaciones', 'servicios'),
+            codigo_cuenta = '361005',
+            cuenta = 'Perdida del ejercicio',
+            debe = float(costo_neto),
+            haber = float(0)
+        )
+        db.session.add(registro_patrimonio)
+
         db.session.commit()
+        
         return jsonify({
             "mensaje": "Producto actualizado correctamente",
             "referencia": producto.referencia,

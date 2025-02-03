@@ -55,10 +55,10 @@ def cargar_excel_temp():
         # Validar y crear proveedor
         proveedor_nombre = str(data.iloc[1, 9]) #if not pd.isnull(data.iloc[2, 9]) else None
         proveedor_contacto = str(data.iloc[1, 10]) #if not pd.isnull(data.iloc[2, 10]) else None
-        proveedor_telefono = str(data.iloc[1, 11]) #if not pd.isnull(data.iloc[2, 11]) else None
+        proveedor_detalle = str(data.iloc[1, 11]) #if not pd.isnull(data.iloc[2, 11]) else None
         proveedor = Proveedor.query.filter_by(nombre=proveedor_nombre).first()
         if not proveedor:
-            proveedor = Proveedor(nombre=proveedor_nombre, contacto=proveedor_contacto, telefono=proveedor_telefono)
+            proveedor = Proveedor(nombre=proveedor_nombre, contacto=proveedor_contacto, telefono=proveedor_detalle)
             db.session.add(proveedor)
 
         db.session.commit()

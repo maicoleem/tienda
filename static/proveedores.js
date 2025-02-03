@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             li.innerHTML = `
             <td>${proveedor.nombre}</td>
             <td>${proveedor.contacto}</td>
-            <td>${proveedor.telefono}</td>
+            <td>${proveedor.detalle}</td>
             `
             li.dataset.id = proveedor.id;
             li.addEventListener('click', () => seleccionarProveedor(proveedor));
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         proveedorSeleccionado = proveedor;
         formProveedor.nombre.value = proveedor.nombre;
         formProveedor.contacto.value = proveedor.contacto;
-        formProveedor.telefono.value = proveedor.telefono;
+        formProveedor.detalle.value = proveedor.detalle;
 
         btnActualizarProveedor.disabled = false;
         btnEliminarProveedor.disabled = false;
@@ -73,15 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGuardarProveedor.addEventListener('click', () => {
         const nombre = formProveedor.nombre.value;
         const contacto = formProveedor.contacto.value;
-        const telefono = formProveedor.telefono.value;
+        const detalle = formProveedor.detalle.value;
         fetch(apiURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, contacto, telefono }),
+            body: JSON.stringify({ nombre, contacto, detalle }),
         })
             .then(response => {
                 if (response.ok) {
-                    alert('Proveedor creado con éxito');
                     cargarProveedores()
                     limpiarFormulario()
                 } else {
@@ -95,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const proveedorActualizado = {
             nombre: formProveedor.nombre.value,
             contacto: formProveedor.contacto.value,
-            telefono: formProveedor.telefono.value,
+            detalle: formProveedor.detalle.value,
         };
         fetch(`/api/proveedores/${proveedorSeleccionado.id}`, {
             method: 'PUT',
@@ -164,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function limpiarFormulario() {
         formProveedor.nombre.value = '';
         formProveedor.contacto.value = '';
-        formProveedor.telefono.value = '';
+        formProveedor.detalle.value = '';
     }
 
     columnFilters.forEach(input => {

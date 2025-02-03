@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => {
                 if (response.ok) {
-                    alert('Empleado creado con éxito');
                      limpiarFormulario()
                     cargarEmpleados()
                 } else {

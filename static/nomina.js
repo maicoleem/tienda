@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const banco = document.getElementById('banco');
     const btnPago = document.getElementById('btn-pago');
     const factura = document.getElementById('factura');
+    const btnDeshacer = document.getElementById('deshacer-nomina');
     let empleadoPago = null;
     let empleadosData = []
     // Función para obtener los totales de debe y haber por código de cuenta
@@ -199,6 +200,42 @@ document.addEventListener('DOMContentLoaded', () => {
          })
         renderEmpleados(filteredData);
     }
+
+    function deshacerNomina() {
+        const factura = document.getElementById('factura-deshacer').value;
+        const mensajeDiv = document.getElementById('mensaje');
+    
+        if (factura.trim() === '') {
+            mensajeDiv.textContent = 'Por favor, ingresa un número de factura.';
+            mensajeDiv.style.color = 'red';
+            return;
+        }
+    
+        fetch(`/api/nomina/deshacer-pago-nomina/${factura}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(result => {
+            if (result.status === 200) {
+                mensajeDiv.textContent = result.body.mensaje;
+                mensajeDiv.style.color = 'green';
+            } else {
+                mensajeDiv.textContent = result.body.mensaje || result.body.error;
+                mensajeDiv.style.color = 'red';
+            }
+        })
+        .catch(error => {
+            mensajeDiv.textContent = 'Error al conectar con el servidor.';
+            mensajeDiv.style.color = 'red';
+            console.error('Error:', error);
+        });
+    }
+
+    btnDeshacer.addEventListener('click', deshacerNomina)
+
     document.getElementById("filtro-nombre-empleado").addEventListener("input", filtrarEmpleados);
 
     cargarEmpleados();
